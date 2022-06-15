@@ -58,7 +58,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Profile',
+                'Review Your Details',
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                   )
                                       : Center(
                                     child: Image.asset(
-                                      'assets/images/person-icon.png',
+                                      'assets/images/profileavater.png',
                                       width: 90,
                                       height: 90,
                                     ),
@@ -234,44 +234,6 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
       ),
     );
   }
-
-  Widget profileItem({required String title, required String subtitle, required TextEditingController controller}) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.primary,
-            width: 1,
-          ),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary,
-            ),
-          ),
-          SizedBox(width: Adaptive.w(7)),
-          Expanded(
-            child: TextFormField(
-              // initialValue: subtitle,
-              readOnly: !con.model.isEditable,
-              // obscureText: true,
-              controller: controller,
-              decoration: Constants.noneDecoration,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   _getProfileImage(BuildContext context) {
     try {
       _pickImage.pickImage(

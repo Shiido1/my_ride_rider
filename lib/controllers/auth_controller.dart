@@ -90,6 +90,11 @@ class AuthController extends ControllerMVC with FlushBarMixin  {
         debugPrint("Error: $e");
         debugPrint("StackTrace: $str");
       }
+      firstNam = model.regFirstNameController.text;
+      lastNam = model.regLastNameController.text;
+      phoneNum = model.regPhoneNumberController.text;
+      email = model.regEmailController.text;
+      passwordNam = model.regEmailController.text;
 
       setState(() {
         model.isLoading = false;
@@ -144,11 +149,7 @@ class AuthController extends ControllerMVC with FlushBarMixin  {
           showErrorNotification(state!.context, response!["message"]);
 
       }
-      firstNam = model.regFirstNameController.text;
-      lastNam = model.regLastNameController.text;
-      phoneNum = model.regPhoneNumberController.text;
-      email = model.regEmailController.text;
-      passwordNam = model.regEmailController.text;
+
       setState(() {
         model.isLoading = false;
       });

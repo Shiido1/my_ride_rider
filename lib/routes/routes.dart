@@ -7,6 +7,7 @@ import 'package:my_ride/pages/home/LocationPage.dart';
 import 'package:my_ride/pages/home/google_map_page.dart';
 import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/home/home_search_dest_page.dart';
+import 'package:my_ride/pages/payment/add_card_page.dart';
 import 'package:my_ride/pages/payment/card.dart';
 import 'package:my_ride/pages/payment/payment.dart';
 import 'package:my_ride/pages/profile/profile.dart';
@@ -59,7 +60,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/google_map_page':
       return MaterialPageRoute(builder: (_) =>  GoogleMapPage());
 
-
+    case '/add_card':
+      return MaterialPageRoute(builder: (_) =>  AddCard());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

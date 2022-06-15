@@ -35,7 +35,6 @@ class AddCard extends StatelessWidget {
                               child:  Text('Skip',style: TextStyle(color: AppColors.primary)),
                             ),
 
-
                           ],
                         ),
                         SizedBox(height: 15,),
