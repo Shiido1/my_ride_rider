@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "457834745987",
+    "firebase_url": "https://myrideapp81-default-rtdb.firebaseio.com",
+    "project_id": "myrideapp81",
+    "storage_bucket": "myrideapp81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457834745987:android:2f255a40cb73ffa9d3cbb6",
+        "android_client_info": {
+          "package_name": "com.myride.projects"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_QWVrUAfq65NiO_PSv8dx1BO7YzhYQMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "457834745987-q7nrla5d5bo91r0toh09s5gmb2pjmo19.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myride.user"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457834745987:android:61e8d8c366779880d3cbb6",
+        "android_client_info": {
+          "package_name": "com.myride.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_QWVrUAfq65NiO_PSv8dx1BO7YzhYQMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "457834745987-q7nrla5d5bo91r0toh09s5gmb2pjmo19.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myride.user"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

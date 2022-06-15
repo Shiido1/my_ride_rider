@@ -1,0 +1,2 @@
+dev/jostech/address_search_field/BuildConfig.java
+ dev.jostech.address_search_field.BuildConfig
