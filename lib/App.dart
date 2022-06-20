@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/pages/home/home.dart';

@@ -26,12 +26,13 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
   String googleApikey = "AIzaSyAaF3Z1gioxA2z3_7kwD9nyDu1nhFcaT8U";
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
-  LatLng startLocation = LatLng(9.072264, 7.491302);
+  LatLng startLocation = const LatLng(9.072264, 7.491302);
   String destinationAddress = "Enter Drop Location";
   final databaseReference = FirebaseDatabase.instance.ref();
 
   double? lat;
   double? long;
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +98,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 70,),
+              const SizedBox(height: 70,),
               Row(children: [Container(child: Text("Change Location",
                 style: TextStyle(
                   fontSize: 19.sp,
@@ -105,8 +106,8 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                   color: Colors.white,
                 ),
               ),
-              ),SizedBox(width: 10,),
-                Container(child: Icon(Icons.arrow_forward, size: 20, color: Colors.white,),)],),],),),
+              ),const SizedBox(width: 10,),
+                Container(child: const Icon(Icons.arrow_forward, size: 20, color: Colors.white,),)],),],),),
 
               Container(
                 height: Adaptive.h(100) - 250,
@@ -114,7 +115,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
@@ -142,7 +143,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                               });
                               //form google_maps_webservice package
                               final plist = GoogleMapsPlaces(apiKey:googleApikey,
-                                apiHeaders: await GoogleApiHeaders().getHeaders(),
+                                apiHeaders: await const GoogleApiHeaders().getHeaders(),
                                 //from google_api_headers package
                               );
                               String placeid = place.placeId ?? "0";
@@ -167,7 +168,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 destinationAddress,
-                                style: TextStyle(color: Colors.grey),
+                                style: const TextStyle(color: Colors.grey),
                               ),
                             ),
                           ),
@@ -178,11 +179,11 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                               Routers.pushNamed(context, '/select_ride');
                             },
                             child: Container(
-                              child: Icon(Icons.search),
+                              child: const Icon(Icons.search),
                             ))
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
 
@@ -200,7 +201,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                         children: [
 
                            InkWell(onTap: () {_showModalBottomSheet();},
-                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: EdgeInsets.all(10.0),
+                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: const EdgeInsets.all(10.0),
                               child: Row(
                                 children:[const CircleAvatar(
                                   backgroundColor: Colors.green,
@@ -209,10 +210,10 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                                     color: Colors.white,
                                   ),
                                   radius: 15,
-                                ),SizedBox(width: 20),
-                                  Column(children: [const Text("Bannex Plaza"), Text("Wuse zone 2")], ) ],),),),),
+                                ),const SizedBox(width: 20),
+                                  Column(children: [const Text("Bannex Plaza"), const Text("Wuse zone 2")], ) ],),),),),
                           InkWell(onTap: () {_showModalBottomSheet();},
-                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: EdgeInsets.all(10.0),
+                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: const EdgeInsets.all(10.0),
                               child: Row(
                                 children:[const CircleAvatar(
                                   backgroundColor: Colors.green,
@@ -221,11 +222,11 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                                     color: Colors.white,
                                   ),
                                   radius: 15,
-                                ),SizedBox(width: 20),
-                                  Column(children: [const Text("Bannex Plaza"), Text("Wuse zone 2")], ) ],),),),
+                                ),const SizedBox(width: 20),
+                                  Column(children: [const Text("Bannex Plaza"), const Text("Wuse zone 2")], ) ],),),),
                           ),
                           InkWell(onTap: () {_showModalBottomSheet();},
-                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: EdgeInsets.all(10.0),
+                            child: Card( color: Colors.blueGrey[100], child:Padding(padding: const EdgeInsets.all(10.0),
                               child: Row(
                                 children:[const CircleAvatar(
                                   backgroundColor: Colors.green,
@@ -234,8 +235,8 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                                     color: Colors.white,
                                   ),
                                   radius: 15,
-                                ),SizedBox(width: 20),
-                                  Column(children: [const Text("Bannex Plaza"), Text("Wuse zone 2")], ) ],),),),
+                                ),const SizedBox(width: 20),
+                                  Column(children: [const Text("Bannex Plaza"), const Text("Wuse zone 2")], ) ],),),),
                           ),
 
                         ],
@@ -332,7 +333,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                                });
                              },
                            ),
-                           SizedBox(height: 20),
+                           const SizedBox(height: 20),
                            TextFormField(
                            //  controller: con.model.destinationController,
                              decoration: Constants.defaultDecoration.copyWith(

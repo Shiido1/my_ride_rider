@@ -43,7 +43,7 @@ dependencies:
   location: ^4.2.0
   firebase_core: ^1.0.4
   cloud_firestore: ^3.1.16
-  image_picker: ^0.7.4
+  image_picker: ^0.8.4+2
   google_maps_flutter: ^2.1.5
   map_launcher: ^2.2.1+1
   provider: ^6.0.2
@@ -62,8 +62,8 @@ dependencies:
   google_maps_webservice: ^0.0.20-nullsafety.5
   flutter_google_places: ^0.3.0
   sembast: ^3.2.0+1
-  image_cropper: ^2.0.3
-  flutter_image_compress: ^1.1.0
+  image_cropper: ^1.4.1
+  # flutter_image_compress: ^1.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
