@@ -1,0 +1,10 @@
+String? userId;
+String? driversId;
+String? pickUpLocationAdd;
+String? dropLocationAdd;
+String? pickUpLat;
+String? pickUpLong;
+String? dropLat;
+String? dropLong;
+String? userImage;
+String? userFbToken;

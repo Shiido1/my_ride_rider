@@ -6,6 +6,7 @@ class Constants {
   static const String boxName = 'myride';
   static const String phonePrefix = '+234';
   static const String baseUrl = 'https://myride.dreamlabs.com.ng/api/v1/';
+  static const String fcmBaseUrl = 'https://fcm.googleapis.com/fcm/';
  // static const String baseUrl = 'https://myride-app.herokuapp.com/api/v1/';
 
    static const TextStyle myStyle = TextStyle(

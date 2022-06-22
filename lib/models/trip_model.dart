@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/schemas/available_car.dart';
 
 class TripModel {
@@ -11,8 +12,4 @@ class TripModel {
 
   bool isLoading = false;
   AvailableCars selectedCar = AvailableCars();
-
-  TextEditingController destinationController = TextEditingController();
-
-  TextEditingController pickupController = TextEditingController();
 }

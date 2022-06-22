@@ -3,6 +3,16 @@ import 'package:my_ride/utils/services.dart';
 
 class AuthRepo with Services {
 
+  Future<Map<String, dynamic>?> sendPushNot(Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response = await apiFcmPostRequests("send", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Map<String, dynamic>?> login(Map<String, String> credentials) async {
     Map<String, dynamic>? response = await apiPostRequests("user/login", credentials);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_ride/models/global_model.dart';
 
 class AuthModel {
   //Sign in
@@ -14,6 +15,12 @@ class AuthModel {
   final TextEditingController regPasswordController = TextEditingController();
   final TextEditingController regConfirmPassController = TextEditingController();
   final TextEditingController regdeviceTypeController = TextEditingController();
+
+
+
+  TextEditingController destinationController = TextEditingController(text: dropLocationAdd);
+
+  TextEditingController pickupController = TextEditingController(text: pickUpLocationAdd);
   final GlobalKey<FormState> regFormKey = GlobalKey<FormState>();
 
  //insert phone
