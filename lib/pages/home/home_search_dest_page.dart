@@ -4,13 +4,14 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/global_model.dart';
-import 'package:my_ride/utils/local_storage.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
-import '../../constants/constants.dart';
+import '../../controllers/home_controller.dart';
 import '../../utils/router.dart';
+import '../../widget/text_form_field.dart';
 
 class HomeSearchDestination extends StatefulWidget {
   const HomeSearchDestination({Key? key}) : super(key: key);
@@ -19,26 +20,23 @@ class HomeSearchDestination extends StatefulWidget {
   _HomeSearchDestinationState createState() => _HomeSearchDestinationState();
 }
 
-class _HomeSearchDestinationState extends State<HomeSearchDestination> {
+class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
+  _HomeSearchDestinationState() : super(HomeController()) {
+    con = controller as HomeController;
+  }
+
+  late HomeController con;
   String googleApikey = "AIzaSyAaF3Z1gioxA2z3_7kwD9nyDu1nhFcaT8U";
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
   LatLng startLocation = const LatLng(9.072264, 7.491302);
-  String destinationAddress = "Enter Drop Location";
   final databaseReference = FirebaseDatabase.instance.ref();
 
-  double? lat;
-  double? long;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  TextEditingController destinationController =
+      TextEditingController(text: 'Enter destination location');
 
   @override
   Widget build(BuildContext context) {
-    var pickVal = LocalStorage().fetch("locateKey");
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -46,10 +44,9 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
           child: Column(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                // height: 250,
-                width: Adaptive.w(100),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.w),
+                height: 350,
+                // width: Adaptive.w(100),
                 decoration: const BoxDecoration(color: AppColors.primary),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,14 +60,14 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                             Text(
                               'Nearest ride is',
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 color: Colors.white,
                               ),
                             ),
                             Text(
                               '7min away',
                               style: TextStyle(
-                                fontSize: 13.sp,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -87,48 +84,45 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 4.h,
                     ),
                     Text(
-                      " Your Pickup Location",
+                      "Your Pickup Location",
                       style: TextStyle(
                         fontSize: 18.sp,
                         color: Colors.white,
                       ),
                     ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
                     Text(
-                      "PickUpLocation",
+                      "$pickUpLocationAdd",
                       style: TextStyle(
-                        fontSize: 19.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(
-                      height: 70,
-                    ),
+                    const Spacer(),
                     Row(
                       children: [
-                        Container(
-                          child: Text(
-                            "Change Location",
-                            style: TextStyle(
-                              fontSize: 19.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          child: const Icon(
-                            Icons.arrow_forward,
-                            size: 20,
+                        Text(
+                          "Change Location",
+                          style: TextStyle(
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 20.sp,
+                          color: Colors.white,
                         )
                       ],
                     ),
@@ -136,263 +130,81 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                 ),
               ),
               Container(
-                height: Adaptive.h(100) - 250,
+                // height: Adaptive.h(100) - 250,
                 color: AppColors.greyWhite,
                 padding: EdgeInsets.symmetric(horizontal: Adaptive.w(10)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            var place = await PlacesAutocomplete.show(
-                              context: context,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      EditTextForm(
+                        onTapped: () async {
+                          var place = await PlacesAutocomplete.show(
+                            context: context,
+                            apiKey: googleApikey,
+                            mode: Mode.overlay,
+                            types: [],
+                            strictbounds: false,
+                            components: [Component(Component.country, 'ng')],
+                            //google_map_webservice package
+                            onError: (err) {
+                              print(err);
+                            },
+                          );
+
+                          if (place != null) {
+                            setState(() {
+                              dropLocationAdd = place.description;
+                              destinationController =
+                                  TextEditingController(text: dropLocationAdd);
+                            });
+                            //form google_maps_webservice package
+                            final plist = GoogleMapsPlaces(
                               apiKey: googleApikey,
-                              mode: Mode.overlay,
-                              types: [],
-                              strictbounds: false,
-                              components: [Component(Component.country, 'ng')],
-                              //google_map_webservice package
-                              onError: (err) {
-                                print(err);
-                              },
+                              apiHeaders:
+                                  await const GoogleApiHeaders().getHeaders(),
+                              //from google_api_headers package
                             );
-
-                            if (place != null) {
-                              setState(() {
-                                destinationAddress =
-                                    place.description.toString();
-                                dropLocationAdd = place.description;
-                              });
-                              //form google_maps_webservice package
-                              final plist = GoogleMapsPlaces(
-                                apiKey: googleApikey,
-                                apiHeaders:
-                                    await const GoogleApiHeaders().getHeaders(),
-                                //from google_api_headers package
-                              );
-                              String placeid = place.placeId ?? "0";
-                              final detail =
-                                  await plist.getDetailsByPlaceId(placeid);
-                              final geometry = detail.result.geometry!;
-                              lat = geometry.location.lat;
-                              long = geometry.location.lng;
-                              dropLat = geometry.location.lat.toString();
-                              dropLong = geometry.location.lng.toString();
-                              print(
-                                  'printing long: $dropLong and lat: $dropLat');
-                              var newlatlang = LatLng(lat!, long!);
-
-                              //move map camera to selected place with animation
-                              mapController?.animateCamera(
-                                  CameraUpdate.newCameraPosition(CameraPosition(
-                                      target: newlatlang, zoom: 17)));
-                            }
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 225,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                destinationAddress,
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
+                            String placeid = place.placeId ?? "0";
+                            final detail =
+                                await plist.getDetailsByPlaceId(placeid);
+                            final geometry = detail.result.geometry!;
+                            dropLat = geometry.location.lat.toString();
+                            dropLong = geometry.location.lng.toString();
+                          }
+                        },
+                        readOnly: true,
+                        controller: destinationController,
+                        suffixWidget: InkWell(
                             onTap: () {
-                              // saveDestRequest();
                               Routers.pushNamed(context, '/select_ride');
                             },
-                            child: Container(
-                              child: const Icon(Icons.search),
-                            ))
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      'History',
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
+                            child: const Icon(Icons.search)),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              _showModalBottomSheet();
-                            },
-                            child: Card(
-                              color: Colors.blueGrey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Icon(
-                                        Icons.location_on_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      radius: 15,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      children: [
-                                        const Text("Bannex Plaza"),
-                                        const Text("Wuse zone 2")
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _showModalBottomSheet();
-                            },
-                            child: Card(
-                              color: Colors.blueGrey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Icon(
-                                        Icons.location_on_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      radius: 15,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      children: [
-                                        const Text("Bannex Plaza"),
-                                        const Text("Wuse zone 2")
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _showModalBottomSheet();
-                            },
-                            child: Card(
-                              color: Colors.blueGrey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Icon(
-                                        Icons.location_on_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      radius: 15,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      children: [
-                                        const Text("Bannex Plaza"),
-                                        const Text("Wuse zone 2")
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _showModalBottomSheet();
-                            },
-                            child: Card(
-                              color: Colors.blueGrey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Icon(
-                                        Icons.location_on_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      radius: 15,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      children: [
-                                        const Text("Bannex Plaza"),
-                                        const Text("Wuse zone 2")
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _showModalBottomSheet();
-                            },
-                            child: Card(
-                              color: Colors.blueGrey[100],
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      child: Icon(
-                                        Icons.location_on_rounded,
-                                        color: Colors.white,
-                                      ),
-                                      radius: 15,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      children: [
-                                        const Text("Bannex Plaza"),
-                                        const Text("Wuse zone 2")
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50.h,
-                          )
-                        ],
-                        shrinkWrap: true,
+                      SizedBox(
+                        height: 4.h,
                       ),
-                    ),
-                  ],
+                      Text(
+                        'History',
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.green,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 1.3.h,
+                      ),
+                      ...[1, 1, 1, 1, 1].map((e) => addedHistory()).toList(),
+                      SizedBox(
+                        height: 20.h,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -425,107 +237,29 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
     );
   }
 
-  todoFunc() {}
-
-  _showModalBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20.0),
-        topRight: Radius.circular(20.0),
-      )),
-      builder: (context) {
-        return Container(
-          height: Adaptive.h(100) - 50,
-          width: double.infinity,
-          padding: const EdgeInsets.all(30),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Column(
-            children: [
-              Container(
-                height: 180,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.primary),
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
-                child: Row(children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      children: [
-                        const Icon(
-                          Icons.person,
-                          color: AppColors.primary,
-                        ),
-                        Container(
-                          height: 50,
-                          width: 1,
-                          decoration: const BoxDecoration(
-                            border: Border.symmetric(
-                              vertical: BorderSide(
-                                color: AppColors.primary,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.location_on,
-                          color: AppColors.primary,
-                        )
-                      ],
-                    ),
+  addedHistory() => InkWell(
+        onTap: () {},
+        child: Card(
+          color: Colors.blueGrey[100],
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  backgroundColor: Colors.green,
+                  child: Icon(
+                    Icons.location_on_rounded,
+                    color: Colors.white,
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          // controller: con.model.pickupController,
-                          decoration: Constants.defaultDecoration.copyWith(
-                            labelText: "FROM",
-                          ),
-                          onTap: () {
-                            setState(() {
-                              //    con.model.focusInput = "pickup";
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          //  controller: con.model.destinationController,
-                          decoration: Constants.defaultDecoration.copyWith(
-                            labelText: "TO",
-                          ),
-                          onTap: () {
-                            setState(() {
-                              //      con.model.focusInput = "destination";
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Center(child: Icon(Icons.repeat))
-                ]),
-              ),
-            ],
+                  radius: 15,
+                ),
+                const SizedBox(width: 20),
+                Column(
+                  children: const [Text("Bannex Plaza"), Text("Wuse zone 2")],
+                )
+              ],
+            ),
           ),
-        );
-      },
-    );
-  }
-
-  void saveDestRequest() async {
-    databaseReference.child("UserRequest").set({
-      'drop_address': destinationAddress,
-      'drop_lat': lat,
-      'drop_lng': long,
-    });
-  }
+        ),
+      );
 }

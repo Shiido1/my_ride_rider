@@ -28,16 +28,21 @@ class _SelectRideState extends StateMVC<SelectRide> {
 
   late AuthController con;
 
-  Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kGooglePlex = const CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
+  // Completer<GoogleMapController> _controller = Completer();
+  // static final CameraPosition _kGooglePlex = const CameraPosition(
+  //   target: LatLng(37.42796133580664, -122.085749655962),
+  //   zoom: 14.4746,
+  // );
 
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
   Stream<DatabaseEvent>? stream;
   LatLng? _pickUpLocation, _dropLocation;
   final databaseReference = FirebaseDatabase.instance.ref();
+
+  TextEditingController? pickupController =
+      TextEditingController(text: pickUpLocationAdd);
+  TextEditingController destinationController =
+      TextEditingController(text: dropLocationAdd);
 
   getUsers() async {
     stream = snapshot1.onValue;
@@ -56,15 +61,47 @@ class _SelectRideState extends StateMVC<SelectRide> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         child: Stack(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 6.h),
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: CircleAvatar(
+                      foregroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.primary,
+                      ),
+                      radius: 20,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.w),
+                  child: Text(
+                    'Order',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
                 Container(
                   height: 250,
-                  width: 300,
-                  padding: const EdgeInsets.all(30),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -87,7 +124,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   color: AppColors.primary,
                                 ),
                                 Container(
-                                  height: 50,
+                                  height: 60,
                                   width: 1,
                                   decoration: const BoxDecoration(
                                     border: Border.symmetric(
@@ -105,208 +142,196 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               ],
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 1.h),
                           Expanded(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 TextFormField(
-                                  controller: con.model.pickupController,
+                                  controller: pickupController,
                                   decoration:
                                       Constants.defaultDecoration.copyWith(
                                     labelText: "FROM",
+                                    labelStyle: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      // con.model.focusInput = "pickup";
-                                    });
-                                  },
                                 ),
-                                const SizedBox(height: 20),
                                 TextFormField(
-                                  controller: con.model.destinationController,
+                                  controller: destinationController,
                                   decoration:
                                       Constants.defaultDecoration.copyWith(
                                     labelText: "TO",
+                                    labelStyle: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      //  con.model.focusInput = "destination";
-                                    });
-                                  },
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 1.w),
                           const Center(child: Icon(Icons.repeat))
                         ]),
                       ),
                     ],
                   ),
                 ),
-                Positioned(
-                  top: 200,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              child: const TextWidget(),
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  color: const Color(0XFF000B49),
-                                  borderRadius: BorderRadius.circular(30)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40.0),
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Container(
-                                        height: 3,
-                                        width: 60,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black12,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                height: 60,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(30))),
+                Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            child: const TextWidget(),
+                            height: 100,
+                            decoration: BoxDecoration(
+                                color: AppColors.primary,
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.w),
+                            child: Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Container(
+                                      height: 3,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black12,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 80,
-                        ),
-                        if (con.model.isLoading)
-                          const Center(
-                            child: const SpinKitWave(
-                              color: AppColors.primary,
-                              size: 25.0,
+                              height: 60,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(30))),
                             ),
                           ),
-                        if (!con.model.isLoading)
-                          Column(
-                            children: [
-                              StreamBuilder(
-                                  stream: snapshot1.onValue,
-                                  builder:
-                                      (_, AsyncSnapshot<DatabaseEvent> snap) {
-                                    if (snap.data == null || !snap.hasData) {
-                                      return Container();
-                                    }
-                                    final d = Map<dynamic, dynamic>.from(snap
-                                        .data!
-                                        .snapshot
-                                        .value! as Map<dynamic, dynamic>);
+                        ],
+                      ),
+                      if (con.model.isLoading)
+                        Center(
+                          child: SpinKitWave(
+                            color: AppColors.primary,
+                            size: 25.sp,
+                          ),
+                        ),
+                      if (!con.model.isLoading)
+                        Column(
+                          children: [
+                            StreamBuilder(
+                                stream: snapshot1.onValue,
+                                builder:
+                                    (_, AsyncSnapshot<DatabaseEvent> snap) {
+                                  if (snap.data == null || !snap.hasData) {
+                                    return Container();
+                                  }
+                                  final d = Map<dynamic, dynamic>.from(snap
+                                      .data!
+                                      .snapshot
+                                      .value! as Map<dynamic, dynamic>);
 
-                                    AvailableDrivers data =
-                                        AvailableDrivers.fromMap(map: d);
+                                  AvailableDrivers data =
+                                      AvailableDrivers.fromMap(map: d);
 
-                                    final value = DriversUtil.returnClosest(
-                                        _pickUpLocation,
-                                        data.driversInformations!);
+                                  final value = DriversUtil.returnClosest(
+                                      _pickUpLocation,
+                                      data.driversInformations!);
 
-                                    return SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const AlwaysScrollableScrollPhysics(),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ...value
-                                              .map((driver) => InkWell(
-                                                    onTap: () => updateStatus(
-                                                      id: driver.id.toString(),
-                                                      status: 'requested',
+                                  return SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                        const AlwaysScrollableScrollPhysics(),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ...value
+                                            .map((driver) => InkWell(
+                                                  onTap: () => updateStatus(
+                                                    id: driver.id.toString(),
+                                                    status: 'requested',
+                                                  ),
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.all(4.w),
+                                                    margin: EdgeInsets.all(8.w),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: AppColors.primary,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      20.0),
+                                                              bottomRight: Radius
+                                                                  .circular(
+                                                                      20.0),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      20.0),
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      20.0)),
                                                     ),
-                                                    child: Container(
-                                                      padding:
-                                                          EdgeInsets.all(8.w),
-                                                      margin:
-                                                          EdgeInsets.all(8.w),
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Color.fromARGB(
-                                                            255, 123, 107, 215),
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        40.0),
-                                                                bottomRight:
-                                                                    Radius.circular(
-                                                                        40.0),
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        40.0),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        40.0)),
-                                                      ),
-                                                      child: Text(
-                                                        driver.name ?? '',
-                                                        style: TextStyle(
-                                                            fontSize: 20.sp,
-                                                            color: AppColors
-                                                                .primary,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
+                                                    child: Text(
+                                                      driver.name ?? '',
+                                                      style: TextStyle(
+                                                          fontSize: 18.sp,
+                                                          color: AppColors
+                                                              .greyWhite,
+                                                          fontWeight:
+                                                              FontWeight.w600),
                                                     ),
-                                                  ))
-                                              .toList()
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                              const SizedBox(
-                                height: 70,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  // requestRide(context);
-                                },
-                                child: Container(
-                                  width: 200,
-                                  height: 40,
-                                  decoration: const BoxDecoration(
-                                      color: const Color(0XFF000B49)),
-                                  child: const Center(
-                                    child: Text(
-                                      'Select',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 16),
+                                                  ),
+                                                ))
+                                            .toList()
+                                      ],
                                     ),
+                                  );
+                                }),
+                            const SizedBox(
+                              height: 70,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                // requestRide(context);
+                              },
+                              child: Container(
+                                width: 200,
+                                height: 50,
+                                decoration: const BoxDecoration(
+                                    color: AppColors.primary),
+                                child: const Center(
+                                  child: Text(
+                                    'Select',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16),
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          )
-                      ],
-                    ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                          ],
+                        )
+                    ],
                   ),
                 ),
               ],
@@ -326,7 +351,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
       };
 
   updateStatus({String? id, String? status, String? token}) async {
-
     String token = await getToken(id);
     con.sendPushNot(token: token);
     up(path: id, status: status);
