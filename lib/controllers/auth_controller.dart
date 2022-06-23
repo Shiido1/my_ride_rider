@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/auth_model.dart';
@@ -32,13 +34,15 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
     try {
       Map<String, dynamic>? response = await authRepo.sendPushNot({
-        "to":token,
+        "to": token,
         "notification": {
-          "pick_up": pickUpLocationAdd,
-          "drop": dropLocationAdd,
-          "mutable_content": true,
-          "sound": "Tri-tone"
+          "title": pickUpLocationAdd,
+          "body": dropLocationAdd,
+
+          // "mutable_content": true,
+          // "sound": "Tri-tone"
         },
+        "data": {"car": "toyota", "name": "mfon"}
       });
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {

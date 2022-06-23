@@ -137,6 +137,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
               ),
               Container(
                 height: Adaptive.h(100) - 250,
+                color: AppColors.greyWhite,
                 padding: EdgeInsets.symmetric(horizontal: Adaptive.w(10)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,6 +233,7 @@ class _HomeSearchDestinationState extends State<HomeSearchDestination> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         children: [
                           InkWell(
                             onTap: () {

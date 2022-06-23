@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,7 +8,6 @@ import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/constants.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
@@ -328,17 +325,21 @@ class _SelectRideState extends StateMVC<SelectRide> {
         'status': status,
       };
 
-  updateStatus({String? id, String? status, String? token}) {
-    var snap = snapshot1.child('$id').child('token');
-    snap.once();
-    print('print snapshot: ${ snap.once()}');
+  updateStatus({String? id, String? status, String? token}) async {
 
-    token = snap.toString();
-    con.sendPushNot(
-        token:
-            "dZof61-V0kFyiB0xn5VpU-:APA91bE7ZYow3y1SsFESLAyZ97SUoAgO-_gWuvizv2OtXbeByyUIVMTCc57RC6stoJeIqhtjQxoe6J8uuMRyWB-V5n--oqXUWJ2CNKLsW2KDXkeI3DM7AxpnlngtB_oLMhkF1RihBo4V");
+    String token = await getToken(id);
+    con.sendPushNot(token: token);
     up(path: id, status: status);
     saveRequestToDataBase(id, status);
+  }
+
+  Future<String> getToken(id) async {
+    DatabaseEvent ds =
+        await databaseReference.child("drivers").child(id).once();
+    Map<String, dynamic> res =
+        Map<String, dynamic>.from(ds.snapshot.value as Map);
+
+    return (res["token"]);
   }
 
   Future saveRequestToDataBase(String? id, String? status) async {
@@ -413,35 +414,5 @@ class _SelectRideState extends StateMVC<SelectRide> {
       Routers.pop(context);
       Routers.pushNamed(context, "/order");
     });
-  }
-
-  // getAvailableCarWidget(Map<String, dynamic> availableCars) {
-  //   List<Widget> _temp = [];
-
-  //   availableCars.forEach((key, value) {
-  //     _temp.add(InkWell(
-  //         onTap: (con.model.selectedCar.tripSessionId == value.tripSessionId)
-  //             ? () {}
-  //             : () {
-  //                 setState(() {
-  //                   con.model.selectedCar = value;
-  //                 });
-  //               },
-  //         child: CarWidget(
-  //           isSelected:
-  //               (con.model.selectedCar.tripSessionId == value.tripSessionId),
-  //           time: value.arrivalTime,
-  //           carType: key,
-  //           money: '\$' + value.tripFare,
-  //           imageUrl: value.vehicleImg,
-  //         )));
-  //   });
-  //   return _temp;
-  // }
-
-  Future<void> createRequestMap() async {
-    CollectionReference userResquestRef =
-        FirebaseFirestore.instance.collection("UserRequest");
-    print("user map: $userResquestRef");
   }
 }
