@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_ride/schemas/user.dart';
 import 'package:my_ride/states/auth_state.dart';
 import 'package:my_ride/utils/local_storage.dart';
 import 'package:provider/provider.dart';

@@ -189,7 +189,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                         children: [
                           Container(
                             child: const TextWidget(),
-                            height: 100,
+                            height: 12.h,
                             decoration: BoxDecoration(
                                 color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(30)),
@@ -197,22 +197,16 @@ class _SelectRideState extends StateMVC<SelectRide> {
                           Padding(
                             padding: EdgeInsets.only(top: 10.w),
                             child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Container(
-                                      height: 3,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black12,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                    ),
-                                  )
-                                ],
+                              padding: EdgeInsets.only(top: 3.w),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  height: 3,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                      color: Colors.black12,
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
                               ),
                               height: 60,
                               decoration: const BoxDecoration(

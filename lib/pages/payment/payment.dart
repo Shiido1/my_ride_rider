@@ -55,7 +55,6 @@ class _PaymentPageState extends State<PaymentPage> {
                       onTap: makePayment,
                     ),
                     CardField(
-
                       onCardChanged: (card) {
                         print(card);
                       },
@@ -114,7 +113,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void initStripe() async {
-    await Stripe.instance.createPaymentMethod(PaymentMethodParams.card());
+    // await Stripe.instance.createPaymentMethod(PaymentMethodParams.card(paymentMethodData: paymentMethodData));
   }
 
   Future<Map<String, dynamic>> _createTestPaymentSheet() async {
@@ -142,7 +141,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     final header = {
       'Content-Type': 'application/json',
-      };
+    };
     Dio dio = Dio(BaseOptions(headers: header));
     try {
       // final Response response = await dio.get(url);
@@ -226,7 +225,7 @@ class _PaymentPageState extends State<PaymentPage> {
           applePay: true,
           googlePay: true,
           style: ThemeMode.dark,
-          primaryButtonColor: Colors.redAccent,
+          // primaryButtonColor: Colors.redAccent,
           billingDetails: billingDetails,
           testEnv: true,
           merchantCountryCode: 'DE',

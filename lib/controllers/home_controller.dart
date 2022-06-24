@@ -12,9 +12,9 @@ class HomeController extends ControllerMVC {
 
   final HomeModel model;
 
-  void openDrawer() {
-    model.scaffoldKey.currentState!.openEndDrawer();
-  }
+  // void openDrawer() {
+  //   model.scaffoldKey.currentState!.openEndDrawer();
+  // }
 
   void closeDrawer() {
     Navigator.of(state!.context).pop();

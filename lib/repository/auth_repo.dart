@@ -1,5 +1,5 @@
-import 'package:my_ride/utils/flushbar_mixin.dart';
 import 'package:my_ride/utils/services.dart';
+
 
 class AuthRepo with Services {
 
@@ -45,6 +45,28 @@ class AuthRepo with Services {
 
   Future<Map<String, dynamic>?> otpVerification(Map<String, dynamic> credentials) async {
     Map<String, dynamic>? response = await apiPostRequests("user/register/validate-otp", credentials);
+
+    if (response != null) {
+
+      print(response);
+      return response;
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> getUserInfo() async {
+    Map<String, dynamic>? response = await apiGetRequests("user/");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> profilePicture(Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response = await apiUploadPostRequests("user/update-profile-picture", credentials);
 
     if (response != null) {
 

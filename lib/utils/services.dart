@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:my_ride/constants/constants.dart';
-import 'package:my_ride/utils/local_storage.dart';
+import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/utils/nav_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -20,7 +20,6 @@ mixin Services {
   Future<Dio> getDio() async {
     Dio dio;
     String baseUrl = Constants.baseUrl;
-    String fcmBaseUrl = Constants.fcmBaseUrl;
 
     BaseOptions _options = BaseOptions(
       baseUrl: baseUrl,
@@ -141,7 +140,7 @@ mixin Services {
     try {
       Dio dio = await getDio();
       final response = await dio.post(endPoint,
-          data: credentials,
+          data: FormData.fromMap(credentials),
           options: Options(headers: {
             "Authorization": "Bearer " + await getAuthToken(),
             "Content-Type": "multipart/form-data"
@@ -334,13 +333,10 @@ mixin Services {
   }
 
   getAuthToken() async {
-    String? accessToken = await LocalStorage().fetch("access_token");
+    String? accessToken =  SessionManager.instance.authToken;
 
-    if (accessToken != null) {
-      return accessToken;
-    }
+    return accessToken;
 
-    return "";
   }
 
   checkForExpiredToken(DioError e) {

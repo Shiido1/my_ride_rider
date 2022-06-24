@@ -1,20 +1,16 @@
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:my_ride/components/my_app_bar.dart';
 import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/constants/constants.dart';
 import 'package:my_ride/controllers/profile_controller.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:my_ride/schemas/user.dart';
 import 'package:my_ride/states/auth_state.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../components/reg_model.dart';
+import '../../constants/session_manager.dart';
 import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 
@@ -30,6 +26,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
     con = controller as ProfileController;
   }
   late ProfileController con;
+
   final _pickImage = ImagePickerHandler();
 
   @override
@@ -39,17 +36,15 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
 
     con.model.firstNameController.text = user.firstName ?? "";
     con.model.lastNameController.text = user.lastName ?? "";
-    con.model.emailController.text = user.emailAdd?? "";
+    con.model.emailController.text = user.emailAdd ?? "";
     con.model.phoneNumberController.text = user.phoneNum ?? "";
     con.model.phoneVersionController.text = user.typeOfDevice ?? "";
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar.defaultAppBar(context),
-
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
         child: SizedBox(
@@ -71,39 +66,36 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                 child: Expanded(
                   child: ListView(
                     children: [
-                      Center(
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => _getProfileImage(context),
-                                  child: profileImage != null
+                      GestureDetector(
+                        onTap: () => _getProfileImage(context),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  SessionManager
+                                          .instance.usersProfileData.isNotEmpty
                                       ? CircleAvatar(
-                                    radius: 40,
-                                    backgroundImage: FileImage(profileImage!),
-                                    backgroundColor: Colors.transparent,
-                                  )
+                                          radius: 40,
+                                          backgroundImage:
+                                              FileImage(profileImage!),
+                                          backgroundColor: Colors.transparent,
+                                        )
                                       : Center(
-                                    child: Image.asset(
-                                      'assets/images/profileavater.png',
-                                      width: 90,
-                                      height: 90,
-                                    ),
-                                  ),
-                                ),
-                                const Positioned(left: 200, top: 17, child: Icon(Icons.camera_alt)),
-                              ],
-                            ),
-                            SizedBox(height: Adaptive.h(1)),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  con.model.isEditable = !con.model.isEditable;
-                                  ImagePickerHandler();
-                                });
-                              },
-                              child: Row(
+                                          child: Image.asset(
+                                            'assets/images/profileavater.png',
+                                            width: 90,
+                                            height: 90,
+                                          ),
+                                        ),
+                                  const Positioned(
+                                      left: 200,
+                                      top: 17,
+                                      child: Icon(Icons.camera_alt)),
+                                ],
+                              ),
+                              SizedBox(height: Adaptive.h(1)),
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
@@ -115,111 +107,150 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                   ),
                                   Icon(Icons.edit, size: 17.sp),
                                 ],
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-
                       const SizedBox(height: 40),
                       Column(
                         children: [
                           Row(
-                            children:[
-                              const Text('First Name:',
+                            children: [
+                              const Text(
+                                'First Name:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Text('$firstNam')
                             ],
                           ),
-                          Divider(thickness: 2,)
+                          const Divider(
+                            thickness: 2,
+                          )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
-                            children:  [
-                              Text('Last Name:',
+                            children: [
+                              const Text(
+                                'Last Name:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Text('$lastNam')
                             ],
                           ),
-                          Divider(thickness: 2,)
+                          const Divider(
+                            thickness: 2,
+                          )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
-                            children:  [
-                              Text('Phone No:',
+                            children: [
+                              const Text(
+                                'Phone No:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Text('${phoneNum}')
                             ],
                           ),
-                          Divider(thickness: 2,)
+                          const Divider(
+                            thickness: 2,
+                          )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
-                            children:  [
-                              Text('Email Address:',
+                            children: [
+                              const Text(
+                                'Email Address:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 20,),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               Text('${email}')
                             ],
                           ),
-                          Divider(thickness: 2,)
+                          const Divider(
+                            thickness: 2,
+                          )
                         ],
                       ),
-                      SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
-                            children:  [
-                              Text('Password:',
+                            children: const [
+                              Text(
+                                'Password:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 20,),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Text('***********')
                             ],
                           ),
-                          Divider(thickness: 2,)
+                          const Divider(
+                            thickness: 2,
+                          )
                         ],
                       ),
-                      SizedBox(height: 20,),
-
-
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
+                        padding: EdgeInsets.only(
+                            top: 40,
+                            right: Adaptive.w(15),
+                            left: Adaptive.w(15)),
                         child: ElevatedButton(
                           onPressed: () {
                             Routers.pushNamed(context, '/add_card');
                           },
                           child: const Text("Continue"),
                           style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
-                            backgroundColor: MaterialStateProperty.all(AppColors.primary),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
+                            minimumSize: MaterialStateProperty.all(
+                                const Size.fromHeight(50)),
+                            backgroundColor:
+                                MaterialStateProperty.all(AppColors.primary),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0))),
                           ),
                         ),
                       ),
@@ -234,17 +265,17 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
       ),
     );
   }
+
   _getProfileImage(BuildContext context) {
     try {
       _pickImage.pickImage(
           context: context,
           file: (file) {
-            profileImage = file as File?;
-            String fifle = profileImage!.path.split("/").last;
-            setState(() {});
+            setState(() {
+              profileImage = file;
+              con.getUserProfileData(image: profileImage);
+            });
           });
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 }

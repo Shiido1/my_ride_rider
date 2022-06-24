@@ -10,11 +10,14 @@ import 'package:my_ride/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'constants/session_manager.dart';
+
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(SessionManager.instance.isLoggedIn.toString());
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
@@ -27,43 +30,42 @@ class App extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: AppColors.primary,
           ),
-          // textTheme: GoogleFonts.poppinsTextTheme(
-          //   Theme.of(context).textTheme,
-          // ),
         ),
-        home: ResponsiveSizer(
-          builder: (context, orientation, screenType) {
-            return FutureBuilder<dynamic>(
-              future: fetchConfirmationData(context),
-              builder: (buildContext, snapshot) {
-                if (snapshot.hasData) {
-                  /// Check if the user has a persisted authentication data
-                  if (snapshot.data["access_token"] != null) {
-                    if (checkAuthenticated(snapshot.data)) {
-                      return HomePage();
-                    }
-                  }
-                 return const OnboardingPage();
-
-
-                } else {
-                  return Stack(
-                    children: <Widget>[
-                      Container(color: AppColors.primary),
-                      Center(
-                        child: Image.asset(
-                          "assets/images/logo.png",
-                          height: 100,
-                          width: 500,
-                        ),
-                      ),
-                    ],
+        home: SessionManager.instance.isLoggedIn
+            ? ResponsiveSizer(builder: (context, orientation, screenType) {
+                return HomePage();
+              })
+            : ResponsiveSizer(
+                builder: (context, orientation, screenType) {
+                  return FutureBuilder<dynamic>(
+                    future: fetchConfirmationData(context),
+                    builder: (buildContext, snapshot) {
+                      if (snapshot.hasData) {
+                        /// Check if the user has a persisted authentication data
+                        if (snapshot.data["access_token"] != null) {
+                          if (checkAuthenticated(snapshot.data)) {
+                            return HomePage();
+                          }
+                        }
+                        return const OnboardingPage();
+                      } else {
+                        return Stack(
+                          children: <Widget>[
+                            Container(color: AppColors.primary),
+                            Center(
+                              child: Image.asset(
+                                "assets/images/logo.png",
+                                height: 100,
+                                width: 500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   );
-                }
-              },
-            );
-          },
-        ),
+                },
+              ),
         onGenerateRoute: generateRoute,
       ),
     );
@@ -72,15 +74,18 @@ class App extends StatelessWidget {
   bool checkAuthenticated(data) {
     //debugPrint("checkAuthenticated");
 
-    if (data["token"] != null  && data["user"] != null && data["token"] != ""
-        && data["user"] != "") return true;
+    if (data["token"] != null &&
+        data["user"] != null &&
+        data["token"] != "" &&
+        data["user"] != "") return true;
 
-   // debugPrint("checkAuthenticated1");
+    // debugPrint("checkAuthenticated1");
 
     return false;
   }
 
-  Future<Map<String, dynamic>> fetchConfirmationData(BuildContext context) async {
+  Future<Map<String, dynamic>> fetchConfirmationData(
+      BuildContext context) async {
     return await Future.delayed(const Duration(seconds: 2), () async {
       String? accessToken = "";
       bool isAuthenticated = false;
@@ -92,15 +97,13 @@ class App extends StatelessWidget {
 
         if (_userid != null) {
           user = User.fromJson(Map<String, dynamic>.from(_userid));
-          context.read<AuthProvider>().user = Map<String, dynamic>.from(_userid);
-
+          context.read<AuthProvider>().user =
+              Map<String, dynamic>.from(_userid);
         }
       } catch (e, str) {
         debugPrint("$e");
         debugPrint("StackTrace$str");
-
       }
-
 
       return {
         "token": accessToken,
