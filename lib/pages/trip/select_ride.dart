@@ -189,7 +189,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                         children: [
                           Container(
                             child: const TextWidget(),
-                            height: 12.h,
+                            height: 10.5.h,
                             decoration: BoxDecoration(
                                 color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(30)),

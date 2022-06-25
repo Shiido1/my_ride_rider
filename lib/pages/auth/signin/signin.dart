@@ -20,10 +20,16 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
   }
   late AuthController con;
 
+ 
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      appBar:  AppBar(leading: const SizedBox(), elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          leading: const SizedBox(),
+          elevation: 0,
+          backgroundColor: Colors.transparent),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
         child: SingleChildScrollView(
@@ -80,7 +86,10 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                   Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
+                        padding: EdgeInsets.only(
+                            top: 40,
+                            right: Adaptive.w(15),
+                            left: Adaptive.w(15)),
                         child: LoadingButton(
                           label: "Sign In",
                           onPressed: con.signIn,
@@ -110,4 +119,3 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
     );
   }
 }
-

@@ -1,8 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/components/ride_arrival.dart';
 import 'package:my_ride/components/reason.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

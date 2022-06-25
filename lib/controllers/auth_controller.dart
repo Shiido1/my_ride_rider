@@ -35,13 +35,19 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.sendPushNot({
         "to": token,
         "notification": {
-          "title": pickUpLocationAdd,
-          "body": dropLocationAdd,
-
-          // "mutable_content": true,
-          // "sound": "Tri-tone"
+          "title": "title",
+          "body": "body",
+          "mutable_content": true,
+          "sound": "Tri-tone"
         },
-        "data": {"car": "toyota", "name": "mfon"}
+        "data": {
+          "first_name": SessionManager.instance.usersData["name"],
+          "last_name": SessionManager.instance.usersData["last_name"],
+          "pick_location": pickUpLocationAdd,
+          "drop_location": dropLocationAdd,
+          "image":
+              "https://myride.dreamlabs.com.ng/storage/uploads/driver/profile-picture/N0rmCUhwxkkAJv7M91uf7flD0K5vXubjgbWdn8VU.jpg",
+        }
       });
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
@@ -78,6 +84,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         SessionManager.instance.isLoggedIn = true;
         SessionManager.instance.authToken = response["access_token"];
         Routers.replaceAllWithName(state!.context, '/home');
+        getUserData();
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -210,8 +217,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
     Routers.replaceAllWithName(context, '/signin');
   }
-
-  }
+}
 
 class Data {
   String? uuid;

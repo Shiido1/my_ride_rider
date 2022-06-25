@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -11,7 +9,7 @@ class TripPayment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: BackButton(
+          leading: const BackButton(
             color: Colors.white,
           ),
           elevation: 0,
@@ -25,26 +23,26 @@ class TripPayment extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 25,
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         'Card',
                         style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 35,
                       ),
                     ],
@@ -64,20 +62,20 @@ class TripPayment extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 25),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: [Text('Amount')],
+                        children: [const Text('Amount')],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             '\$2',
                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                           ),
@@ -86,7 +84,7 @@ class TripPayment extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -95,22 +93,22 @@ class TripPayment extends StatelessWidget {
                     width: double.infinity,
                     height: 50,
                     decoration:
-                        BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: BorderRadius.all(Radius.circular(5))),
+                        BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: const BorderRadius.all(Radius.circular(5))),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
-                        children: [Text('Card 4567')],
+                        children: [const Text('Card 4567')],
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -118,21 +116,21 @@ class TripPayment extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'New Card',
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
+                      const Text(
                         'Accepted Cards',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black38),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black38),
                       )
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Padding(
@@ -144,33 +142,33 @@ class TripPayment extends StatelessWidget {
                           width: 120,
                           height: 50,
                           decoration: BoxDecoration(
-                              image: DecorationImage(fit: BoxFit.fitHeight, image: AssetImage('assets/images/Mastercard.png')),
+                              image: const DecorationImage(fit: BoxFit.fitHeight, image: AssetImage('assets/images/Mastercard.png')),
                               border: Border.all(width: 1, color: Colors.black26),
-                              borderRadius: BorderRadius.all(Radius.circular(5))),
-                          child: Center(),
+                              borderRadius: const BorderRadius.all(const Radius.circular(5))),
+                          child: const Center(),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
                           width: 100,
                           height: 50,
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Image.asset(
                             'assets/images/visa.png',
                             height: 20,
                             fit: BoxFit.fitWidth,
                           ),
                           decoration:
-                              BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: BorderRadius.all(Radius.circular(5))),
+                              BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: const BorderRadius.all(const Radius.circular(5))),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Container(
                           width: 120,
                           height: 50,
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           child: Image.asset(
                             'assets/images/paypal.png',
                             height: 30,
@@ -178,20 +176,20 @@ class TripPayment extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.black26),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(5),
                             ),
                           ),
                         ),
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Padding(
@@ -233,7 +231,7 @@ class TripPayment extends StatelessWidget {
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Center(
@@ -242,9 +240,9 @@ class TripPayment extends StatelessWidget {
                     child: Container(
                       width: 220,
                       height: 50,
-                      decoration: BoxDecoration(color: Color(0XFF000B49)),
-                      child: Center(
-                        child: Text(
+                      decoration: const BoxDecoration(color: Color(0XFF000B49)),
+                      child: const Center(
+                        child: const Text(
                           'Continue',
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
@@ -252,7 +250,7 @@ class TripPayment extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
               ],
