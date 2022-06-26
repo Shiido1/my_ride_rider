@@ -4,12 +4,9 @@ import 'package:my_ride/components/dismisskeyboard.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/constants/constants.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
-import 'package:my_ride/pages/auth/signup/otp_page.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
-import '../../../utils/router.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   PhoneNumberPage({Key? key}) : super(key: key);
@@ -18,17 +15,20 @@ class PhoneNumberPage extends StatefulWidget {
   State createState() => _PhoneNumberPageState();
 }
 
-class _PhoneNumberPageState extends StateMVC<PhoneNumberPage> with ValidationMixin {
+class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
+    with ValidationMixin {
   _PhoneNumberPageState() : super(AuthController()) {
     con = controller as AuthController;
   }
   late AuthController con;
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const SizedBox(), elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          leading: const SizedBox(),
+          elevation: 0,
+          backgroundColor: Colors.transparent),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
         child: SingleChildScrollView(
@@ -39,26 +39,29 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage> with ValidationMix
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: con.model.insertPhoneFormKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Get Started',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                             color: AppColors.primary,
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        SizedBox(height: 3.h),
                         Text(
                           'Enter your phone number. (required)',
                           style: TextStyle(
                             fontSize: 17.sp,
                             color: AppColors.primary,
                           ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
                         ),
                         TextFormField(
                           focusNode: FocusNode(),
@@ -71,27 +74,16 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage> with ValidationMix
                               padding: const EdgeInsets.all(15),
                               child: Text(
                                 " +1 ",
-                                style: TextStyle(color: AppColors.primary, fontSize: 20.sp),
+                                style: TextStyle(
+                                    color: AppColors.primary, fontSize: 20.sp),
                               ),
                             ),
                           ),
                         ),
-                        /*SizedBox(height: 20,),
-
-                        TextFormField(
-                          focusNode: FocusNode(),
-                          validator: validateCountryCode,
-                          keyboardType: TextInputType.phone,
-                          controller: con.model.countryCodeController,
-                          decoration: Constants.inputDecoration.copyWith(
-                           labelText: "country number code"
-                            ),
-                          ),*/
                       ],
                     ),
                     Column(
                       children: [
-                        const SizedBox(height: 30),
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
@@ -123,18 +115,20 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage> with ValidationMix
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 40, right: 0, left: 0),
+                          padding:
+                              const EdgeInsets.only(top: 40, right: 0, left: 0),
+                          child: LoadingButton(
+                            isLoading: con.model.isLoading,
+                            label: (con.model.insertPhoneFormKey.currentState
+                                        ?.validate() ==
+                                    true)
+                                ? "Verify Number"
+                                : "Continue",
+                            onPressed: con.phoneVerification,
 
-                              child: LoadingButton(
-                              isLoading: con.model.isLoading,
-                              label: (con.model.insertPhoneFormKey.currentState?.validate() == true) ? "Verify Number" : "Continue",
-                              onPressed: con.phoneVerification,
-
-                               /*   onPressed: (){
+                            /*   onPressed: (){
                                 Routers.pushNamed(context, '/otp_page');} */
-
-
-                              ),
+                          ),
                         ),
                         /*const SizedBox(height: 30),
                         InkWell(
@@ -149,7 +143,7 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage> with ValidationMix
                             ),
                           ),
                         ),*/
-                     ],
+                      ],
                     ),
                   ],
                 ),

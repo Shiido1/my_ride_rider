@@ -28,15 +28,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
 
   late AuthController con;
 
-  // Completer<GoogleMapController> _controller = Completer();
-  // static final CameraPosition _kGooglePlex = const CameraPosition(
-  //   target: LatLng(37.42796133580664, -122.085749655962),
-  //   zoom: 14.4746,
-  // );
-
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
   Stream<DatabaseEvent>? stream;
-  LatLng? _pickUpLocation, _dropLocation;
+  LatLng? _pickUpLocation;
   final databaseReference = FirebaseDatabase.instance.ref();
 
   TextEditingController? pickupController =

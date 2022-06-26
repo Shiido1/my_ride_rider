@@ -73,8 +73,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             children: [
                               Stack(
                                 children: [
-                                  SessionManager
-                                          .instance.usersProfileData.isNotEmpty
+                                   profileImage != null 
                                       ? CircleAvatar(
                                           radius: 40,
                                           backgroundImage:

@@ -17,7 +17,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(SessionManager.instance.isLoggedIn.toString());
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
