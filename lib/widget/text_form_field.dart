@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
 import '../constants/constants.dart';
@@ -59,8 +60,37 @@ class EditTextForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return isMuchDec!
         ? TextFormField(
+            // inputFormatters:inputFormatters,
+            obscureText: obscureText!,
             controller: controller,
-            decoration: Constants.inputDecoration,
+            validator: validator,
+            decoration: Constants.inputDecoration.copyWith(
+                labelText: label ?? '',
+                labelStyle: TextStyle(
+                    color: AppColors.grey1,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400),
+                prefixIcon: prefixWidget ??
+                    (prefixIcon != null
+                        ? IconButton(
+                            onPressed: onPasswordToggle,
+                            icon: Icon(
+                              prefixIcon,
+                              color: prefixIconColor,
+                            ))
+                        : null),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(1.5),
+                  child: suffixWidget ??
+                      (suffixIcon != null
+                          ? IconButton(
+                              onPressed: onPasswordToggle,
+                              icon: Icon(
+                                suffixIcon,
+                                color: suffixIconColor,
+                              ))
+                          : null),
+                )),
           )
         : TextFormField(
             decoration: InputDecoration(

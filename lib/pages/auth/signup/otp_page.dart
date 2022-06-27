@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_ride/components/loading_button.dart';
-import 'package:my_ride/components/my_app_bar.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/constants/constants.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
@@ -31,10 +30,12 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
   LoadingButton? loadingButton;
   bool isLoading = false;
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const SizedBox(), elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          leading: const SizedBox(),
+          elevation: 0,
+          backgroundColor: Colors.transparent),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
         child: SingleChildScrollView(
@@ -50,14 +51,14 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Otp has been sent to your number',
+                        'OTP has been sent to your number',
                         style: TextStyle(
                           fontSize: 17.sp,
                           color: AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 30),
-                     /* TextFormField(
+                      /* TextFormField(
                         focusNode: FocusNode(),
                         keyboardType: TextInputType.number,
                         validator: validateOTP,
@@ -72,13 +73,17 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      TextButton(onPressed: (){}, child: const Text('Resend OTP')),
+                      TextButton(
+                          onPressed: () {}, child: const Text('Resend OTP')),
                     ],
                   ),
                   Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
+                        padding: EdgeInsets.only(
+                            top: 40,
+                            right: Adaptive.w(15),
+                            left: Adaptive.w(15)),
                         child: LoadingButton(
                           isLoading: con.model.isLoading,
                           label: "Continue",
@@ -102,7 +107,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
   }
 
   void delayforthresec() {
-    _timer = Timer(const Duration(milliseconds: 400), (){
+    _timer = Timer(const Duration(milliseconds: 400), () {
       setState(() {
         loadingButton?.isLoading = true;
       });

@@ -15,6 +15,8 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../widget/text_form_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,9 +43,48 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   TextEditingController? pickupController =
       TextEditingController(text: 'Enter pickup location');
 
+  Position? _currentPosition;
+  String? _currentAddress;
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLatLng();
+      });
+      print('print location $_currentAddress');
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _currentPosition!.latitude, _currentPosition!.longitude);
+
+      Placemark place = placemarks[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    con.getUserData;
     return SafeArea(
       child: Scaffold(
           drawerEnableOpenDragGesture: false,
@@ -89,9 +130,8 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           child: CircleAvatar(
                             radius: 28,
                             child: CachedNetworkImage(
-                              imageUrl: SessionManager
-                                      .instance.usersData["profile_picture"] ??
-                                  '',
+                              imageUrl:
+                                  "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
                               imageBuilder: (context, imageProvider) =>
                                   Container(
                                 decoration: BoxDecoration(
@@ -200,10 +240,15 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           SizedBox(
                             width: 2.w,
                           ),
-                          Expanded(
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                pickupController = TextEditingController(
+                                    text: _currentAddress);
+                              });
+                            },
                             child: Container(
-                              height: 50,
-                              width: 289,
+                              width: 68.w,
                               color: AppColors.primary,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
@@ -219,12 +264,14 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Text(
-                                    'Peach tree center',
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
+                                  Expanded(
+                                    child: Text(
+                                      '$_currentAddress',
+                                      style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -400,9 +447,8 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                       CircleAvatar(
                         radius: 32,
                         child: CachedNetworkImage(
-                          imageUrl: SessionManager
-                                  .instance.usersData["profile_picture"] ??
-                              '',
+                          imageUrl:
+                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -432,7 +478,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                             InkWell(
                               onTap: () {
                                 con.closeDrawer();
-                                Routers.pushNamed(context, "/profile");
+                                Routers.pushNamed(context, "/edit_profile");
                               },
                               child: Text(
                                 'Edit profile',

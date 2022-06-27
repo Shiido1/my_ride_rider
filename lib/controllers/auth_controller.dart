@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/auth_model.dart';
@@ -83,8 +86,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.isLoggedIn = true;
         SessionManager.instance.authToken = response["access_token"];
-        Routers.replaceAllWithName(state!.context, '/home');
         getUserData();
+        // Routers.replaceAllWithName(state!.context, '/home');
+        setState(() {
+          model.isLoading = false;
+        });
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -92,9 +98,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("Error: $e");
       debugPrint("StackTrace: $str");
     }
-    setState(() {
-      model.isLoading = false;
-    });
   }
 
   void getUserData() async {
@@ -108,6 +111,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
         print('print user res: $response');
+        Routers.replaceAllWithName(state!.context, '/home');
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -133,17 +137,18 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "email": model.regEmailController.text,
           "mobile": model.regPhoneNumberController.text,
           "device_token": deviceToken,
-          "login_by": model.regdeviceTypeController.text,
+          "login_by": 'ios',
           "country": countryCode,
           "password": model.regPasswordController.text,
           "password_confirmation": model.regConfirmPassController.text
         });
 
         if (response != null && response.isNotEmpty) {
-          LocalStorage().store("token", response['access_token']);
-          LocalStorage().store("refreshToken", response["refresh_token"]);
-
+          SessionManager.instance.authToken = response["access_token"];
           Routers.replaceAllWithName(state!.context, "/profile");
+          setState(() {
+            model.isLoading = false;
+          });
         } else {
           showErrorNotification(state!.context, response!["message"]);
         }
@@ -157,9 +162,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       email = model.regEmailController.text;
       passwordNam = model.regEmailController.text;
 
-      setState(() {
-        model.isLoading = false;
-      });
+      // setState(() {
+      //   model.isLoading = false;
+      // });
     }
   }
 
@@ -213,6 +218,38 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     await SessionManager.instance.logOut();
 
     Routers.replaceAllWithName(context, '/signin');
+  }
+
+  _formartFileImage(File? imageFile) {
+    if (imageFile == null) return;
+    return File(imageFile.path.replaceAll('\'', '').replaceAll('File: ', ''));
+  }
+
+  void getUserProfileData({File? image}) async {
+    setState(() {
+      model.isLoading = true;
+    });
+    try {
+      Map<String, dynamic>? response = await authRepo.profilePicture({
+        "profile_picture": MultipartFile.fromBytes(
+            _formartFileImage(image).readAsBytesSync(),
+            filename: image!.path.split("/").last)
+      });
+      debugPrint("RESPONSE: $response");
+      if (response != null && response.isNotEmpty) {
+        SessionManager.instance.usersProfileData = response["data"];
+        print(
+            'object printitng profileimage ${SessionManager.instance.usersProfileData["profile_picture"]}');
+      } else {
+        showErrorNotification(state!.context, response!["message"]);
+      }
+    } catch (e, str) {
+      debugPrint("Error: $e");
+      debugPrint("StackTrace: $str");
+    }
+    setState(() {
+      model.isLoading = false;
+    });
   }
 }
 

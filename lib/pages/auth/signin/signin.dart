@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_ride/components/loading_button.dart';
 import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/constants/constants.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
+import 'package:my_ride/widget/text_form_field.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -19,12 +19,10 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
     con = controller as AuthController;
   }
   late AuthController con;
-
- 
+  bool obscureValue = true;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
           leading: const SizedBox(),
@@ -66,20 +64,31 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      TextFormField(
-                        // validator: validateF,
+                      EditTextForm(
+                        validator: validateEmail,
                         controller: con.model.emailController,
-                        decoration: Constants.inputDecoration.copyWith(
-                          labelText: "Email",
-                        ),
+                        isMuchDec: true,
+                        readOnly: false,
+                        obscureText: false,
+                        label: 'Email',
                       ),
                       const SizedBox(height: 10),
-                      TextFormField(
-                        obscureText: true,
+                      EditTextForm(
+                        onPasswordToggle: () {
+                          setState(() {
+                            obscureValue = !obscureValue;
+                          });
+                          print(obscureValue);
+                        },
+                        suffixIcon: obscureValue
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        obscureText: obscureValue,
+                        isMuchDec: true,
+                        readOnly: false,
                         controller: con.model.passwordController,
-                        decoration: Constants.inputDecoration.copyWith(
-                          labelText: "Password",
-                        ),
+                        label: 'Password',
+                        validator: validatePassword,
                       ),
                     ],
                   ),

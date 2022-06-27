@@ -84,13 +84,13 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                           labelText: "Email Address",
                         ),
                       ),
-                      TextFormField(
-                        validator: validateDeviceType,
-                        controller: con.model.regdeviceTypeController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Device Type",
-                        ),
-                      ),
+                      // TextFormField(
+                      //   validator: validateDeviceType,
+                      //   controller: con.model.regdeviceTypeController,
+                      //   decoration: Constants.defaultDecoration.copyWith(
+                      //     labelText: "Device Type",
+                      //   ),
+                      // ),
                       TextFormField(
                         validator: validatePassword,
                         obscureText: true,

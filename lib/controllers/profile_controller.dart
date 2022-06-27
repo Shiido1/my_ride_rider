@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/profile_model.dart';
 
-import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
 import '../repository/auth_repo.dart';
 import '../utils/Flushbar_mixin.dart';
@@ -40,8 +39,33 @@ class ProfileController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersProfileData = response["data"];
+        getUserData();
         print(
             'object printitng profileimage ${SessionManager.instance.usersProfileData["profile_picture"]}');
+      } else {
+        showErrorNotification(state!.context, response!["message"]);
+      }
+    } catch (e, str) {
+      debugPrint("Error: $e");
+      debugPrint("StackTrace: $str");
+    }
+    setState(() {
+      model.isLoading = false;
+    });
+  }
+
+  void getUserData() async {
+    setState(() {
+      model.isLoading = true;
+    });
+
+    try {
+      Map<String, dynamic>? response = await authRepo.getUserInfo();
+      debugPrint("RESPONSE: $response");
+      if (response != null && response.isNotEmpty) {
+        SessionManager.instance.usersData = response["data"];
+        print('print user res: $response');
+        // Routers.replaceAllWithName(state!.context, '/home');
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }

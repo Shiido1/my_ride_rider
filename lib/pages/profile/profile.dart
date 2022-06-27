@@ -10,7 +10,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../components/reg_model.dart';
-import '../../constants/session_manager.dart';
 import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 

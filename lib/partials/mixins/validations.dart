@@ -1,6 +1,6 @@
 mixin ValidationMixin {
   String? validateShopNo(String? value) {
-    if (value!.trim().isEmpty) return 'Shop number can not be empty';
+    if (value!.trim().isEmpty) return 'Shop number cannot be empty';
 
     return null;
   }
@@ -12,16 +12,16 @@ mixin ValidationMixin {
   }
 
   String? validateGeolocation(String? value) {
-    if (value!.trim().isEmpty) return 'Geolocation can not be empty';
+    if (value!.trim().isEmpty) return 'Geolocation cannot be empty';
 
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Password can not be empty';
+      return 'Password cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Password can not be less than 6 characters';
+      return 'Password cannot be less than 6 characters';
     }
 
     return null;
@@ -29,7 +29,7 @@ mixin ValidationMixin {
 
   String? validateCPassword(String? value, String? password) {
     if (value!.trim().isEmpty) {
-      return 'Password can not be empty';
+      return 'Password cannot be empty';
     } else if (value != password) {
       return 'Password does not match';
     } else {
@@ -39,7 +39,7 @@ mixin ValidationMixin {
 
   String? validateAmount(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Amount can not be empty';
+      return 'Amount cannot be empty';
     } else if (double.parse(value.toString()) < 1.0) {
       return 'Input a valid Amount';
     }
@@ -49,9 +49,9 @@ mixin ValidationMixin {
 
   String? validateFullName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Fullname can not be empty';
+      return 'Fullname cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Fullname can not be less than 6 characters';
+      return 'Fullname cannot be less than 6 characters';
     }
 
     return null;
@@ -59,9 +59,9 @@ mixin ValidationMixin {
 
   String? validateName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Name can not be empty';
+      return 'Name cannot be empty';
     } else if (value.trim().length < 2) {
-      return 'Name can not be less than 2 characters';
+      return 'Name cannot be less than 2 characters';
     }
 
     return null;
@@ -69,9 +69,9 @@ mixin ValidationMixin {
 
   String? validateShopName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Shop name can not be empty';
+      return 'Shop name cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Shop name can not be less than 6 characters';
+      return 'Shop name cannot be less than 6 characters';
     }
 
     return null;
@@ -79,9 +79,9 @@ mixin ValidationMixin {
 
   String? validateCompanyName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Company name can not be empty';
+      return 'Company name cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Company name can not be less than 6 characters';
+      return 'Company name cannot be less than 6 characters';
     }
 
     return null;
@@ -195,9 +195,9 @@ mixin ValidationMixin {
 
   String? validatePlateNo(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Plate Number can not be empty';
+      return 'Plate Number cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Plate Number can not be less than 6 characters';
+      return 'Plate Number cannot be less than 6 characters';
     }
 
     return null;
@@ -207,7 +207,7 @@ mixin ValidationMixin {
     if (value!.trim().isEmpty) {
       return null;
     } else if (value.trim().length < 6) {
-      return 'Plate Number can not be less than 6 characters';
+      return 'Plate Number cannot be less than 6 characters';
     }
 
     return null;
@@ -215,9 +215,9 @@ mixin ValidationMixin {
 
   String? validateAddress(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Address can not be empty';
+      return 'Address cannot be empty';
     } else if (value.trim().length < 10) {
-      return 'Address can not be less than 10 characters';
+      return 'Address cannot be less than 10 characters';
     }
 
     return null;
@@ -227,7 +227,7 @@ mixin ValidationMixin {
     if (value!.trim().isEmpty) {
       return null;
     } else if (value.trim().length < 10) {
-      return 'Address can not be less than 10 characters';
+      return 'Address cannot be less than 10 characters';
     }
 
     return null;
@@ -238,9 +238,9 @@ mixin ValidationMixin {
 
   String? validatesIDNumber(String? value) {
     if (value!.trim().isEmpty) {
-      return 'ID Number can not be empty';
+      return 'ID Number cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'ID Number can not be less than 6 characters';
+      return 'ID Number cannot be less than 6 characters';
     }
 
     return null;
@@ -250,7 +250,7 @@ mixin ValidationMixin {
     if (value!.trim().isEmpty) {
       return null;
     } else if (value.trim().length < 6) {
-      return 'ID Number can not be less than 6 characters';
+      return 'ID Number cannot be less than 6 characters';
     }
 
     return null;
@@ -258,7 +258,7 @@ mixin ValidationMixin {
 
   String? validatesBVNNumber(String? value) {
     if (value!.trim().isEmpty) {
-      return 'BVN Number can not be empty';
+      return 'BVN Number cannot be empty';
     } else if (RegExp(r"^[0-9]{11}$").hasMatch(value) == false) {
       return 'Invalid BVN Number';
     }
@@ -277,7 +277,7 @@ mixin ValidationMixin {
   }
 
   String? validatesIntPassport(String? value) {
-    if (value!.trim().isEmpty) return "International Passport Number can not be empty";
+    if (value!.trim().isEmpty) return "International Passport Number cannot be empty";
 
     return null;
   }
@@ -293,7 +293,7 @@ mixin ValidationMixin {
   }
 
   String? validateLandRegNumber(String? value) {
-    if (value!.trim().isEmpty) return 'Land Reg Number can not be empty';
+    if (value!.trim().isEmpty) return 'Land Reg Number cannot be empty';
 
     return null;
   }
@@ -305,7 +305,7 @@ mixin ValidationMixin {
   }
 
   String? validateBusinessAddress(String? value) {
-    if (value!.trim().isEmpty) return 'Business address can not be empty';
+    if (value!.trim().isEmpty) return 'Business address cannot be empty';
     if (value.trim().length < 10) return 'Full business address is required';
 
     return null;
@@ -313,7 +313,7 @@ mixin ValidationMixin {
 
   String? validateResidentialAddress(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Residential address can not be empty';
+      return 'Residential address cannot be empty';
     } else if (value.trim().length < 10) {
       return 'Full residential address is required';
     }
@@ -323,7 +323,7 @@ mixin ValidationMixin {
 
   String? validateNoOfStaff(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Number of staff can not be empty';
+      return 'Number of staff cannot be empty';
     } else if (double.parse(value.toString()) < 1.0) {
       return 'Input a valid number';
     }

@@ -74,14 +74,19 @@ class _AddCardPageState extends State<AddCardPage> with ValidationMixin {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 30, right: Adaptive.w(5), left: Adaptive.w(5)),
+                        padding: EdgeInsets.only(
+                            top: 30, right: Adaptive.w(5), left: Adaptive.w(5)),
                         child: ElevatedButton(
                           onPressed: () {},
                           child: const Text("Add Card"),
                           style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
-                            backgroundColor: MaterialStateProperty.all(AppColors.primary),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
+                            minimumSize: MaterialStateProperty.all(
+                                const Size.fromHeight(50)),
+                            backgroundColor:
+                                MaterialStateProperty.all(AppColors.primary),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0))),
                           ),
                         ),
                       ),
