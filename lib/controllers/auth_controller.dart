@@ -46,7 +46,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "pick_location": pickUpLocationAdd,
           "drop_location": dropLocationAdd,
           "image":
-              "https://myride.dreamlabs.com.ng/storage/uploads/driver/profile-picture/N0rmCUhwxkkAJv7M91uf7flD0K5vXubjgbWdn8VU.jpg",
+              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
         }
       });
       debugPrint("RESPONSE: $response");
@@ -107,6 +107,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
+        print('print user res: $response');
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -170,12 +171,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       var uuid = await LocalStorage().fetch("userid");
 
-      print(uuid);
-
       Map<String, dynamic>? response =
           await authRepo.otpVerification({"otp": otpValue, "uuid": uuid});
 
-      print(response);
       if (response != null && response["message"] == "success") {
         Navigator.pushNamed(state!.context, '/contact_info');
       } else {
@@ -196,7 +194,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       Map<String, dynamic>? response = await authRepo.phoneVerification(
           {"mobile": model.insertPhoneController.text, "country": countryCode});
-      print(response);
       if (response != null && response["message"] == "success") {
         var uUid = response["data"]["uuid"];
         LocalStorage().store("userid", uUid);

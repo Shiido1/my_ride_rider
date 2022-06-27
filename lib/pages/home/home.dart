@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_ride/constants/colors.dart';
+import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/controllers/home_controller.dart';
 import 'package:my_ride/models/global_model.dart';
@@ -41,6 +43,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
 
   @override
   Widget build(BuildContext context) {
+    con.getUserData;
     return SafeArea(
       child: Scaffold(
           drawerEnableOpenDragGesture: false,
@@ -83,13 +86,25 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         InkWell(
                           onTap: () =>
                               scaffoldKey.currentState!.openEndDrawer(),
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Icon(
-                              Icons.person,
-                              color: AppColors.primary,
+                          child: CircleAvatar(
+                            radius: 28,
+                            child: CachedNetworkImage(
+                              imageUrl: SessionManager
+                                      .instance.usersData["profile_picture"] ??
+                                  '',
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const CircularProgressIndicator(),
                             ),
-                            radius: 20,
                           ),
                         )
                       ],
@@ -356,7 +371,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
         child: ListTile(
           leading: Icon(
             icon!,
-            size: 25.sp,
+            size: 22.sp,
             color: AppColors.primary,
           ),
           title: Text(
@@ -382,8 +397,24 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        radius: 30,
+                      CircleAvatar(
+                        radius: 32,
+                        child: CachedNetworkImage(
+                          imageUrl: SessionManager
+                                  .instance.usersData["profile_picture"] ??
+                              '',
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const CircularProgressIndicator(),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 1.w, left: 3.w),
@@ -460,7 +491,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                 onTap: () {}),
             drawerItem(icon: Icons.info_outline, text: "About", onTap: () {}),
             drawerItem(
-                icon: Icons.info_outline,
+                icon: Icons.logout,
                 text: "Logout",
                 onTap: () => AuthController().signOut(context)),
           ],

@@ -46,12 +46,12 @@ class _PaymentPageState extends State<PaymentPage> {
               Expanded(
                 child: ListView(
                   children: [
-                    ListTile(
+                    const ListTile(
                       title: Text("Zenith Bank"),
                       subtitle: Text("6746 **** **** 4536"),
                     ),
                     ListTile(
-                      title: Text("Add new card"),
+                      title: const Text("Add new card"),
                       onTap: makePayment,
                     ),
                     CardField(
