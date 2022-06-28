@@ -8,3 +8,5 @@ String? dropLat;
 String? dropLong;
 String? userImage;
 String? userFbToken;
+
+String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";

@@ -37,16 +37,17 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   final databaseReference = FirebaseDatabase.instance.ref();
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
   GoogleMapController? mapController; //contrller for Google map
   CameraPosition? cameraPosition;
   TextEditingController? pickupController =
       TextEditingController(text: 'Enter pickup location');
 
   Position? _currentPosition;
-  String? _currentAddress;
+  String? _currentAddress = '';
 
-  _getCurrentLocation() {
+  _getCurrentLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.requestPermission();
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
@@ -69,8 +70,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
       Placemark place = placemarks[0];
 
       setState(() {
-        _currentAddress =
-            "${place.locality}, ${place.postalCode}, ${place.country}";
+        _currentAddress = "${place.locality}, ${place.street},${place.country}";
       });
     } catch (e) {
       print(e);
@@ -81,6 +81,12 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   void initState() {
     _getCurrentLocation();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    pickupController!.dispose();
+    super.dispose();
   }
 
   @override
@@ -196,9 +202,10 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
 
                         if (place != null) {
                           setState(() {
-                            pickUpLocationAdd = place.description;
-                            pickupController =
-                                TextEditingController(text: pickUpLocationAdd);
+                            pickUpLocationAdd =
+                                place.description ?? _currentAddress;
+                            pickupController = TextEditingController(
+                                text: pickUpLocationAdd ?? _currentAddress);
                           });
                           //form google_maps_webservice package
                           final plist = GoogleMapsPlaces(

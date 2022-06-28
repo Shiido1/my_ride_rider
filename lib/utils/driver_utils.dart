@@ -4,27 +4,37 @@ import '../models/driver.model.dart';
 import 'dart:math' as Math;
 
 class DriversUtil {
-  static List<DriversInformations> returnClosest(
-      LatLng? pickUpLoc, List<DriversInformations> driver) {
-    final List<DriversInformations> value = [];
+  static DriversInformations returnClosest(
+      LatLng pickUpLoc, List<DriversInformations> drivers) {
+    List mapList = [];
 
-    if (pickUpLoc == null) return driver;
+    if (drivers.isNotEmpty) {
+      for (var d in drivers) {
+        double distanceInMeters = getDistanceFromLatLonInKm(
+            pickUpLoc.latitude,
+            pickUpLoc.longitude,
+            double.parse(d.location![0]),
+            double.parse(d.location![1]));
 
-    for (var d in driver) {
-      double distanceInMeters = getDistanceFromLatLonInKm(
-          pickUpLoc.latitude,
-          pickUpLoc.longitude,
-          double.parse(d.location![0]),
-          double.parse(d.location![1]));
+        final rounded = dp(distanceInMeters, 5);
+        // map[d.name] = rounded;
+        Map map = {"id": d.id, "distance": rounded, "name": d.name};
+        mapList.add(map);
+      }
 
-      final rounded = dp(distanceInMeters, 2);
-      // logger.d(rounded);
+      print('printing closest: $mapList');
+      Map secondMap = mapList.reduce((value, element) =>
+          value["distance"] < element["distance"] ? value : element);
+      print('print second map: $secondMap');
 
-      // if (rounded <= 1000000)
-      value.add(d);
+      DriversInformations driversInformations =
+          drivers.where((element) => element.id == secondMap["id"]).first;
+
+      print('print drivers info :$driversInformations');
+
+      return driversInformations;
     }
-
-    return value;
+    return DriversInformations();
   }
 
   static double dp(double val, int places) {

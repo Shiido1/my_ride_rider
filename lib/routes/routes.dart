@@ -3,7 +3,7 @@ import 'package:my_ride/pages/auth/signin/signin.dart';
 import 'package:my_ride/pages/auth/signup/contact_info.dart';
 import 'package:my_ride/pages/auth/signup/otp_page.dart';
 import 'package:my_ride/pages/auth/signup/phone_page.dart';
-import 'package:my_ride/pages/home/LocationPage.dart';
+// import 'package:my_ride/pages/home/LocationPage.dart';
 import 'package:my_ride/pages/home/google_map_page.dart';
 import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/home/home_search_dest_page.dart';
@@ -36,8 +36,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) =>  ProfilePage());
     case '/select_ride':
       return MaterialPageRoute(builder: (_) =>  SelectRide());
-    case '/locationPage':
-      return MaterialPageRoute(builder: (_) =>  LocationPage());
+    // case '/locationPage':
+    //   return MaterialPageRoute(builder: (_) =>  LocationPage());
     case '/order':
       return MaterialPageRoute(builder: (_) =>  Order());
     case '/confirm_order':

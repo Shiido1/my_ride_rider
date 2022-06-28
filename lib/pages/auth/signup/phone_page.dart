@@ -54,7 +54,7 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                         ),
                         SizedBox(height: 3.h),
                         Text(
-                          'Enter your phone number. (required)',
+                          'Enter your phone number.',
                           style: TextStyle(
                             fontSize: 17.sp,
                             color: AppColors.primary,

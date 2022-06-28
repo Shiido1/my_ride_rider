@@ -405,15 +405,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.16.1",
+      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
-      "languageVersion": "2.5"
-    },
-    {
-      "name": "jiffy",
-      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/jiffy-3.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.4"
+      "languageVersion": "2.12"
     },
     {
       "name": "js",
@@ -448,6 +442,12 @@
     {
       "name": "location_web",
       "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/location_web-3.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "logger",
+      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/logger-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -728,16 +728,16 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "simple_gesture_detector",
+      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/simple_gesture_detector-0.1.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/test/development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "some_calendar",
-      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/some_calendar-1.2.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.2"
     },
     {
       "name": "source_span",
@@ -810,6 +810,12 @@
       "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0+2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "table_calendar",
+      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/table_calendar-2.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
     },
     {
       "name": "term_glyph",
@@ -926,7 +932,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-06-27T17:10:58.830020Z",
+  "generated": "2022-06-28T18:51:19.118682Z",
   "generator": "pub",
   "generatorVersion": "2.17.1"
 }

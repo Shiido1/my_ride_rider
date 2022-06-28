@@ -88,46 +88,46 @@ mixin ValidationMixin {
   }
 
   String? validatePhone(String? value) {
-    if (value!.trim().isEmpty) return 'Phone can not be empty';
+    if (value!.trim().isEmpty) return 'Phone cannot be empty';
     if (value.trim().length != 11) return 'Phone is Invalid';
 
     return null;
   }
 
-  String? validateSearchController (String? value){
+  String? validateSearchController(String? value) {
     if (value!.trim().isEmpty) return 'please enter a valid location';
 
     return null;
   }
 
-  String? validateSearchDestController (String? value){
+  String? validateSearchDestController(String? value) {
     if (value!.trim().isEmpty) return 'please enter a valid location';
 
     return null;
   }
 
   String? validateOTP(String? value) {
-    if (value!.trim().isEmpty) return 'OTP can not be empty';
+    if (value!.trim().isEmpty) return 'OTP cannot be empty';
     return null;
   }
+
   String? validateOTP_Test(String? value) {
     String otpValue = "1234";
-    if (value!.trim().isEmpty) return 'OTP can not be empty';
+    if (value!.trim().isEmpty) return 'OTP cannot be empty';
     if (value.trim() != otpValue) return 'OTP Must be 1234';
     return null;
   }
 
-
-    String? validateCountryCode(String? value) {
-      if (value!.trim().isEmpty) return 'country code cannot be empty';
+  String? validateCountryCode(String? value) {
+    if (value!.trim().isEmpty) return 'country code cannot be empty';
 
     return null;
   }
-    String? validateDeviceType(String? value) {
-      if (value!.trim().isEmpty) return 'enter your device Type';
 
+  String? validateDeviceType(String? value) {
+    if (value!.trim().isEmpty) return 'enter your device Type';
 
-      return null;
+    return null;
   }
 
   String? validatePhoneOptional(String? value) {
@@ -139,7 +139,7 @@ mixin ValidationMixin {
 
   String? validateContractAmount(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Amount can not be empty';
+      return 'Amount cannot be empty';
     } else if (double.parse(value.toString()) < 1.0) {
       return 'Input a valid Amount';
     }
@@ -149,7 +149,7 @@ mixin ValidationMixin {
 
   String? validateEmail(String? value) {
     if (value!.trim().isEmpty) {
-      return "Email can not be empty";
+      return "Email cannot be empty";
     } else if (RegExp(
                 r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
             .hasMatch(value) ==
@@ -175,8 +175,10 @@ mixin ValidationMixin {
   String? validateDriverLicence(String? value) {
     // (STRUCTURE= 3 letters, 5 numbers, 2 letters, 22 letter. E.g. AKW12345AA1)
     if (value!.trim().isEmpty) {
-      return 'Driver Licence can not be empty';
-    } else if (RegExp(r"^[A-Z]{3}[0-9]{5}[A-Z]{2}[0-9]{1,2}$").hasMatch(value) == false) {
+      return 'Driver Licence cannot be empty';
+    } else if (RegExp(r"^[A-Z]{3}[0-9]{5}[A-Z]{2}[0-9]{1,2}$")
+            .hasMatch(value) ==
+        false) {
       return 'Format: AKW12345AA15 or AKW12345AA1';
     }
 
@@ -187,7 +189,9 @@ mixin ValidationMixin {
     // (STRUCTURE= 3 letters, 5 numbers, 2 letters, 2 letter. E.g. AKW12345AA1)
     if (value!.trim().isEmpty) {
       return null;
-    } else if (RegExp(r"^[A-Z]{3}[0-9]{5}[A-Z]{2}[0-9]{1,2}$").hasMatch(value) == false) {
+    } else if (RegExp(r"^[A-Z]{3}[0-9]{5}[A-Z]{2}[0-9]{1,2}$")
+            .hasMatch(value) ==
+        false) {
       return 'Format: AKW12345AA15, or AKW12345AA1';
     }
     return null;
@@ -277,7 +281,8 @@ mixin ValidationMixin {
   }
 
   String? validatesIntPassport(String? value) {
-    if (value!.trim().isEmpty) return "International Passport Number cannot be empty";
+    if (value!.trim().isEmpty)
+      return "International Passport Number cannot be empty";
 
     return null;
   }
@@ -332,41 +337,43 @@ mixin ValidationMixin {
   }
 
   String? validateTown(String? value) {
-    if (value!.trim().isEmpty) return 'Town can not be empty';
+    if (value!.trim().isEmpty) return 'Town cannot be empty';
 
     return null;
   }
 
   ///Premises
   String? validatePremiseName(String? value) {
-    if (value!.trim().isEmpty) return 'Premise name can not be empty';
+    if (value!.trim().isEmpty) return 'Premise name cannot be empty';
 
     return null;
   }
 
   String? validatePremiseSize(String? value) {
-    if (value!.trim().isEmpty) return 'Premise size can not be empty';
+    if (value!.trim().isEmpty) return 'Premise size cannot be empty';
 
     return null;
   }
 
   ///Signages
   String? validateSignageAddressDesc(String? value) {
-    if (value!.trim().isEmpty) return 'Signage address can not be empty';
-    if (value.trim().length < 10) return 'Detailed signage address desc required';
+    if (value!.trim().isEmpty) return 'Signage address cannot be empty';
+    if (value.trim().length < 10)
+      return 'Detailed signage address desc required';
 
     return null;
   }
 
   String? validateSignageAddressDescOptional(String? value) {
     if (value!.trim().isEmpty) return null;
-    if (value.trim().length < 10) return 'Detailed signage address desc required';
+    if (value.trim().length < 10)
+      return 'Detailed signage address desc required';
 
     return null;
   }
 
   String? validateSignageName(String? value) {
-    if (value!.trim().isEmpty) return 'Signage name can not be empty';
+    if (value!.trim().isEmpty) return 'Signage name cannot be empty';
 
     return null;
   }
@@ -380,13 +387,13 @@ mixin ValidationMixin {
   }
 
   String? validateMastName(String? value) {
-    if (value!.trim().isEmpty) return 'Mast name can not be empty';
+    if (value!.trim().isEmpty) return 'Mast name cannot be empty';
 
     return null;
   }
 
   String? validateMastNumber(String? value) {
-    if (value!.trim().isEmpty) return 'Mast number can not be empty';
+    if (value!.trim().isEmpty) return 'Mast number cannot be empty';
 
     return null;
   }

@@ -43,9 +43,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
     stream!.listen((event) {});
   }
 
+
   @override
   void initState() {
     getUsers();
+    _pickUpLocation =
+        LatLng(double.parse(pickUpLat!), double.parse(pickUpLong!));
     super.initState();
   }
 
@@ -236,9 +239,36 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   AvailableDrivers data =
                                       AvailableDrivers.fromMap(map: d);
 
-                                  final value = DriversUtil.returnClosest(
-                                      _pickUpLocation,
-                                      data.driversInformations!);
+                                  final value1 = DriversUtil.returnClosest(
+                                      _pickUpLocation!,
+                                      data.driversInformations!
+                                          .where((element) =>
+                                              element.isActive == 1 &&
+                                              element.isAvailable == 1 &&
+                                              element.isApproved == 1 &&
+                                              element.vehicleTypeName ==
+                                                  "Regular")
+                                          .toList());
+                                  final value2 = DriversUtil.returnClosest(
+                                      _pickUpLocation!,
+                                      data.driversInformations!
+                                          .where((element) =>
+                                              element.isActive == 1 &&
+                                              element.isAvailable == 1 &&
+                                              element.isApproved == 1 &&
+                                              element.vehicleTypeName ==
+                                                  "Executive")
+                                          .toList());
+                                  final value3 = DriversUtil.returnClosest(
+                                      _pickUpLocation!,
+                                      data.driversInformations!
+                                          .where((element) =>
+                                              element.isActive == 1 &&
+                                              element.isAvailable == 1 &&
+                                              element.isApproved == 1 &&
+                                              element.vehicleTypeName ==
+                                                  "Coperate")
+                                          .toList());
 
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
@@ -249,46 +279,35 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        ...value
-                                            .map((driver) => InkWell(
-                                                  onTap: () => updateStatus(
-                                                    id: driver.id.toString(),
-                                                    status: 'requested',
-                                                  ),
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.all(4.w),
-                                                    margin: EdgeInsets.all(8.w),
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: AppColors.primary,
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      20.0),
-                                                              bottomRight: Radius
-                                                                  .circular(
-                                                                      20.0),
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      20.0),
-                                                              bottomLeft: Radius
-                                                                  .circular(
-                                                                      20.0)),
-                                                    ),
-                                                    child: Text(
-                                                      driver.name ?? '',
-                                                      style: TextStyle(
-                                                          fontSize: 18.sp,
-                                                          color: AppColors
-                                                              .greyWhite,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                ))
-                                            .toList()
+                                        InkWell(
+                                          onTap: () => updateStatus(
+                                            id: value1.id.toString(),
+                                            status: 'requested',
+                                          ),
+                                          child: Container(
+                                            padding: EdgeInsets.all(4.w),
+                                            margin: EdgeInsets.all(8.w),
+                                            decoration: const BoxDecoration(
+                                              color: AppColors.primary,
+                                              borderRadius: BorderRadius.only(
+                                                  topRight:
+                                                      Radius.circular(20.0),
+                                                  bottomRight:
+                                                      Radius.circular(20.0),
+                                                  topLeft:
+                                                      Radius.circular(20.0),
+                                                  bottomLeft:
+                                                      Radius.circular(20.0)),
+                                            ),
+                                            child: Text(
+                                              value1.name ?? '',
+                                              style: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  color: AppColors.greyWhite,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   );

@@ -46,6 +46,7 @@ class DriversInformations {
   final int? id;
   final int? isActive;
   final int? isAvailable;
+  final int? isApproved;
   final List<String>? location;
   final String? status;
   final String? token;
@@ -60,6 +61,7 @@ class DriversInformations {
     this.id,
     this.isActive,
     this.isAvailable,
+    this.isApproved,
     this.location,
     this.mobile,
     this.status,
@@ -76,6 +78,7 @@ class DriversInformations {
       'id': id,
       'isActive': isActive,
       'isAvailable': isAvailable,
+      'isApproved': isApproved,
       'location': location,
       'mobile': mobile,
       'name': name,
@@ -92,6 +95,7 @@ class DriversInformations {
     return DriversInformations(
       id: map['id']?.toInt(),
       isActive: map['isActive']?.toInt(),
+      isApproved: map['isApproved']?.toInt(),
       isAvailable: map['isAvailable']?.toInt(),
       location:
           map['location'] != null ? List<String>.from(map['location']) : [],
@@ -113,7 +117,7 @@ class DriversInformations {
 
   @override
   String toString() {
-    return 'DriversInformations(id: $id, isActive: $isActive, isAvailable: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updatedAt: $updatedAt, vehicleNumber: $vehicleNumber, vehicleType: $vehicleType, vehicleTypeName: $vehicleTypeName)';
+    return 'DriversInformations(id: $id, isActive: $isActive, isApproved: $isApproved, isAvailable: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updatedAt: $updatedAt, vehicleNumber: $vehicleNumber, vehicleType: $vehicleType, vehicleTypeName: $vehicleTypeName)';
   }
 
   @override
@@ -124,6 +128,7 @@ class DriversInformations {
         other.id == id &&
         other.isActive == isActive &&
         other.isAvailable == isAvailable &&
+        other.isApproved == isApproved &&
         other.location == location &&
         other.mobile == mobile &&
         other.name == name &&
@@ -140,6 +145,7 @@ class DriversInformations {
     return id.hashCode ^
         isActive.hashCode ^
         isAvailable.hashCode ^
+        isApproved.hashCode ^
         location.hashCode ^
         mobile.hashCode ^
         name.hashCode ^
