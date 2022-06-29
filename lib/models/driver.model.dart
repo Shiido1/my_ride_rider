@@ -52,7 +52,7 @@ class DriversInformations {
   final String? token;
   final String? mobile;
   final String? name;
-  final String? updatedAt;
+  final int? updatedAt;
   final String? vehicleNumber;
   final String? vehicleType;
   final String? vehicleTypeName;
@@ -76,37 +76,37 @@ class DriversInformations {
   Map<dynamic, dynamic> toMap() {
     return {
       'id': id,
-      'isActive': isActive,
-      'isAvailable': isAvailable,
-      'isApproved': isApproved,
+      'is_active': isActive,
+      'is_available': isAvailable,
+      'is_approved': isApproved,
       'location': location,
       'mobile': mobile,
       'name': name,
       'status': status,
       'token': token,
-      'updatedAt': updatedAt,
-      'vehicleNumber': vehicleNumber,
-      'vehicleType': vehicleType,
-      'vehicleTypeName': vehicleTypeName,
+      'updated_at': updatedAt,
+      'vehicle_number': vehicleNumber,
+      'vehicle_type': vehicleType,
+      'vehicle_type_name': vehicleTypeName,
     };
   }
 
   factory DriversInformations.fromMap(Map<dynamic, dynamic> map) {
     return DriversInformations(
       id: map['id']?.toInt(),
-      isActive: map['isActive']?.toInt(),
-      isApproved: map['isApproved']?.toInt(),
-      isAvailable: map['isAvailable']?.toInt(),
+      isActive: map['is_active']?.toInt(),
+      isApproved: map['is_approved']?.toInt(),
+      isAvailable: map['is_available']?.toInt(),
       location:
           map['location'] != null ? List<String>.from(map['location']) : [],
       mobile: map['mobile'],
       name: map['name'],
       status: map['status'],
       token: map['token'],
-      updatedAt: map['updatedAt'],
-      vehicleNumber: map['vehicleNumber'],
-      vehicleType: map['vehicleType'],
-      vehicleTypeName: map['vehicleTypeName'],
+      updatedAt: map['updated_at'],
+      vehicleNumber: map['vehicle_number'],
+      vehicleType: map['vehicle_type'],
+      vehicleTypeName: map['vehicle_type_name'],
     );
   }
 
@@ -117,7 +117,7 @@ class DriversInformations {
 
   @override
   String toString() {
-    return 'DriversInformations(id: $id, isActive: $isActive, isApproved: $isApproved, isAvailable: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updatedAt: $updatedAt, vehicleNumber: $vehicleNumber, vehicleType: $vehicleType, vehicleTypeName: $vehicleTypeName)';
+    return 'DriversInformations(id: $id, is_active: $isActive, is_approved: $isApproved, is_available: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updated_at: $updatedAt, vehicle_number: $vehicleNumber, vehicle_type: $vehicleType, vehicle_type_name: $vehicleTypeName)';
   }
 
   @override

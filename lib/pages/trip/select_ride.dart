@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/constants.dart';
+import '../../constants/session_manager.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
 import '../../utils/driver_utils.dart';
@@ -37,12 +39,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
+  String? id, request;
 
   getUsers() async {
     stream = snapshot1.onValue;
     stream!.listen((event) {});
   }
-
 
   @override
   void initState() {
@@ -64,17 +66,27 @@ class _SelectRideState extends StateMVC<SelectRide> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 6.h),
-                const Align(
+                Align(
                   alignment: Alignment.topRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 12),
+                    padding: EdgeInsets.only(right: 4.w),
                     child: CircleAvatar(
-                      foregroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        color: AppColors.primary,
+                      radius: 28,
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
+                        ),
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const CircularProgressIndicator(),
                       ),
-                      radius: 20,
                     ),
                   ),
                 ),
@@ -247,7 +259,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               element.isAvailable == 1 &&
                                               element.isApproved == 1 &&
                                               element.vehicleTypeName ==
-                                                  "Regular")
+                                                  "Classic")
                                           .toList());
                                   final value2 = DriversUtil.returnClosest(
                                       _pickUpLocation!,
@@ -275,50 +287,173 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     physics:
                                         const AlwaysScrollableScrollPhysics(),
                                     child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
                                       children: [
                                         InkWell(
-                                          onTap: () => updateStatus(
-                                            id: value1.id.toString(),
-                                            status: 'requested',
+                                          onTap: () => setState(() {
+                                            id = value1.id.toString();
+                                            request = 'request';
+                                          }),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 3.w),
+                                                width: 30.w,
+                                                height: 10.h,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                    'assets/images/car.png',
+                                                  )),
+                                                  // color: AppColors.greyWhite1,
+                                                ),
+                                              ),
+                                              Text(
+                                                'CLASSIC',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              SizedBox(
+                                                height: 0.5.h,
+                                              ),
+                                              Text(
+                                                '6 Min away',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Text(
+                                                '\$2',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
-                                          child: Container(
-                                            padding: EdgeInsets.all(4.w),
-                                            margin: EdgeInsets.all(8.w),
-                                            decoration: const BoxDecoration(
-                                              color: AppColors.primary,
-                                              borderRadius: BorderRadius.only(
-                                                  topRight:
-                                                      Radius.circular(20.0),
-                                                  bottomRight:
-                                                      Radius.circular(20.0),
-                                                  topLeft:
-                                                      Radius.circular(20.0),
-                                                  bottomLeft:
-                                                      Radius.circular(20.0)),
-                                            ),
-                                            child: Text(
-                                              value1.name ?? '',
-                                              style: TextStyle(
-                                                  fontSize: 18.sp,
-                                                  color: AppColors.greyWhite,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
+                                        ),
+                                        InkWell(
+                                          onTap: () => setState(() {
+                                            id = value2.id.toString();
+                                            request = 'request';
+                                          }),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 3.w),
+                                                width: 30.w,
+                                                height: 10.h,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                    'assets/images/car.png',
+                                                  )),
+                                                  // color: AppColors.greyWhite1,
+                                                ),
+                                              ),
+                                              Text(
+                                                'EXECUTIVE',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              SizedBox(
+                                                height: 0.5.h,
+                                              ),
+                                              Text(
+                                                '6 Min away',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Text(
+                                                '\$2',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () => setState(() {
+                                            id = value3.id.toString();
+                                            request = 'request';
+                                          }),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 3.w),
+                                                width: 30.w,
+                                                height: 10.h,
+                                                decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                    'assets/images/car.png',
+                                                  )),
+                                                  // color: AppColors.greyWhite1,
+                                                ),
+                                              ),
+                                              Text(
+                                                'COPERATE',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              SizedBox(
+                                                height: 0.5.h,
+                                              ),
+                                              Text(
+                                                '6 Min away',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: 1.h,
+                                              ),
+                                              Text(
+                                                '\$2',
+                                                style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
                                         )
                                       ],
                                     ),
                                   );
                                 }),
-                            const SizedBox(
-                              height: 70,
+                            SizedBox(
+                              height: 20.h,
                             ),
                             InkWell(
-                              onTap: () {
-                                // requestRide(context);
-                              },
+                              onTap: () => updateStatus(
+                                  id: id, status: request, context: context),
                               child: Container(
                                 width: 200,
                                 height: 50,
@@ -328,7 +463,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   child: Text(
                                     'Select',
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
+                                        color: AppColors.white, fontSize: 16),
                                   ),
                                 ),
                               ),
@@ -357,9 +492,13 @@ class _SelectRideState extends StateMVC<SelectRide> {
         'status': status,
       };
 
-  updateStatus({String? id, String? status, String? token}) async {
+  updateStatus(
+      {String? id,
+      String? status,
+      String? token,
+      BuildContext? context}) async {
     String token = await getToken(id);
-    con.sendPushNot(token: token);
+    con.sendPushNot(token: token, context: context);
     up(path: id, status: status);
     saveRequestToDataBase(id, status);
   }

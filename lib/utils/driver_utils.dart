@@ -21,7 +21,6 @@ class DriversUtil {
         Map map = {"id": d.id, "distance": rounded, "name": d.name};
         mapList.add(map);
       }
-
       print('printing closest: $mapList');
       Map secondMap = mapList.reduce((value, element) =>
           value["distance"] < element["distance"] ? value : element);

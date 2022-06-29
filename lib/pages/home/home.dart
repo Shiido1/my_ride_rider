@@ -202,8 +202,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
 
                         if (place != null) {
                           setState(() {
-                            pickUpLocationAdd =
-                                place.description ?? _currentAddress;
+                            pickUpLocationAdd = place.description;
                             pickupController = TextEditingController(
                                 text: pickUpLocationAdd ?? _currentAddress);
                           });
@@ -250,6 +249,11 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           InkWell(
                             onTap: () {
                               setState(() {
+                                pickUpLat =
+                                    _currentPosition!.latitude.toString();
+                                pickUpLong =
+                                    _currentPosition!.longitude.toString();
+                                pickUpLocationAdd = _currentAddress;
                                 pickupController = TextEditingController(
                                     text: _currentAddress);
                               });

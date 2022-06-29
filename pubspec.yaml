@@ -64,7 +64,6 @@ dependencies:
   responsive_sizer: ^3.0.5+1
   sembast: ^3.2.0+1
   shared_preferences: ^2.0.15
-  table_calendar: ^2.2.3
   url_launcher: ^6.0.20
   uuid: ^3.0.6
 
@@ -96,6 +95,9 @@ flutter:
     - assets/images/profileavater.png
     - assets/images/Mastercard.png
     - assets/images/visa.png
+    - assets/images/car1.jpeg
+    - assets/images/car2.jpeg
+    - assets/images/car.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

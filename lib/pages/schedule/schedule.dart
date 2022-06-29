@@ -11,7 +11,6 @@ import 'package:my_ride/widget/text_form_field.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/session_manager.dart';
 import '../../models/global_model.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class SchedulePage extends StatefulWidget {
   SchedulePage({Key? key}) : super(key: key);
@@ -28,7 +27,6 @@ class _SchedulePageState extends State<SchedulePage> {
       TextEditingController(text: 'Enter pickup location');
   TextEditingController? dropController =
       TextEditingController(text: 'Enter Destination location');
-  CalendarController _calendarController = CalendarController();
   bool? isCalendar = false;
 
   @override
@@ -182,9 +180,8 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
                   Visibility(
                       visible: isCalendar!,
-                      child: TableCalendar(
-                        calendarController: _calendarController,
-                      )),
+                      child: Container()
+                      ),
                   SizedBox(
                     height: 3.h,
                   ),

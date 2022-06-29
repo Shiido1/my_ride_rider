@@ -11,6 +11,7 @@ import 'package:my_ride/utils/local_storage.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
+import '../widget/custom_waiting_widget.dart';
 
 class AuthController extends ControllerMVC with FlushBarMixin {
   BuildContext? context;
@@ -29,7 +30,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   String countryCode = "+234";
   String otpValue = "1234";
 
-  void sendPushNot({String? token}) async {
+  void sendPushNot({String? token,context}) async {
     setState(() {
       model.isLoading = true;
     });
@@ -38,8 +39,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.sendPushNot({
         "to": token,
         "notification": {
-          "title": "title",
-          "body": "body",
+          "title": "You'\ve just received a notification",
+          "body": "From ${SessionManager.instance.usersData["name"]} for a ride to $dropLocationAdd",
           "mutable_content": true,
           "sound": "Tri-tone"
         },
@@ -55,11 +56,12 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         print('print res $response');
-        debugPrint("response not null: $response");
-        {
-          LocalStorage().store("token", response['access_token']);
-        }
-        Routers.replaceAllWithName(state!.context, '/home');
+       showDialog(
+          context: context,
+          builder: (BuildContext cntxt) {
+            return const CustomRideDialog();
+            
+          });
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
