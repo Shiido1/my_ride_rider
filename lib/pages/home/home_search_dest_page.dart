@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -9,6 +10,7 @@ import 'package:my_ride/models/global_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
+import '../../constants/session_manager.dart';
 import '../../controllers/home_controller.dart';
 import '../../utils/router.dart';
 import '../../widget/text_form_field.dart';
@@ -72,13 +74,23 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                           ),
                         ],
                       ),
-                      const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.person,
-                          color: AppColors.primary,
+                      CircleAvatar(
+                        radius: 28,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const CircularProgressIndicator(),
                         ),
-                        radius: 20,
                       ),
                     ],
                   ),
@@ -104,25 +116,28 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                     ),
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      Text(
-                        "Change Location",
-                        style: TextStyle(
-                          fontSize: 19.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                  InkWell(
+                    onTap: () => Routers.replaceAllWithName(context, '/home'),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Change Location",
+                          style: TextStyle(
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 3.w,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 20.sp,
-                        color: Colors.white,
-                      )
-                    ],
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          size: 20.sp,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
+import '../utils/router.dart';
 
 class CustomRideDialog extends StatelessWidget {
   const CustomRideDialog({
@@ -57,12 +58,15 @@ class CustomRideDialog extends StatelessWidget {
               SizedBox(
                 height: 3.4.h,
               ),
-              Text(
-                "Cancel Request",
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.red),
+              InkWell(
+                onTap: () => Routers.replaceAllWithName(context, "/home"),
+                child: Text(
+                  "Cancel Request",
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.red),
+                ),
               ),
               SizedBox(
                 height: 2.h,
