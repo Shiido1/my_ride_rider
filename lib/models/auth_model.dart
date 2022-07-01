@@ -16,8 +16,6 @@ class AuthModel {
   final TextEditingController regConfirmPassController = TextEditingController();
   final TextEditingController regdeviceTypeController = TextEditingController();
 
-
-
   TextEditingController destinationController = TextEditingController(text: dropLocationAdd);
 
   TextEditingController pickupController = TextEditingController(text: pickUpLocationAdd);
@@ -30,8 +28,26 @@ class AuthModel {
 
  //otp
   final TextEditingController otpController = TextEditingController();
-
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
+
+
+
+  /// model for profile 
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController emailProfileController = TextEditingController();
+  final TextEditingController passwordProfileController = TextEditingController();
+  final TextEditingController phoneVersionController = TextEditingController();
+  final TextEditingController deviceTokenController = TextEditingController();
+  final TextEditingController countryCodeController = TextEditingController();
+  final TextEditingController confirmPassController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeyEdit = GlobalKey<FormState>();
+
+  bool isProfileLoading = false;
+  bool isEditable = false;
 }
 
 class LoginModel {

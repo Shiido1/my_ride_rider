@@ -36,7 +36,6 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
             height: Adaptive.h(100) - 100,
             child: DismissKeyboard(
               child: Form(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: con.model.insertPhoneFormKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -130,19 +129,6 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                                 Routers.pushNamed(context, '/otp_page');} */
                           ),
                         ),
-                        /*const SizedBox(height: 30),
-                        InkWell(
-                          onTap: () {
-                            Routers.pushNamed(context, "/contact_info");
-                          },
-                          child: Text(
-                            'Skip To Registration',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ),*/
                       ],
                     ),
                   ],

@@ -42,7 +42,6 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
           child: SizedBox(
             height: Adaptive.h(100) - 100,
             child: Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: con.model.otpFormKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,13 +57,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      /* TextFormField(
-                        focusNode: FocusNode(),
-                        keyboardType: TextInputType.number,
-                        validator: validateOTP,
-                        controller: con.model.otpController,
-                        decoration: Constants.defaultDecoration.copyWith(labelText: "otp"),
-                      ),*/
+                 
                       TextFormField(
                         validator: validateOTP_Test,
                         controller: con.model.otpController,

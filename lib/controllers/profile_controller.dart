@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/profile_model.dart';
+import 'package:my_ride/utils/users_dialog.dart';
 
 import '../constants/session_manager.dart';
 import '../repository/auth_repo.dart';
@@ -20,61 +21,55 @@ class ProfileController extends ControllerMVC with FlushBarMixin {
 
   final ProfileModel model;
   final AuthRepo authRepo = AuthRepo();
-
-  _formartFileImage(File? imageFile) {
-    if (imageFile == null) return;
-    return File(imageFile.path.replaceAll('\'', '').replaceAll('File: ', ''));
-  }
-
-  void getUserProfileData({File? image}) async {
-    setState(() {
-      model.isLoading = true;
-    });
-    try {
-      Map<String, dynamic>? response = await authRepo.profilePicture({
-        "profile_picture": MultipartFile.fromBytes(
-            _formartFileImage(image).readAsBytesSync(),
-            filename: image!.path.split("/").last)
-      });
-      debugPrint("RESPONSE: $response");
-      if (response != null && response.isNotEmpty) {
-        SessionManager.instance.usersProfileData = response["data"];
-        getUserData();
-        print(
-            'object printitng profileimage ${SessionManager.instance.usersProfileData["profile_picture"]}');
-      } else {
-        showErrorNotification(state!.context, response!["message"]);
-      }
-    } catch (e, str) {
-      debugPrint("Error: $e");
-      debugPrint("StackTrace: $str");
-    }
-    setState(() {
-      model.isLoading = false;
-    });
-  }
-
-  void getUserData() async {
-    setState(() {
-      model.isLoading = true;
-    });
-
-    try {
-      Map<String, dynamic>? response = await authRepo.getUserInfo();
-      debugPrint("RESPONSE: $response");
-      if (response != null && response.isNotEmpty) {
-        SessionManager.instance.usersData = response["data"];
-        print('print user res: $response');
-        // Routers.replaceAllWithName(state!.context, '/home');
-      } else {
-        showErrorNotification(state!.context, response!["message"]);
-      }
-    } catch (e, str) {
-      debugPrint("Error: $e");
-      debugPrint("StackTrace: $str");
-    }
-    setState(() {
-      model.isLoading = false;
-    });
-  }
 }
+//   final loadingKey = GlobalKey<FormState>();
+
+//   _formartFileImage(File? imageFile) {
+//     if (imageFile == null) return;
+//     return File(imageFile.path.replaceAll('\'', '').replaceAll('File: ', ''));
+//   }
+
+//   void getUserProfileData({File? image, BuildContext? context}) async {
+//     setState(() {
+//       model.isLoading = true;
+//     });
+//     try {
+//       UserDialog.showLoading(context!, loadingKey);
+//       Map<String, dynamic>? response = await authRepo.profilePicture({
+//         "profile_picture": MultipartFile.fromBytes(
+//             _formartFileImage(image).readAsBytesSync(),
+//             filename: image!.path.split("/").last)
+//       });
+//       debugPrint("RESPONSE: $response");
+//       if (response != null && response.isNotEmpty) {
+//         // SessionManager.instance.usersProfileData = response["data"];
+//         getUserData();
+//         UserDialog.hideLoading(loadingKey);
+//       } else {
+//         showErrorNotification(state!.context, response!["message"]);
+//       }
+//     } catch (e, str) {
+//       debugPrint("Error: $e");
+//       debugPrint("StackTrace: $str");
+//     }
+//     setState(() {
+//       model.isLoading = false;
+//     });
+//   }
+
+//   void getUserData() async {
+
+//     try {
+//       Map<String, dynamic>? response = await authRepo.getUserInfo();
+//       debugPrint("RESPONSE: $response");
+//       if (response != null && response.isNotEmpty) {
+//         SessionManager.instance.usersData = response["data"];
+//       } else {
+//         showErrorNotification(state!.context, response!["message"]);
+//       }
+//     } catch (e, str) {
+//       debugPrint("Error: $e");
+//       debugPrint("StackTrace: $str");
+//     }
+//   }
+// }

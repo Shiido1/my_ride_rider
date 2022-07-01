@@ -34,7 +34,6 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
           child: SizedBox(
             height: Adaptive.h(100) - 100,
             child: Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: con.model.loginFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +77,6 @@ class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
                           setState(() {
                             obscureValue = !obscureValue;
                           });
-                          print(obscureValue);
                         },
                         suffixIcon: obscureValue
                             ? Icons.visibility_off

@@ -7,13 +7,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/models/global_model.dart';
-import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/constants.dart';
 import '../../constants/session_manager.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
 import '../../utils/driver_utils.dart';
+import '../../utils/router.dart';
 import '../../widget/TextWidget.dart';
 
 class SelectRide extends StatefulWidget {
@@ -33,24 +33,27 @@ class _SelectRideState extends StateMVC<SelectRide> {
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
   Stream<DatabaseEvent>? stream;
   LatLng? _pickUpLocation;
-  final databaseReference = FirebaseDatabase.instance.ref();
-
   TextEditingController? pickupController =
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
-  String? id, request;
+
+  // dynamic userRes;
+  // dynamic driverRes;
 
   getUsers() async {
     stream = snapshot1.onValue;
     stream!.listen((event) {});
   }
 
+  
+
   @override
   void initState() {
     getUsers();
     _pickUpLocation =
         LatLng(double.parse(pickUpLat!), double.parse(pickUpLong!));
+   
     super.initState();
   }
 
@@ -449,7 +452,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   );
                                 }),
                             SizedBox(
-                              height: 20.h,
+                              height: 15.h,
                             ),
                             InkWell(
                               onTap: () => updateStatus(
@@ -513,7 +516,10 @@ class _SelectRideState extends StateMVC<SelectRide> {
   }
 
   Future saveRequestToDataBase(String? id, String? status) async {
-    databaseReference.child("UserRequest").set({
+    databaseReference
+        .child("users_request")
+        .child('${SessionManager.instance.usersData["id"]}')
+        .set({
       'pick_address': pickUpLocationAdd,
       'pick_lat': pickUpLat,
       'pick_lng': pickUpLong,
@@ -522,67 +528,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
       'drivers_id': id,
       'status': status,
       'drop_address': dropLocationAdd
-    });
-  }
-
-  void requestRide(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(0),
-          content: SizedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Connecting to Ride...',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: Adaptive.sp(21)),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const Center(
-                  child: SpinKitWave(
-                    color: AppColors.primary,
-                    size: 25.0,
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const Text(
-                  'Please wait....',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    Routers.replaceAllWithName(context, "/home");
-                  },
-                  child: const Text(
-                    'Cancel Request',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            width: Adaptive.w(80),
-            height: 400,
-          ),
-        );
-      },
-    );
-
-    Future.delayed(const Duration(seconds: 10), () {
-      Routers.pop(context);
-      Routers.pushNamed(context, "/order");
     });
   }
 }

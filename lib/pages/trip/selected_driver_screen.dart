@@ -163,7 +163,7 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
                         children: [
                           Container(
                             child: Row(children: [
-                              Container(decoration:BoxDecoration(border: Border())
+                              Container(decoration:const BoxDecoration(border: Border())
                           )],),
                             height: 10.5.h,
                             decoration: BoxDecoration(

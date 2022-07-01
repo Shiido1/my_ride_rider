@@ -6,12 +6,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../components/my_app_bar.dart';
 import '../../components/reg_model.dart';
 import '../../constants/colors.dart';
-import '../../controllers/profile_controller.dart';
+import '../../controllers/auth_controller.dart';
 import '../../partials/mixins/validations.dart';
-import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -20,25 +18,16 @@ class EditProfileScreen extends StatefulWidget {
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends StateMVC<EditProfileScreen> with ValidationMixin {
-  _EditProfileScreenState() : super(ProfileController()) {
-    con = controller as ProfileController;
+class _EditProfileScreenState extends StateMVC<EditProfileScreen>
+    with ValidationMixin {
+  _EditProfileScreenState() : super(AuthController()) {
+    con = controller as AuthController;
   }
 
-  late ProfileController con;
+  late AuthController con;
 
   final _pickImage = ImagePickerHandler();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   User user = context.read<AuthProvider>().user;
-
-  //   con.model.firstNameController.text = user.firstName ?? "";
-  //   con.model.lastNameController.text = user.lastName ?? "";
-  //   con.model.emailController.text = user.emailAdd ?? "";
-  //   con.model.phoneNumberController.text = user.phoneNum ?? "";
-  //   con.model.phoneVersionController.text = user.typeOfDevice ?? "";
   // }
 
   @override
@@ -62,7 +51,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
               ),
               const SizedBox(height: 20),
               Form(
-                key: con.model.formKey,
+                key: con.model.formKeyEdit,
                 child: Expanded(
                   child: ListView(
                     children: [
@@ -77,21 +66,24 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                                       ? CircleAvatar(
                                           radius: 40,
                                           child: CachedNetworkImage(
-                              imageUrl:
-                                  "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover),
-                                ),
-                              ),
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const CircularProgressIndicator(),
-                            ),
+                                            imageUrl:
+                                                "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            placeholder: (context, url) =>
+                                                const CircularProgressIndicator(),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                const CircularProgressIndicator(),
+                                          ),
                                         )
                                       : Center(
                                           child: Image.asset(
@@ -138,7 +130,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                               const SizedBox(
                                 width: 20,
                               ),
-                              Text('${SessionManager.instance.usersData["name"]}')
+                              Text(
+                                  '${SessionManager.instance.usersData["name"]}')
                             ],
                           ),
                           const Divider(
@@ -162,7 +155,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                               const SizedBox(
                                 width: 20,
                               ),
-                              Text('${SessionManager.instance.usersData["last_name"]}')
+                              Text(
+                                  '${SessionManager.instance.usersData["last_name"]}')
                             ],
                           ),
                           const Divider(
@@ -186,7 +180,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                               const SizedBox(
                                 width: 20,
                               ),
-                              Text('${SessionManager.instance.usersData["mobile"]}')
+                              Text(
+                                  '${SessionManager.instance.usersData["mobile"]}')
                             ],
                           ),
                           const Divider(
@@ -210,7 +205,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                               const SizedBox(
                                 width: 20,
                               ),
-                              Text('${SessionManager.instance.usersData["email"]}')
+                              Text(
+                                  '${SessionManager.instance.usersData["email"]}')
                             ],
                           ),
                           const Divider(
@@ -242,31 +238,6 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
                           )
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 40,
-                            right: Adaptive.w(15),
-                            left: Adaptive.w(15)),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Routers.pushNamed(context, '/add_card');
-                          },
-                          child: const Text("Continue"),
-                          style: ButtonStyle(
-                            minimumSize: MaterialStateProperty.all(
-                                const Size.fromHeight(50)),
-                            backgroundColor:
-                                MaterialStateProperty.all(AppColors.primary),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0))),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 40),
                     ],
                   ),
                 ),
@@ -285,7 +256,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen> with Validatio
           file: (file) {
             setState(() {
               profileImage = file;
-              con.getUserProfileData(image: profileImage);
+              con.getUserProfileData(image: profileImage, context: context);
             });
           });
     } catch (e) {}

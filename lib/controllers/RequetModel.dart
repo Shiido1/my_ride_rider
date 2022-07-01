@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
-String? pickUpLocation;
-String? DestinationLocation;
+// String? pickUpLocation;
+// String? DestinationLocation;

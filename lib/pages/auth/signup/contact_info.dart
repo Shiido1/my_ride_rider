@@ -37,7 +37,6 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
         child: SizedBox(
           height: Adaptive.h(100) - 100,
           child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: con.model.regFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

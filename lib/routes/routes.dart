@@ -20,52 +20,57 @@ import 'package:my_ride/pages/trip/confirm_order.dart';
 import 'package:my_ride/widget/order.dart';
 import 'package:my_ride/pages/trip/select_ride.dart';
 
+import '../pages/trip/selected_driver_screen.dart';
+
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/phone_page':
-      return MaterialPageRoute(builder: (_) =>  PhoneNumberPage());
+      return MaterialPageRoute(builder: (_) => PhoneNumberPage());
     case '/otp_page':
-      return MaterialPageRoute(builder: (_) =>  OTPPage());
+      return MaterialPageRoute(builder: (_) => OTPPage());
     case '/contact_info':
-      return MaterialPageRoute(builder: (_) =>  ContactInfoPage());
+      return MaterialPageRoute(builder: (_) => ContactInfoPage());
     case '/signin':
-      return MaterialPageRoute(builder: (_) =>  SigninPage());
+      return MaterialPageRoute(builder: (_) => SigninPage());
     case '/home':
-      return MaterialPageRoute(builder: (_) =>  HomePage());
+      return MaterialPageRoute(builder: (_) => HomePage());
     case '/profile':
-      return MaterialPageRoute(builder: (_) =>  ProfilePage());
+      return MaterialPageRoute(builder: (_) => ProfilePage());
     case '/select_ride':
-      return MaterialPageRoute(builder: (_) =>  SelectRide());
+      return MaterialPageRoute(builder: (_) => SelectRide());
     // case '/locationPage':
     //   return MaterialPageRoute(builder: (_) =>  LocationPage());
     case '/order':
-      return MaterialPageRoute(builder: (_) =>  Order());
+      return MaterialPageRoute(builder: (_) => Order());
     case '/confirm_order':
-      return MaterialPageRoute(builder: (_) =>  ConfirmOrder());
+      return MaterialPageRoute(builder: (_) => ConfirmOrder());
     case '/payment':
-      return MaterialPageRoute(builder: (_) =>  PaymentPage());
+      return MaterialPageRoute(builder: (_) => PaymentPage());
     case '/trip_stated':
-      return MaterialPageRoute(builder: (_) =>  TripStarted());
+      return MaterialPageRoute(builder: (_) => TripStarted());
     case '/rate_driver':
-      return MaterialPageRoute(builder: (_) =>  RateDriver());
+      return MaterialPageRoute(builder: (_) => RateDriver());
     case '/schedule_page':
-      return MaterialPageRoute(builder: (_) =>  SchedulePage());
+      return MaterialPageRoute(builder: (_) => SchedulePage());
 
     case '/card_payment':
-      return MaterialPageRoute(builder: (_) =>  CardPayment());
+      return MaterialPageRoute(builder: (_) => CardPayment());
     case '/reg_success':
-      return MaterialPageRoute(builder: (_) =>  RegistrationSuccess());
+      return MaterialPageRoute(builder: (_) => RegistrationSuccess());
     case '/home_search_dest':
-      return MaterialPageRoute(builder: (_) =>  HomeSearchDestination());
+      return MaterialPageRoute(builder: (_) => HomeSearchDestination());
 
     case '/google_map_page':
-      return MaterialPageRoute(builder: (_) =>  GoogleMapPage());
+      return MaterialPageRoute(builder: (_) => GoogleMapPage());
 
     case '/add_card':
-      return MaterialPageRoute(builder: (_) =>  AddCard());
+      return MaterialPageRoute(builder: (_) => AddCard());
 
     case '/edit_profile':
-      return MaterialPageRoute(builder: (_) =>  EditProfileScreen());
+      return MaterialPageRoute(builder: (_) => EditProfileScreen());
+
+    case '/select_driver_screen':
+      return MaterialPageRoute(builder: (_) => SelectedDriverScreen());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

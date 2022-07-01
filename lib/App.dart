@@ -92,12 +92,12 @@ class App extends StatelessWidget {
 
       try {
         dynamic _userid = await LocalStorage().fetch("userid");
-        accessToken = await (LocalStorage().fetch("token")) ?? "";
+        accessToken = SessionManager.instance.authToken;
 
         if (_userid != null) {
-          user = User.fromJson(Map<String, dynamic>.from(_userid));
-          context.read<AuthProvider>().user =
-              Map<String, dynamic>.from(_userid);
+          // user = User.fromJson(Map<String, dynamic>.from(_userid));
+          // context.read<AuthProvider>().user =
+          //     Map<String, dynamic>.from(_userid);
         }
       } catch (e, str) {
         debugPrint("$e");
