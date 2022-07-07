@@ -25,9 +25,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   static AuthController? _this;
 
   final AuthModel model;
-  // var userDBReference = databaseReference
-  //     .child("users_request")
-  //     .child('${SessionManager.instance.usersData["id"]}');
 
   final AuthRepo authRepo = AuthRepo();
   String deviceToken = "DeviceTokin";
@@ -65,11 +62,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
             builder: (BuildContext cntxt) {
               return const CustomRideDialog();
             });
-        listenToRequestEvent(context);
+        
       }
-      // if(userRes["status"]=='Accepted' && driverRes["Accepted"]){
-      //     Routers.pushNamed(context, '/select_driver_screen');
-      //   }
       else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -80,24 +74,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     setState(() {
       model.isLoading = false;
     });
-  }
-
-  listenToRequestEvent(context) {
-    Map<String, dynamic>? driverRes;
-    Map<String, dynamic>? userRes;
-    // userDBReference.onValue.listen((event) {
-    //   userRes = Map<String, dynamic>.from(event.snapshot.value as Map);
-    // });
-
-    databaseReference.child("drivers").child('83').onValue.listen((event) {
-      print('print event to listen ${event.snapshot.value}');
-
-      driverRes = Map<String, dynamic>.from(event.snapshot.value as Map);
-      print("print status${driverRes!['status']}");
-    });
-    if (driverRes != null) {
-      Routers.pushNamed(context, '/select_driver_screen');
-    }
   }
 
   void signIn() async {
@@ -140,7 +116,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
-        print('print user res: $response');
         Routers.replaceAllWithName(state!.context, '/home');
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -164,8 +139,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
-        print('print user res: $response');
-        // Routers.replaceAllWithName(state!.context, '/home');
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -294,7 +267,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       });
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
-        // SessionManager.instance.usersProfileData = response["data"];
         getUserData();
         UserDialog.hideLoading(loadingKey);
       } else {

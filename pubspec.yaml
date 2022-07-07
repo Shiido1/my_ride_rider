@@ -98,6 +98,7 @@ flutter:
     - assets/images/car1.jpeg
     - assets/images/car2.jpeg
     - assets/images/car.png
+    - assets/images/mapimgg.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

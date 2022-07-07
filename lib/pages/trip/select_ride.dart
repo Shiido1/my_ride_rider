@@ -7,13 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/pages/trip/selected_driver_screen.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/constants.dart';
 import '../../constants/session_manager.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
 import '../../utils/driver_utils.dart';
-import '../../utils/router.dart';
 import '../../widget/TextWidget.dart';
 
 class SelectRide extends StatefulWidget {
@@ -31,6 +32,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
   late AuthController con;
 
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
+  DatabaseReference userDBReference =
+      FirebaseDatabase.instance.ref('users_request');
   Stream<DatabaseEvent>? stream;
   LatLng? _pickUpLocation;
   TextEditingController? pickupController =
@@ -38,22 +41,16 @@ class _SelectRideState extends StateMVC<SelectRide> {
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
 
-  // dynamic userRes;
-  // dynamic driverRes;
-
   getUsers() async {
     stream = snapshot1.onValue;
     stream!.listen((event) {});
   }
-
-  
 
   @override
   void initState() {
     getUsers();
     _pickUpLocation =
         LatLng(double.parse(pickUpLat!), double.parse(pickUpLong!));
-   
     super.initState();
   }
 
@@ -69,6 +66,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 6.h),
+                Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () => Navigator.pop(context),
+                    )),
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
@@ -202,9 +205,11 @@ class _SelectRideState extends StateMVC<SelectRide> {
                           Container(
                             child: const TextWidget(),
                             height: 10.5.h,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(30),
+                                    topLeft: Radius.circular(30))),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10.w),
@@ -224,7 +229,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(30))),
+                                      top: Radius.circular(25))),
                             ),
                           ),
                         ],
@@ -284,7 +289,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               element.vehicleTypeName ==
                                                   "Coperate")
                                           .toList());
-
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     physics:
@@ -414,7 +418,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                       image: AssetImage(
                                                     'assets/images/car.png',
                                                   )),
-                                                  // color: AppColors.greyWhite1,
                                                 ),
                                               ),
                                               Text(
@@ -504,6 +507,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
     con.sendPushNot(token: token, context: context);
     up(path: id, status: status);
     saveRequestToDataBase(id, status);
+    listenToRequestEvent(context);
   }
 
   Future<String> getToken(id) async {
@@ -528,6 +532,36 @@ class _SelectRideState extends StateMVC<SelectRide> {
       'drivers_id': id,
       'status': status,
       'drop_address': dropLocationAdd
+    });
+  }
+
+  listenToRequestEvent(context) {
+    Map<String, dynamic>? driverRes;
+    Map<String, dynamic>? userRes;
+    userDBReference
+        .child(SessionManager.instance.usersData["id"].toString())
+        .onValue
+        .listen((event) {
+      userRes = Map<String, dynamic>.from(event.snapshot.value as Map);
+    });
+    databaseReference.child("drivers").child(id!).onValue.listen((event) {
+      driverRes = Map<String, dynamic>.from(event.snapshot.value as Map);
+      if (driverRes?['status'] == "Accepted") {
+        // Routers.pushNamed(context, '/select_driver_screen');
+        driverFname = driverRes?['name'];
+        driverLname = driverRes?['name'];
+        vehicleNumber = driverRes?['vehicle_number'];
+        vehicleColor = driverRes?['vehicle_color'];
+        vehicleName = driverRes?['vehicle_make'];
+        Routers.replace(
+            context,
+            SelectedDriverScreen(
+                fname: driverFname!,
+                lname: driverLname!,
+                color: vehicleColor!,
+                plateNo: vehicleNumber!,
+                carname: vehicleName!));
+      }
     });
   }
 }

@@ -11,6 +11,7 @@ String? dropLong;
 String? userImage;
 String? userFbToken;
 String? id, request,driverRequestID;
+String? driverFname, driverLname,vehicleNumber,vehicleColor,vehicleName;
 
 String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
 final databaseReference = FirebaseDatabase.instance.ref();

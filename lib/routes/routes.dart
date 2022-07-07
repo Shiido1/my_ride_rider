@@ -20,7 +20,6 @@ import 'package:my_ride/pages/trip/confirm_order.dart';
 import 'package:my_ride/widget/order.dart';
 import 'package:my_ride/pages/trip/select_ride.dart';
 
-import '../pages/trip/selected_driver_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -41,36 +40,36 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     // case '/locationPage':
     //   return MaterialPageRoute(builder: (_) =>  LocationPage());
     case '/order':
-      return MaterialPageRoute(builder: (_) => Order());
+      return MaterialPageRoute(builder: (_) => const Order());
     case '/confirm_order':
-      return MaterialPageRoute(builder: (_) => ConfirmOrder());
+      return MaterialPageRoute(builder: (_) => const ConfirmOrder());
     case '/payment':
       return MaterialPageRoute(builder: (_) => PaymentPage());
     case '/trip_stated':
-      return MaterialPageRoute(builder: (_) => TripStarted());
+      return MaterialPageRoute(builder: (_) => const TripStarted());
     case '/rate_driver':
-      return MaterialPageRoute(builder: (_) => RateDriver());
+      return MaterialPageRoute(builder: (_) => const RateDriver());
     case '/schedule_page':
       return MaterialPageRoute(builder: (_) => SchedulePage());
 
     case '/card_payment':
-      return MaterialPageRoute(builder: (_) => CardPayment());
+      return MaterialPageRoute(builder: (_) => const CardPayment());
     case '/reg_success':
-      return MaterialPageRoute(builder: (_) => RegistrationSuccess());
+      return MaterialPageRoute(builder: (_) => const RegistrationSuccess());
     case '/home_search_dest':
-      return MaterialPageRoute(builder: (_) => HomeSearchDestination());
+      return MaterialPageRoute(builder: (_) => const HomeSearchDestination());
 
     case '/google_map_page':
-      return MaterialPageRoute(builder: (_) => GoogleMapPage());
+      return MaterialPageRoute(builder: (_) => const GoogleMapPage());
 
     case '/add_card':
-      return MaterialPageRoute(builder: (_) => AddCard());
+      return MaterialPageRoute(builder: (_) => const AddCard());
 
     case '/edit_profile':
-      return MaterialPageRoute(builder: (_) => EditProfileScreen());
+      return MaterialPageRoute(builder: (_) => const EditProfileScreen());
 
-    case '/select_driver_screen':
-      return MaterialPageRoute(builder: (_) => SelectedDriverScreen());
+    // case '/select_driver_screen':
+    //   return MaterialPageRoute(builder: (_) => SelectedDriverScreen());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TextWidget extends StatelessWidget {
   const TextWidget({Key? key}) : super(key: key);
@@ -10,12 +11,11 @@ class TextWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('Select Ride',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 13
-          ),),
+          padding: EdgeInsets.all(4.w),
+          child: Text(
+            'Select Ride',
+            style: TextStyle(color: Colors.white, fontSize: 15.5.sp),
+          ),
         )
       ],
     );
