@@ -33,6 +33,7 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +174,7 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
                   Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(bottom: 6.w),
+                        padding: EdgeInsets.only(bottom: 8.w),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

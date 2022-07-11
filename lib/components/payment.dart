@@ -1,11 +1,11 @@
-import 'dart:ui';
+// ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class PaymentDialog extends StatelessWidget {
-  const PaymentDialog({Key? key}) : super(key: key);
+  PaymentDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class PaymentDialog extends StatelessWidget {
         child: Container(
             height: 700,
             width: 380,
-            decoration: BoxDecoration(),
+            decoration: const BoxDecoration(),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 80, 10, 80),
               child: Column(
@@ -22,7 +22,7 @@ class PaymentDialog extends StatelessWidget {
                   Icon(
                     Icons.done_rounded,
                     color: Colors.green,
-                    size: 80,
+                    size: 80.sp,
                   ),
                   Text(
                     'Payment Successful',

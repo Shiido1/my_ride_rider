@@ -55,7 +55,6 @@ class AuthRepo with Services {
         await apiPostRequests("user/register/validate-otp", credentials);
 
     if (response != null) {
-      print(response);
       return response;
     }
 
@@ -79,7 +78,6 @@ class AuthRepo with Services {
         await apiUploadPostRequests("user/update-profile-picture", credentials);
 
     if (response != null) {
-      print(response);
       return response;
     }
 

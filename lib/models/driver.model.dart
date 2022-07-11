@@ -47,7 +47,7 @@ class DriversInformations {
   final int? isActive;
   final int? isAvailable;
   final int? isApproved;
-  final List<String>? location;
+  final List<dynamic>? location;
   final String? status;
   final String? token;
   final String? mobile;
@@ -98,7 +98,7 @@ class DriversInformations {
       isApproved: map['is_approved']?.toInt(),
       isAvailable: map['is_available']?.toInt(),
       location:
-          map['location'] != null ? List<String>.from(map['location']) : [],
+          map['location'] != null ? List<dynamic>.from(map['location']) : [],
       mobile: map['mobile'],
       name: map['name'],
       status: map['status'],

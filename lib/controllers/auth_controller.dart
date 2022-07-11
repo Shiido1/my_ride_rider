@@ -47,6 +47,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "sound": "Tri-tone"
         },
         "data": {
+          "id":SessionManager.instance.usersData["id"],
           "first_name": SessionManager.instance.usersData["name"],
           "last_name": SessionManager.instance.usersData["last_name"],
           "pick_location": pickUpLocationAdd,

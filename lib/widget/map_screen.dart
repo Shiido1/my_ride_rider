@@ -1,22 +1,24 @@
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/utils/users_dialog.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
 import '../constants/constants.dart';
 import '../constants/session_manager.dart';
+import 'custom_waiting_widget.dart';
 
 class MapScreen extends StatefulWidget {
-  // final String image;
   final String fname;
   final String lname;
   final String pickLocation;
   final String dropLocation;
   const MapScreen({
     Key? key,
-    // required this.image,
     required this.fname,
     required this.lname,
     required this.pickLocation,
@@ -28,6 +30,15 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => UserDialog.showSnackBar(
+        context,
+        'You\'ll receive a pop up dialog notification when driver arrives pickup location, Please don\'t leave this screen'));
+    arrivalStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -301,7 +312,7 @@ class _MapScreenState extends State<MapScreen> {
                                 height: 1.h,
                               ),
                               TextView(
-                                text: vehicleName!,
+                                text: vehicleName ?? '',
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -383,5 +394,46 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
     );
+  }
+
+  final _streamUser = databaseReference.child("users_request");
+  // DatabaseReference userDBReference =
+  //     FirebaseDatabase.instance.ref('users_request');
+
+  Future arrivalStatus() async {
+    Map<String, dynamic>? usersRes;
+    StreamSubscription<DatabaseEvent>? _counterSubscription;
+    // DatabaseEvent dataEvent = await userDBReference
+    //     .child(SessionManager.instance.usersData["id"])
+    //     .once();
+
+    _streamUser
+        .child('${SessionManager.instance.usersData["id"]}')
+        .onChildChanged
+        .listen((event) {
+      usersRes = Map<String, dynamic>.from(event.snapshot.value as Map);
+      print(usersRes!['arrive_pick_up']);
+      print(event.snapshot.value.toString());
+      if (event.snapshot.value.toString() == 'Arrived') {
+        // Container(
+        //   height: 100,
+        //   width: 100,
+        //   color: AppColors.white,
+        //   child: Column(
+        //     children: [
+        //       TextView(text: pickUpLocationAdd ?? ''),
+        //       TextView(text: vehicleName ?? ''),
+        //       TextView(text: vehicleColor ?? ''),
+        //       TextView(text: vehicleNumber ?? ''),
+        //     ],
+        //   ),
+        // );
+        showDialog(
+            context: context,
+            builder: (BuildContext cntxt) {
+              return const CustomRideDialog();
+            });
+      }
+    });
   }
 }

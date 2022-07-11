@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
@@ -38,9 +39,13 @@ class UserDialog {
     bool error = false,
   }) {
     final snackBar = SnackBar(
-      content: Text(message),
+      content: TextView(
+        text: message,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
+      ),
       backgroundColor: !error ? AppColors.primary : Colors.red,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 10),
       action: SnackBarAction(
         label: 'CLOSE',
         onPressed: () {

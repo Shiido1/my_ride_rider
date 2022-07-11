@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 mixin ValidationMixin {
   String? validateShopNo(String? value) {
     if (value!.trim().isEmpty) return 'Shop number cannot be empty';
@@ -281,8 +283,9 @@ mixin ValidationMixin {
   }
 
   String? validatesIntPassport(String? value) {
-    if (value!.trim().isEmpty)
+    if (value!.trim().isEmpty) {
       return "International Passport Number cannot be empty";
+    }
 
     return null;
   }
@@ -358,16 +361,18 @@ mixin ValidationMixin {
   ///Signages
   String? validateSignageAddressDesc(String? value) {
     if (value!.trim().isEmpty) return 'Signage address cannot be empty';
-    if (value.trim().length < 10)
+    if (value.trim().length < 10) {
       return 'Detailed signage address desc required';
+    }
 
     return null;
   }
 
   String? validateSignageAddressDescOptional(String? value) {
     if (value!.trim().isEmpty) return null;
-    if (value.trim().length < 10)
+    if (value.trim().length < 10) {
       return 'Detailed signage address desc required';
+    }
 
     return null;
   }

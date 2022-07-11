@@ -13,8 +13,8 @@ class DriversUtil {
         double distanceInMeters = getDistanceFromLatLonInKm(
             pickUpLoc.latitude,
             pickUpLoc.longitude,
-            double.parse(d.location![0]),
-            double.parse(d.location![1]));
+            double.parse(d.location![0].toString()),
+            double.parse(d.location![1].toString()));
 
         final rounded = dp(distanceInMeters, 5);
         // map[d.name] = rounded;

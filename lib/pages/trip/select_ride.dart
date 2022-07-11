@@ -16,6 +16,7 @@ import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
 import '../../utils/driver_utils.dart';
 import '../../widget/TextWidget.dart';
+import '../../widget/text_widget.dart';
 
 class SelectRide extends StatefulWidget {
   SelectRide({Key? key}) : super(key: key);
@@ -32,14 +33,16 @@ class _SelectRideState extends StateMVC<SelectRide> {
   late AuthController con;
 
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
-  DatabaseReference userDBReference =
-      FirebaseDatabase.instance.ref('users_request');
+  final _stream = databaseReference.child("drivers");
   Stream<DatabaseEvent>? stream;
   LatLng? _pickUpLocation;
   TextEditingController? pickupController =
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
+  bool? isSelectClassic;
+  bool? isSelectExecutive;
+  bool? isSelectCoperate;
 
   getUsers() async {
     stream = snapshot1.onValue;
@@ -48,9 +51,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
 
   @override
   void initState() {
+    isSelectClassic = false;
+    isSelectExecutive = false;
+    isSelectCoperate = false;
     getUsers();
-    _pickUpLocation =
-        LatLng(double.parse(pickUpLat!), double.parse(pickUpLong!));
+    _pickUpLocation = LatLng(double.parse(pickUpLat!.toString()),
+        double.parse(pickUpLong!.toString()));
     super.initState();
   }
 
@@ -299,6 +305,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                           onTap: () => setState(() {
                                             id = value1.id.toString();
                                             request = 'request';
+                                            isSelectClassic = true;
+                                            isSelectExecutive = false;
+                                            isSelectCoperate = false;
                                           }),
                                           child: Column(
                                             mainAxisAlignment:
@@ -309,12 +318,14 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     EdgeInsets.only(right: 3.w),
                                                 width: 30.w,
                                                 height: 10.h,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
+                                                decoration: BoxDecoration(
+                                                  image: const DecorationImage(
                                                       image: AssetImage(
                                                     'assets/images/car.png',
                                                   )),
-                                                  // color: AppColors.greyWhite1,
+                                                  color: !isSelectClassic!
+                                                      ? AppColors.transparent
+                                                      : AppColors.greyWhite1,
                                                 ),
                                               ),
                                               Text(
@@ -351,6 +362,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                           onTap: () => setState(() {
                                             id = value2.id.toString();
                                             request = 'request';
+                                            isSelectExecutive = true;
+                                            isSelectClassic = false;
+                                            isSelectCoperate = false;
                                           }),
                                           child: Column(
                                             mainAxisAlignment:
@@ -361,12 +375,14 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     EdgeInsets.only(right: 3.w),
                                                 width: 30.w,
                                                 height: 10.h,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
+                                                decoration: BoxDecoration(
+                                                  image: const DecorationImage(
                                                       image: AssetImage(
                                                     'assets/images/car.png',
                                                   )),
-                                                  // color: AppColors.greyWhite1,
+                                                  color: !isSelectExecutive!
+                                                      ? AppColors.transparent
+                                                      : AppColors.greyWhite1,
                                                 ),
                                               ),
                                               Text(
@@ -403,6 +419,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                           onTap: () => setState(() {
                                             id = value3.id.toString();
                                             request = 'request';
+                                            isSelectCoperate = true;
+                                            isSelectClassic = false;
+                                            isSelectExecutive = false;
                                           }),
                                           child: Column(
                                             mainAxisAlignment:
@@ -413,11 +432,14 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     EdgeInsets.only(right: 3.w),
                                                 width: 30.w,
                                                 height: 10.h,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
+                                                decoration: BoxDecoration(
+                                                  image: const DecorationImage(
                                                       image: AssetImage(
                                                     'assets/images/car.png',
                                                   )),
+                                                  color: !isSelectCoperate!
+                                                      ? AppColors.transparent
+                                                      : AppColors.greyWhite1,
                                                 ),
                                               ),
                                               Text(
@@ -465,11 +487,16 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                 height: 50,
                                 decoration: const BoxDecoration(
                                     color: AppColors.primary),
-                                child: const Center(
-                                  child: Text(
-                                    'Select',
-                                    style: TextStyle(
-                                        color: AppColors.white, fontSize: 16),
+                                child: Center(
+                                  child: TextView(
+                                    text: isSelectClassic! ||
+                                            isSelectExecutive! ||
+                                            isSelectCoperate! == true
+                                        ? 'Request ride'
+                                        : 'Select',
+                                    color: AppColors.white,
+                                    fontSize: 17.sp,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
@@ -531,23 +558,23 @@ class _SelectRideState extends StateMVC<SelectRide> {
       'drop_lat': dropLat,
       'drivers_id': id,
       'status': status,
-      'drop_address': dropLocationAdd
+      'drop_address': dropLocationAdd,
+      'mobile': SessionManager.instance.usersData["mobile"],
+      'arrive_pick_up': 'not yet',
+      'arrive_drop': 'not yet',
     });
   }
 
-  listenToRequestEvent(context) {
+  listenToRequestEvent(context) async {
     Map<String, dynamic>? driverRes;
-    Map<String, dynamic>? userRes;
-    userDBReference
-        .child(SessionManager.instance.usersData["id"].toString())
-        .onValue
-        .listen((event) {
-      userRes = Map<String, dynamic>.from(event.snapshot.value as Map);
-    });
-    databaseReference.child("drivers").child(id!).onValue.listen((event) {
-      driverRes = Map<String, dynamic>.from(event.snapshot.value as Map);
-      if (driverRes?['status'] == "Accepted") {
-        // Routers.pushNamed(context, '/select_driver_screen');
+    StreamSubscription<DatabaseEvent>? _counterSubscription;
+    DatabaseEvent dataEvent =
+        await databaseReference.child("drivers").child(id!).once();
+    driverRes = Map<String, dynamic>.from(dataEvent.snapshot.value as Map);
+
+    _counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
+      print(event.snapshot.value.toString());
+      if (event.snapshot.value.toString() == 'Accepted') {
         driverFname = driverRes?['name'];
         driverLname = driverRes?['name'];
         vehicleNumber = driverRes?['vehicle_number'];
@@ -556,11 +583,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
         Routers.replace(
             context,
             SelectedDriverScreen(
-                fname: driverFname!,
-                lname: driverLname!,
-                color: vehicleColor!,
-                plateNo: vehicleNumber!,
-                carname: vehicleName!));
+                fname: driverFname ?? '',
+                lname: driverLname ?? '',
+                color: vehicleColor ?? '',
+                plateNo: vehicleNumber ?? '',
+                carname: vehicleName ?? ''));
+        _counterSubscription?.cancel();
       }
     });
   }
