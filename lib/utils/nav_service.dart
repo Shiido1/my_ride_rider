@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/states/auth_state.dart';
-import 'package:my_ride/utils/local_storage.dart';
 import 'package:provider/provider.dart';
 
 class NavigationService {
@@ -10,19 +10,21 @@ class NavigationService {
   }
 
   Future<dynamic> logOut() async {
-    LocalStorage _appLocalStorage = LocalStorage();
-    AuthProvider authProvider = Provider.of<AuthProvider>(navigatorKey.currentContext!, listen: false);
+    // LocalStorage _appLocalStorage = LocalStorage();
+    await SessionManager.instance.logOut();
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(navigatorKey.currentContext!, listen: false);
 
     authProvider.token = "";
-    await _appLocalStorage.store("access_token", "");
+    // await _appLocalStorage.store("access_token", "");
 
-    return navigatorKey.currentState!.pushNamedAndRemoveUntil("/signin", (Route r) => r == null);
+    return navigatorKey.currentState!
+        .pushNamedAndRemoveUntil("/signin", (Route r) => r == null);
   }
 
   goBack() {
     return navigatorKey.currentState!.pop();
   }
-
 
   BuildContext? getAppContext() {
     return navigatorKey.currentContext;

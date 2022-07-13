@@ -251,6 +251,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   flutter_riverpod:
     dependency: transitive
     description:
@@ -402,7 +409,7 @@ packages:
     source: hosted
     version: "2.2.2"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -772,13 +779,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.26.0"
-  sembast:
-    dependency: "direct main"
-    description:
-      name: sembast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.0+1"
   shared_preferences:
     dependency: "direct main"
     description:

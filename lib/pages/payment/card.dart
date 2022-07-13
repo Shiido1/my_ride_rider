@@ -249,7 +249,7 @@ class CardPayment extends StatelessWidget {
                     ),
                     Center(
                       child: InkWell(
-                        onTap: () =>Routers.replace(context, MapScreen(fname: driverFname!, lname: driverLname!, pickLocation: pickUpLocationAdd!, dropLocation: dropLocationAdd!)),
+                        onTap: () =>Routers.replace(context, MapScreen(fname: driverFname!, pickLocation: pickUpLocationAdd!, dropLocation: dropLocationAdd!)),
                         child: Container(
                           width: 220,
                           height: 50,

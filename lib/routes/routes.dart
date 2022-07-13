@@ -15,6 +15,7 @@ import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
 import 'package:my_ride/pages/schedule/schedule.dart';
 import 'package:my_ride/pages/trip/rate_driver.dart';
 import 'package:my_ride/widget/order.dart';
+import 'package:my_ride/widget/rate_screen.dart';
 
 import '../pages/trip/select_ride.dart';
 
@@ -59,6 +60,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case '/edit_profile':
       return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+
+    case '/ratings':
+      return MaterialPageRoute(builder: (_) => const RateScreen());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

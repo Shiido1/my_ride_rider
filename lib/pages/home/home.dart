@@ -32,7 +32,6 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   }
 
   late HomeController con;
-  // int _selectedIndex = 0;
 
   final databaseReference = FirebaseDatabase.instance.ref();
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -46,8 +45,6 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   String? _currentAddress = '';
 
   _getCurrentLocation() async {
-    LocationPermission permission;
-    permission = await Geolocator.requestPermission();
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
@@ -56,7 +53,6 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
         _currentPosition = position;
         _getAddressFromLatLng();
       });
-      print('print location $_currentAddress');
     }).catchError((e) {
       print(e);
     });
@@ -116,15 +112,18 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                             Text(
                               'Nearest ride is',
                               style: TextStyle(
-                                fontSize: 16.sp,
+                                fontSize: 16.5.sp,
                                 color: Colors.white,
                               ),
                             ),
+                            SizedBox(
+                              height: 0.2.h,
+                            ),
                             Text(
-                              '7min away',
+                              'minutes away',
                               style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14.5.sp,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
                             ),
@@ -569,6 +568,4 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
       ],
     );
   }
-
-  
 }

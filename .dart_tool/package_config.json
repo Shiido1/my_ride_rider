@@ -218,6 +218,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_rating_bar",
+      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "flutter_riverpod",
       "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4",
       "packageUri": "lib/",
@@ -668,12 +674,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "sembast",
-      "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/sembast-3.2.0+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.16"
-    },
-    {
       "name": "shared_preferences",
       "rootUri": "file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.15",
       "packageUri": "lib/",
@@ -914,7 +914,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-07-07T16:11:55.271365Z",
+  "generated": "2022-07-13T11:59:22.839925Z",
   "generator": "pub",
   "generatorVersion": "2.17.1"
 }

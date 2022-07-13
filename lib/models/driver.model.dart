@@ -56,6 +56,7 @@ class DriversInformations {
   final String? vehicleNumber;
   final String? vehicleType;
   final String? vehicleTypeName;
+  final String? address;
 
   DriversInformations({
     this.id,
@@ -71,6 +72,7 @@ class DriversInformations {
     this.vehicleNumber,
     this.vehicleType,
     this.vehicleTypeName,
+    this.address,
   });
 
   Map<dynamic, dynamic> toMap() {
@@ -88,6 +90,7 @@ class DriversInformations {
       'vehicle_number': vehicleNumber,
       'vehicle_type': vehicleType,
       'vehicle_type_name': vehicleTypeName,
+      'address': address,
     };
   }
 
@@ -107,6 +110,7 @@ class DriversInformations {
       vehicleNumber: map['vehicle_number'],
       vehicleType: map['vehicle_type'],
       vehicleTypeName: map['vehicle_type_name'],
+      address: map['address'],
     );
   }
 
@@ -117,7 +121,7 @@ class DriversInformations {
 
   @override
   String toString() {
-    return 'DriversInformations(id: $id, is_active: $isActive, is_approved: $isApproved, is_available: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updated_at: $updatedAt, vehicle_number: $vehicleNumber, vehicle_type: $vehicleType, vehicle_type_name: $vehicleTypeName)';
+    return 'DriversInformations(id: $id, is_active: $isActive, is_approved: $isApproved, is_available: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updated_at: $updatedAt, vehicle_number: $vehicleNumber, vehicle_type: $vehicleType, vehicle_type_name: $vehicleTypeName,address: $address)';
   }
 
   @override
@@ -137,7 +141,8 @@ class DriversInformations {
         other.updatedAt == updatedAt &&
         other.vehicleNumber == vehicleNumber &&
         other.vehicleType == vehicleType &&
-        other.vehicleTypeName == vehicleTypeName;
+        other.vehicleTypeName == vehicleTypeName &&
+        other.address == address;
   }
 
   @override
@@ -154,6 +159,7 @@ class DriversInformations {
         updatedAt.hashCode ^
         vehicleNumber.hashCode ^
         vehicleType.hashCode ^
+        address.hashCode ^
         vehicleTypeName.hashCode;
   }
 }

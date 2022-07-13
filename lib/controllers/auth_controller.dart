@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -11,6 +12,8 @@ import 'package:my_ride/utils/local_storage.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
+import '../utils/api_call.dart';
+import '../utils/driver_utils.dart';
 import '../utils/users_dialog.dart';
 import '../widget/custom_waiting_widget.dart';
 
@@ -30,6 +33,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   String deviceToken = "DeviceTokin";
   String countryCode = "+234";
   String otpValue = "1234";
+  dynamic timeResponse;
 
   void sendPushNot({String? token, context}) async {
     setState(() {
@@ -47,7 +51,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "sound": "Tri-tone"
         },
         "data": {
-          "id":SessionManager.instance.usersData["id"],
+          "id": SessionManager.instance.usersData["id"],
           "first_name": SessionManager.instance.usersData["name"],
           "last_name": SessionManager.instance.usersData["last_name"],
           "pick_location": pickUpLocationAdd,
@@ -63,9 +67,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
             builder: (BuildContext cntxt) {
               return const CustomRideDialog();
             });
-        
-      }
-      else {
+      } else {
         showErrorNotification(state!.context, response!["message"]);
       }
     } catch (e, str) {
@@ -202,7 +204,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = true;
       });
 
-      var uuid = await LocalStorage().fetch("userid");
+      var uuid = SessionManager.instance.uuidData;
 
       Map<String, dynamic>? response =
           await authRepo.otpVerification({"otp": otpValue, "uuid": uuid});
@@ -229,7 +231,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           {"mobile": model.insertPhoneController.text, "country": countryCode});
       if (response != null && response["message"] == "success") {
         var uUid = response["data"]["uuid"];
-        LocalStorage().store("userid", uUid);
+        // LocalStorage().store("userid", uUid);
+        SessionManager.instance.uuidData = uUid;
 
         Navigator.pushNamed(state!.context, '/otp_page');
       } else {
@@ -240,6 +243,34 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = false;
       });
     }
+  }
+
+  void instantTrip(Map map) async {
+    var drivers = [map];
+    Map<String, dynamic>? response = await authRepo.instantTrip({
+      "pick_lat": pickUpLat,
+      "pick_lng": pickUpLong,
+      "drop_lat": dropLat,
+      "drop_lng": dropLong,
+      "vehicle_type": "eb7d7a67-b710-450a-b1c8-d52a8d0db8eb",
+      "payment_opt": "1",
+      "schedule_type": "instant",
+      "pick_address": pickUpLocationAdd,
+      "drop_address": dropLocationAdd,
+      "driver": jsonEncode(drivers)
+      
+    });
+    if (response != null && response["success"] == true) {
+      print('trip is successful my nigga');
+      var instantData = response["data"];
+      SessionManager.instance.userInstantData = instantData;
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+
+    setState(() {
+      model.isLoading = false;
+    });
   }
 
   void signOut(BuildContext context) async {
@@ -280,6 +311,24 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     setState(() {
       model.isLoading = false;
     });
+  }
+
+  getTimeFromGoogleApi({String? origin, String? destination}) async {
+    try {
+      var response =
+          await makeNetworkCall(origin: origin, destination: destination);
+      for (int i = 0; i < response['rows'].length; i++) {
+        var res = response["rows"][i]['elements'];
+        print('print res $res');
+        for (int j = 0; j < res.length; j++) {
+          timeResponse = res[j]['duration']['text'];
+        }
+      }
+      print(timeResponse);
+      return timeResponse;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

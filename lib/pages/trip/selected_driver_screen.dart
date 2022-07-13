@@ -11,14 +11,12 @@ import '../../widget/text_widget.dart';
 
 class SelectedDriverScreen extends StatefulWidget {
   final String fname;
-  final String lname;
   final String color;
   final String plateNo;
   final String carname;
   const SelectedDriverScreen({
     Key? key,
     required this.fname,
-    required this.lname,
     required this.color,
     required this.plateNo,
     required this.carname,
@@ -296,8 +294,7 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           TextView(
-                                              text:
-                                                  '${widget.fname} ${widget.lname}',
+                                              text: widget.fname,
                                               fontSize: 16.5.sp,
                                               fontWeight: FontWeight.w700),
                                           SizedBox(
@@ -388,19 +385,21 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
                                   SizedBox(
                                     height: 7.h,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 15.w, vertical: 3.w),
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.primary,
+                                  InkWell(
+                                    onTap: () => Routers.pushNamed(
+                                        context, '/card_payment'),
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 3.w),
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.primary,
+                                      ),
+                                      child: TextView(
+                                          text: 'Confirm',
+                                          color: AppColors.white,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600),
                                     ),
-                                    child: TextView(
-                                        onTap: () => Routers.pushNamed(
-                                            context, '/card_payment'),
-                                        text: 'Confirm',
-                                        color: AppColors.white,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 1.5.h,

@@ -14,13 +14,11 @@ import 'custom_waiting_widget.dart';
 
 class MapScreen extends StatefulWidget {
   final String fname;
-  final String lname;
   final String pickLocation;
   final String dropLocation;
   const MapScreen({
     Key? key,
     required this.fname,
-    required this.lname,
     required this.pickLocation,
     required this.dropLocation,
   }) : super(key: key);
@@ -30,6 +28,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  Timer? _timer;
+  int _start = 5;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +38,7 @@ class _MapScreenState extends State<MapScreen> {
         context,
         'You\'ll receive a pop up dialog notification when driver arrives pickup location, Please don\'t leave this screen'));
     arrivalStatus();
+    arriveDesStatus();
   }
 
   @override
@@ -95,7 +97,8 @@ class _MapScreenState extends State<MapScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 5.w),
                 padding: EdgeInsets.all(2.w),
                 decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.primary),
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.white),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 child: Row(children: [
                   Padding(
@@ -304,7 +307,7 @@ class _MapScreenState extends State<MapScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextView(
-                                text: "${widget.fname} ${widget.lname}",
+                                text: widget.fname,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -397,43 +400,72 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   final _streamUser = databaseReference.child("users_request");
-  // DatabaseReference userDBReference =
-  //     FirebaseDatabase.instance.ref('users_request');
-
   Future arrivalStatus() async {
-    Map<String, dynamic>? usersRes;
     StreamSubscription<DatabaseEvent>? _counterSubscription;
-    // DatabaseEvent dataEvent = await userDBReference
-    //     .child(SessionManager.instance.usersData["id"])
-    //     .once();
-
-    _streamUser
+    _counterSubscription = _streamUser
         .child('${SessionManager.instance.usersData["id"]}')
         .onChildChanged
         .listen((event) {
-      usersRes = Map<String, dynamic>.from(event.snapshot.value as Map);
-      print(usersRes!['arrive_pick_up']);
-      print(event.snapshot.value.toString());
+      print(
+          'printing pick up arrival matrasss ${event.snapshot.value.toString()}');
       if (event.snapshot.value.toString() == 'Arrived') {
-        // Container(
-        //   height: 100,
-        //   width: 100,
-        //   color: AppColors.white,
-        //   child: Column(
-        //     children: [
-        //       TextView(text: pickUpLocationAdd ?? ''),
-        //       TextView(text: vehicleName ?? ''),
-        //       TextView(text: vehicleColor ?? ''),
-        //       TextView(text: vehicleNumber ?? ''),
-        //     ],
-        //   ),
-        // );
         showDialog(
             context: context,
             builder: (BuildContext cntxt) {
-              return const CustomRideDialog();
+              return const ArrivalCustomRideDialog();
             });
+        _counterSubscription?.cancel();
       }
     });
+  }
+
+  final _streamUser2 = databaseReference.child("users_request");
+  Future arriveDesStatus() async {
+    StreamSubscription<DatabaseEvent>? _counterSubscription;
+    _counterSubscription = _streamUser2
+        .child('${SessionManager.instance.usersData["id"]}')
+        .onChildChanged
+        .listen((event) {
+      print(
+          'printing pick up arrival matrasss ${event.snapshot.value.toString()}');
+      if (event.snapshot.value.toString() == 'Arrived Destination') {
+        showDialog(
+            context: context,
+            builder: (BuildContext cntxt) {
+              return const DestinationCustomRideDialog();
+            });
+        startTimer();
+        _counterSubscription?.cancel();
+      }
+    });
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          showDialog(
+            context: context,
+            builder: (BuildContext cntxt) {
+              return const SuccessPaymentCustomRideDialog();
+            });
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
   }
 }

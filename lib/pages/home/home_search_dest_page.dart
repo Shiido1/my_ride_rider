@@ -46,7 +46,6 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.w),
               height: 350,
-              // width: Adaptive.w(100),
               decoration: const BoxDecoration(color: AppColors.primary),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +142,6 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
               ),
             ),
             Container(
-              // height: Adaptive.h(100) - 250,
               color: AppColors.greyWhite,
               padding: EdgeInsets.symmetric(horizontal: Adaptive.w(10)),
               child: SingleChildScrollView(

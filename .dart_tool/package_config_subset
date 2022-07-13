@@ -142,6 +142,10 @@ flutter_plugin_android_lifecycle
 2.12
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/lib/
+flutter_rating_bar
+2.14
+file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/
+file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_rating_bar-4.0.1/lib/
 flutter_riverpod
 2.14
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-1.0.4/
@@ -434,10 +438,6 @@ rxdart
 2.12
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/rxdart-0.26.0/
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/rxdart-0.26.0/lib/
-sembast
-2.16
-file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/sembast-3.2.0+1/
-file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/sembast-3.2.0+1/lib/
 shared_preferences
 2.14
 file:///Users/test/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.15/

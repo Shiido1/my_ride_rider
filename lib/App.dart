@@ -6,60 +6,68 @@ import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/onboarding/onboarding.dart';
 import 'package:my_ride/routes/routes.dart';
 import 'package:my_ride/schemas/user.dart';
-import 'package:my_ride/utils/local_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'constants/session_manager.dart';
+import 'models/provider.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Ride',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: AppColors.primary,
-        ),
-      ),
-      home: SessionManager.instance.isLoggedIn
-          ? ResponsiveSizer(builder: (context, orientation, screenType) {
-              return HomePage();
-            })
-          : ResponsiveSizer(
-              builder: (context, orientation, screenType) {
-                return FutureBuilder<dynamic>(
-                  future: fetchConfirmationData(context),
-                  builder: (buildContext, snapshot) {
-                    if (snapshot.hasData) {
-                      /// Check if the user has a persisted authentication data
-                      if (snapshot.data["access_token"] != null) {
-                        if (checkAuthenticated(snapshot.data)) {
-                          return HomePage();
-                        }
-                      }
-                      return const OnboardingPage();
-                    } else {
-                      return Stack(
-                        children: <Widget>[
-                          Container(color: AppColors.primary),
-                          Center(
-                            child: Image.asset(
-                              "assets/images/logo.png",
-                              height: 100,
-                              width: 500,
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                );
-              },
+    return MultiProvider(
+      providers: Providers.getProviders,
+      builder: (_, __) => ResponsiveSizer(
+        builder: (context, orientation, screenType) {
+          return MaterialApp(
+            title: 'My Ride',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                primary: AppColors.primary,
+              ),
             ),
-      onGenerateRoute: generateRoute,
+            home: SessionManager.instance.isLoggedIn
+                ? ResponsiveSizer(builder: (context, orientation, screenType) {
+                    return HomePage();
+                  })
+                : ResponsiveSizer(
+                    builder: (context, orientation, screenType) {
+                      return FutureBuilder<dynamic>(
+                        future: fetchConfirmationData(context),
+                        builder: (buildContext, snapshot) {
+                          if (snapshot.hasData) {
+                            /// Check if the user has a persisted authentication data
+                            if (snapshot.data["access_token"] != null) {
+                              if (checkAuthenticated(snapshot.data)) {
+                                return HomePage();
+                              }
+                            }
+                            return const OnboardingPage();
+                          } else {
+                            return Stack(
+                              children: <Widget>[
+                                Container(color: AppColors.primary),
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/logo.png",
+                                    height: 100,
+                                    width: 500,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+            onGenerateRoute: generateRoute,
+          );
+        },
+      ),
     );
   }
 
@@ -84,11 +92,11 @@ class App extends StatelessWidget {
       User user = User();
 
       try {
-        dynamic _userid = await LocalStorage().fetch("userid");
+        dynamic _userid = SessionManager.instance.uuidData;
+        // await LocalStorage().fetch("userid");
         accessToken = SessionManager.instance.authToken;
 
-        if (_userid != null) {
-        }
+        if (_userid != null) {}
       } catch (e, str) {
         debugPrint("$e");
         debugPrint("StackTrace$str");

@@ -83,4 +83,17 @@ class AuthRepo with Services {
 
     return null;
   }
+
+  Future<Map<String, dynamic>?> instantTrip(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/create", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+  
 }

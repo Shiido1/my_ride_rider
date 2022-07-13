@@ -1,7 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_ride/controllers/auth_controller.dart';
 
 import '../models/driver.model.dart';
 import 'dart:math' as Math;
+
+AuthController authController = AuthController();
 
 class DriversUtil {
   static DriversInformations returnClosest(

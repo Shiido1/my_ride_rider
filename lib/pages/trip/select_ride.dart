@@ -7,8 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/models/provider.dart';
 import 'package:my_ride/pages/trip/selected_driver_screen.dart';
 import 'package:my_ride/utils/router.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/constants.dart';
 import '../../constants/session_manager.dart';
@@ -35,7 +37,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
   DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
   final _stream = databaseReference.child("drivers");
   Stream<DatabaseEvent>? stream;
-  LatLng? _pickUpLocation;
+
   TextEditingController? pickupController =
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
@@ -43,6 +45,18 @@ class _SelectRideState extends StateMVC<SelectRide> {
   bool? isSelectClassic;
   bool? isSelectExecutive;
   bool? isSelectCoperate;
+  LatLng? _pickUpLocation;
+  dynamic instantValue;
+
+  getInstantTripData() async {
+    if (isSelectClassic! || isSelectExecutive! || isSelectCoperate == true) {
+      con.instantTrip({
+        "driver_id": instantValue.id.toString(),
+        "driver_lat": instantValue.location[0],
+        "driver_lng": instantValue.location[1]
+      });
+    }
+  }
 
   getUsers() async {
     stream = snapshot1.onValue;
@@ -62,7 +76,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
 
   @override
   Widget build(BuildContext context) {
-    getUsers();
+    // getUsers();
+    // getTime();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -257,6 +272,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   if (snap.data == null || !snap.hasData) {
                                     return Container();
                                   }
+
                                   final d = Map<dynamic, dynamic>.from(snap
                                       .data!
                                       .snapshot
@@ -275,6 +291,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               element.vehicleTypeName ==
                                                   "Classic")
                                           .toList());
+                                  Provider.of<GoogleApiProvider>(context,
+                                          listen: false)
+                                      .getTimeFromGoogleApi(
+                                          origin: pickUpLocationAdd,
+                                          destination: value1.address);
+
                                   final value2 = DriversUtil.returnClosest(
                                       _pickUpLocation!,
                                       data.driversInformations!
@@ -285,6 +307,11 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               element.vehicleTypeName ==
                                                   "Executive")
                                           .toList());
+                                  Provider.of<GoogleApiProvider>(context,
+                                          listen: false)
+                                      .getTimeFromGoogleApiExe(
+                                          origin: pickUpLocationAdd,
+                                          destination: value2.address);
                                   final value3 = DriversUtil.returnClosest(
                                       _pickUpLocation!,
                                       data.driversInformations!
@@ -295,6 +322,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               element.vehicleTypeName ==
                                                   "Coperate")
                                           .toList());
+
+                                  Provider.of<GoogleApiProvider>(context,
+                                          listen: false)
+                                      .getTimeFromGoogleApiCoperate(
+                                          origin: pickUpLocationAdd,
+                                          destination: value3.address);
                                   return SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     physics:
@@ -303,6 +336,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                       children: [
                                         InkWell(
                                           onTap: () => setState(() {
+                                            instantValue = value1;
                                             id = value1.id.toString();
                                             request = 'request';
                                             isSelectClassic = true;
@@ -338,12 +372,25 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               SizedBox(
                                                 height: 0.5.h,
                                               ),
-                                              Text(
-                                                '6 Min away',
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              Consumer<GoogleApiProvider>(
+                                                builder: (_, model, __) =>
+                                                    model.timeResponse == null
+                                                        ? Text(
+                                                            'No vehicle away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        : Text(
+                                                            '${model.timeResponse} away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
                                               ),
                                               SizedBox(
                                                 height: 1.h,
@@ -360,6 +407,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                         ),
                                         InkWell(
                                           onTap: () => setState(() {
+                                            instantValue = value2;
                                             id = value2.id.toString();
                                             request = 'request';
                                             isSelectExecutive = true;
@@ -395,12 +443,26 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               SizedBox(
                                                 height: 0.5.h,
                                               ),
-                                              Text(
-                                                '6 Min away',
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              Consumer<GoogleApiProvider>(
+                                                builder: (_, model, __) =>
+                                                    model.timeResponseExecutive ==
+                                                            null
+                                                        ? Text(
+                                                            'No vehicle away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        : Text(
+                                                            '${model.timeResponseExecutive} away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
                                               ),
                                               SizedBox(
                                                 height: 1.h,
@@ -417,6 +479,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                         ),
                                         InkWell(
                                           onTap: () => setState(() {
+                                            instantValue = value3;
                                             id = value3.id.toString();
                                             request = 'request';
                                             isSelectCoperate = true;
@@ -452,12 +515,26 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               SizedBox(
                                                 height: 0.5.h,
                                               ),
-                                              Text(
-                                                '6 Min away',
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              Consumer<GoogleApiProvider>(
+                                                builder: (_, model, __) =>
+                                                    model.timeResponseCoperate ==
+                                                            null
+                                                        ? Text(
+                                                            'No vehicle away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        : Text(
+                                                            '${model.timeResponseCoperate} away',
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
                                               ),
                                               SizedBox(
                                                 height: 1.h,
@@ -480,8 +557,11 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () => updateStatus(
-                                  id: id, status: request, context: context),
+                              onTap: () {
+                                updateStatus(
+                                    id: id, status: request, context: context);
+                                getInstantTripData();
+                              },
                               child: Container(
                                 width: 200,
                                 height: 50,
@@ -576,7 +656,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
       print(event.snapshot.value.toString());
       if (event.snapshot.value.toString() == 'Accepted') {
         driverFname = driverRes?['name'];
-        driverLname = driverRes?['name'];
         vehicleNumber = driverRes?['vehicle_number'];
         vehicleColor = driverRes?['vehicle_color'];
         vehicleName = driverRes?['vehicle_make'];
@@ -584,7 +663,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
             context,
             SelectedDriverScreen(
                 fname: driverFname ?? '',
-                lname: driverLname ?? '',
                 color: vehicleColor ?? '',
                 plateNo: vehicleNumber ?? '',
                 carname: vehicleName ?? ''));
