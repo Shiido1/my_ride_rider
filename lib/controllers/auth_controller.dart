@@ -8,12 +8,10 @@ import 'package:my_ride/models/auth_model.dart';
 import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/repository/auth_repo.dart';
 import 'package:my_ride/utils/Flushbar_mixin.dart';
-import 'package:my_ride/utils/local_storage.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
 import '../utils/api_call.dart';
-import '../utils/driver_utils.dart';
 import '../utils/users_dialog.dart';
 import '../widget/custom_waiting_widget.dart';
 
@@ -58,6 +56,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "drop_location": dropLocationAdd,
           "image":
               "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+          "request_id":SessionManager.instance.userInstantData["data"]["request_place"]["request_id"]
         }
       });
       debugPrint("RESPONSE: $response");

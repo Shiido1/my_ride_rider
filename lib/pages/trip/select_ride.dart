@@ -557,8 +557,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () {
-                                updateStatus(
+                              onTap: () async{
+                                await updateStatus(
                                     id: id, status: request, context: context);
                                 getInstantTripData();
                               },
