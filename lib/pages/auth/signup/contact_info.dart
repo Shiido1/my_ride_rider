@@ -54,14 +54,14 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                   child: ListView(
                     children: [
                       TextFormField(
-                        validator: validateName,
+                        validator: validateFirstName,
                         controller: con.model.regFirstNameController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "First Name",
                         ),
                       ),
                       TextFormField(
-                        validator: validateName,
+                        validator: validateLastName,
                         controller: con.model.regLastNameController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "Last Name",

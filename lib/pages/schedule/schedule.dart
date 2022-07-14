@@ -1,14 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
+import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/widget/custom_dialog.dart';
 import 'package:my_ride/widget/text_form_field.dart';
+import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../components/loading_button.dart';
 import '../../constants/session_manager.dart';
 import '../../models/global_model.dart';
 
@@ -16,25 +21,50 @@ class SchedulePage extends StatefulWidget {
   SchedulePage({Key? key}) : super(key: key);
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  State createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
-  List<String> schedulePlans = ["Instant", "Weekly", "Bi-weekly", "One month"];
+class _SchedulePageState extends StateMVC<SchedulePage> {
+  _SchedulePageState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
+
+  List<String> schedulePlans = ["Instant", "Weekly", "Bi-weekly", "Monthly"];
 
   String defaultPlan = "Weekly";
   TextEditingController? pickupController =
       TextEditingController(text: 'Enter pickup location');
   TextEditingController? dropController =
       TextEditingController(text: 'Enter Destination location');
-  bool? isCalendar = false;
+  TextEditingController? timeController =
+      TextEditingController(text: "Pick time");
+  String? scheduleValue = '';
+  String? scheduleDate;
+  String? timeText = 'Pick time';
+  DateTime selectedDate = DateTime.now();
+  final firstDate = DateTime(2022, 1);
+  final lastDate = DateTime(2100, 12);
+  TimeOfDay time = const TimeOfDay(hour: 00, minute: 00);
+
+  @override
+  void dispose() {
+    scheduleValue;
+    super.dispose();
+  }
+
+  createScheduleTrip() async {
+    con.scheduleTrip(
+        scheduleTripDate: '$scheduleDate $timeText',
+        schedulePeriod: scheduleValue!.toLowerCase());
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
@@ -125,8 +155,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 onPressed: () {
                   Routers.pop(context);
                 }),
-            SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+            Container(
               padding: EdgeInsets.symmetric(horizontal: 6.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,9 +171,15 @@ class _SchedulePageState extends State<SchedulePage> {
                   GestureDetector(
                     onTap: () => showCustomDialog(context, items: schedulePlans,
                         onTap: (value) {
+                      print(value);
                       setState(() {
-                        isCalendar = !isCalendar!;
+                        // isCalendar = !isCalendar!;
+                        scheduleValue = value;
                       });
+                      Routers.pop(context);
+                      if (scheduleValue == "Instant") {
+                        Routers.pushNamed(context, '/home');
+                      }
                     }),
                     child: Align(
                       alignment: Alignment.topRight,
@@ -178,10 +213,27 @@ class _SchedulePageState extends State<SchedulePage> {
                   SizedBox(
                     height: 3.h,
                   ),
+                  TextView(
+                      text: scheduleValue!,
+                      color: AppColors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600),
+                  SizedBox(
+                    height: 1.h,
+                  ),
                   Visibility(
-                      visible: isCalendar!,
-                      child: Container()
-                      ),
+                      visible: scheduleValue != "Instant",
+                      child: CalendarDatePicker(
+                        initialDate: selectedDate,
+                        firstDate: firstDate,
+                        lastDate: lastDate,
+                        onDateChanged: (DateTime value) {
+                          setState(() {
+                            scheduleDate = value.toString().split(' ')[0];
+                          });
+                          print(' new date $scheduleDate');
+                        },
+                      )),
                   SizedBox(
                     height: 3.h,
                   ),
@@ -276,93 +328,63 @@ class _SchedulePageState extends State<SchedulePage> {
                     ),
                   ),
                   SizedBox(
-                    height: 3.h,
+                    height: 4.h,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Text('Add place'),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        Icons.add,
-                        color: Colors.green,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Text(
-                    'RECENT PLACES',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black26,
-                        fontSize: 17.sp),
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Row(
-                    children: [
-                      Stack(
-                        children: const [
-                          Positioned(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black12,
-                              radius: 15,
-                            ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 38.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextView(
+                            text: 'Time',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
                           ),
-                          Positioned(
-                              left: 2.9,
-                              top: 1.5,
-                              child: Icon(
-                                Icons.house_outlined,
-                                color: Colors.black26,
-                              )),
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              TimeOfDay? newTime = await showTimePicker(
+                                  context: context, initialTime: time);
+                              if (newTime == null) return;
+
+                              setState(() {
+                                timeText =
+                                    '${newTime.hour.toString().padLeft(2, '0')}:${newTime.minute.toString().padLeft(2, '0')}:00';
+                              });
+                            },
+                            child: Container(
+                              width: 40.w,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w, vertical: 3.w),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.bgGrey1)),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time_filled,
+                                    color: AppColors.primary,
+                                    size: 20.sp,
+                                  ),
+                                  SizedBox(
+                                    width: 3.w,
+                                  ),
+                                  TextView(
+                                    text: timeText!,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w400,
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        'No 33, Boulevard Street',
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Row(
-                    children: [
-                      Stack(
-                        children: const [
-                          Positioned(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black12,
-                              radius: 15,
-                            ),
-                          ),
-                          Positioned(
-                              left: 2.9,
-                              top: 1.5,
-                              child: Icon(
-                                Icons.house_outlined,
-                                color: Colors.black26,
-                              )),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        'No 33, Boulevard Street',
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    ],
+                    ),
                   ),
                   SizedBox(
                     height: 5.h,
@@ -373,7 +395,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       'View Schedule',
                       style: TextStyle(
                           decoration: TextDecoration.underline,
-                          fontSize: 15.5.sp,
+                          fontSize: 16.5.sp,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -383,7 +405,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   Align(
                     alignment: Alignment.center,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => createScheduleTrip(),
                       child: Container(
                         width: 180,
                         height: 5.h,
@@ -391,17 +413,28 @@ class _SchedulePageState extends State<SchedulePage> {
                           color: Color(0XFF000B49),
                         ),
                         child: Center(
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
+                          child: con.model.isLoading
+                              ? SpinKitWave(
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                )
+                              : Text(
+                                  'Continue',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
                         ),
                       ),
                     ),
                   ),
+                  // LoadingButton(
+                  //   label: "Continue",
+                  //   onPressed: createScheduleTrip(),
+                  //   disabled: false,
+                  //   isLoading: con.model.isLoading,
+                  // ),
                   SizedBox(
                     height: 10.h,
                   ),

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/states/auth_state.dart';

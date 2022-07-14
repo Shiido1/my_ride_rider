@@ -1,42 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:my_ride/models/global_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/session_manager.dart';
-import '../../controllers/home_controller.dart';
+import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/text_form_field.dart';
 
-class HomeSearchDestination extends StatefulWidget {
-  const HomeSearchDestination({Key? key}) : super(key: key);
+class ChangeDestinationLocaion extends StatefulWidget {
+  const ChangeDestinationLocaion({Key? key}) : super(key: key);
 
   @override
-  _HomeSearchDestinationState createState() => _HomeSearchDestinationState();
+  State<ChangeDestinationLocaion> createState() => _ChangeDestinationLocaionState();
 }
 
-class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
-  _HomeSearchDestinationState() : super(HomeController()) {
-    con = controller as HomeController;
-  }
+class _ChangeDestinationLocaionState extends State<ChangeDestinationLocaion> {
 
-  late HomeController con;
-  // String googleApikey = "AIzaSyAaF3Z1gioxA2z3_7kwD9nyDu1nhFcaT8U";
-  // GoogleMapController? mapController; //contrller for Google map
-  // CameraPosition? cameraPosition;
-  // LatLng startLocation = const LatLng(9.072264, 7.491302);
-  // final databaseReference = FirebaseDatabase.instance.ref();
 
   TextEditingController destinationController =
       TextEditingController(text: 'Enter destination location');
-
+      
   @override
   Widget build(BuildContext context) {
     return SafeArea(

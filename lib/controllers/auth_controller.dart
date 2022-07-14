@@ -11,7 +11,6 @@ import 'package:my_ride/utils/Flushbar_mixin.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
-import '../utils/api_call.dart';
 import '../utils/users_dialog.dart';
 import '../widget/custom_waiting_widget.dart';
 
@@ -31,7 +30,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   String deviceToken = "DeviceTokin";
   String countryCode = "+234";
   String otpValue = "1234";
-  dynamic timeResponse;
 
   void sendPushNot({String? token, context}) async {
     setState(() {
@@ -56,7 +54,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "drop_location": dropLocationAdd,
           "image":
               "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-          "request_id":SessionManager.instance.userInstantData["data"]["request_place"]["request_id"]
+          "request_id": SessionManager.instance.userInstantData["data"]
+              ["request_place"]["request_id"]
         }
       });
       debugPrint("RESPONSE: $response");
@@ -257,7 +256,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "pick_address": pickUpLocationAdd,
       "drop_address": dropLocationAdd,
       "driver": jsonEncode(drivers)
-      
     });
     if (response != null && response["success"] == true) {
       print('trip is successful my nigga');
@@ -270,6 +268,104 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     setState(() {
       model.isLoading = false;
     });
+  }
+
+  void scheduleTrip({String? scheduleTripDate, String? schedulePeriod}) async {
+    setState(() {
+      model.isLoading = true;
+    });
+    Map<String, dynamic>? response = await authRepo.scheduleTrip({
+      "pick_lat": pickUpLat,
+      "pick_lng": pickUpLong,
+      "drop_lat": dropLat,
+      "drop_lng": dropLong,
+      "vehicle_type": "eb7d7a67-b710-450a-b1c8-d52a8d0db8eb",
+      "payment_opt": "1",
+      "pick_address": pickUpLocationAdd,
+      "drop_address": dropLocationAdd,
+      "is_later": 1,
+      "trip_start_time": scheduleTripDate,
+      "schedule_type":
+          schedulePeriod // Can be instant, weekly, bi-weekly or monthly
+      // "promocode_id": ""
+    });
+    if (response != null && response["success"] == true) {
+      // var instantData = response["data"];
+      Routers.replaceAllWithName(state!.context, "/home");
+      showSuccessNotificationWithTime(
+          state!.context, 'You\'ve Successfully scheduled a trip', 5);
+      setState(() {
+        model.isLoading = false;
+      });
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+
+    setState(() {
+      model.isLoading = false;
+    });
+  }
+
+  void cancelTrip(context) async {
+    Map<String, dynamic>? response = await authRepo.cancelTrip({
+      'request_id': SessionManager.instance.userInstantData["data"]
+          ["request_place"]["request_id"],
+      'custom_reason': 'for some reason'
+    });
+
+    if (response != null && response["success"] == true) {
+      print('cancel is successful my nigga');
+      Routers.replaceAllWithName(context, '/home');
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+  }
+
+  void changeLocation() async {
+    Map<String, dynamic>? response = await authRepo.changeLocation({
+      'request_id': SessionManager.instance.userInstantData["data"]
+          ["request_place"]["request_id"],
+      'drop_lat': dropLat,
+      'drop_lng': dropLong,
+      'drop_address': dropLocationAdd,
+    });
+
+    if (response != null && response["success"] == true) {
+      print('location changed is successful my nigga');
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+  }
+
+  void ratings(context, {String? rate, String? comment}) async {
+    Map<String, dynamic>? response = await authRepo.cancelTrip({
+      'request_id': SessionManager.instance.userInstantData["data"]
+          ["request_place"]["request_id"],
+      'rating': rate,
+      'comment': comment,
+    });
+
+    if (response != null && response["success"] == true) {
+      print('rating is successful my nigga');
+      Routers.replaceAllWithName(context, '/home');
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+  }
+
+  void estimatedCost(context, {distance, duration}) async {
+    Map<String, dynamic>? response = await authRepo.estimatedCost({
+      "distance": distance,
+      "duration": duration,
+      "drop_lat": dropLat,
+      "drop_lng": dropLong
+    });
+
+    if (response != null && response["success"] == true) {
+      print('estimated cost is successful my nigga');
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
   }
 
   void signOut(BuildContext context) async {
@@ -312,23 +408,23 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  getTimeFromGoogleApi({String? origin, String? destination}) async {
-    try {
-      var response =
-          await makeNetworkCall(origin: origin, destination: destination);
-      for (int i = 0; i < response['rows'].length; i++) {
-        var res = response["rows"][i]['elements'];
-        print('print res $res');
-        for (int j = 0; j < res.length; j++) {
-          timeResponse = res[j]['duration']['text'];
-        }
-      }
-      print(timeResponse);
-      return timeResponse;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // getTimeFromGoogleApi({String? origin, String? destination}) async {
+  //   try {
+  //     var response =
+  //         await makeNetworkCall(origin: origin, destination: destination);
+  //     for (int i = 0; i < response['rows'].length; i++) {
+  //       var res = response["rows"][i]['elements'];
+  //       print('print res $res');
+  //       for (int j = 0; j < res.length; j++) {
+  //         timeResponse = res[j]['duration']['text'];
+  //       }
+  //     }
+  //     print(timeResponse);
+  //     return timeResponse;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }
 
 class Data {

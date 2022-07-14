@@ -21,7 +21,7 @@ import '../../widget/TextWidget.dart';
 import '../../widget/text_widget.dart';
 
 class SelectRide extends StatefulWidget {
-  SelectRide({Key? key}) : super(key: key);
+  const SelectRide({Key? key}) : super(key: key);
 
   @override
   State createState() => _SelectRideState();
@@ -72,6 +72,10 @@ class _SelectRideState extends StateMVC<SelectRide> {
     _pickUpLocation = LatLng(double.parse(pickUpLat!.toString()),
         double.parse(pickUpLong!.toString()));
     super.initState();
+  }
+
+  estimateDistanceCost({lat2, lon2}) {
+   var distance = DriversUtil.getDistanceFromLatLonInKm(pickUpLat, pickUpLong, lat2, lon2);
   }
 
   @override
@@ -557,7 +561,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 await updateStatus(
                                     id: id, status: request, context: context);
                                 getInstantTripData();

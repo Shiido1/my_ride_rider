@@ -59,11 +59,20 @@ mixin ValidationMixin {
     return null;
   }
 
-  String? validateName(String? value) {
+  String? validateFirstName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Name cannot be empty';
+      return 'Firstname cannot be empty';
     } else if (value.trim().length < 2) {
-      return 'Name cannot be less than 2 characters';
+      return 'Lastname cannot be less than 2 characters';
+    }
+
+    return null;
+  }
+  String? validateLastName(String? value) {
+    if (value!.trim().isEmpty) {
+      return 'Lastname cannot be empty';
+    } else if (value.trim().length < 2) {
+      return 'Lastname cannot be less than 2 characters';
     }
 
     return null;

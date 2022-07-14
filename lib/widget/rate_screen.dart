@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:my_ride/utils/router.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/widget/text_form_field.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -13,11 +14,18 @@ class RateScreen extends StatefulWidget {
   const RateScreen({Key? key}) : super(key: key);
 
   @override
-  State<RateScreen> createState() => _RateScreenState();
+  State createState() => _RateScreenState();
 }
 
-class _RateScreenState extends State<RateScreen> {
-  double rate = 0;
+class _RateScreenState extends StateMVC<RateScreen> {
+  _RateScreenState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
+
+  TextEditingController? commmentController = TextEditingController();
+  double? rate;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +91,7 @@ class _RateScreenState extends State<RateScreen> {
                 ),
                 Center(
                   child: RatingBar.builder(
-                    initialRating: rate,
+                    initialRating: 0,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
@@ -93,23 +101,31 @@ class _RateScreenState extends State<RateScreen> {
                       Icons.star,
                       color: AppColors.black,
                     ),
-                    onRatingUpdate: (rating) {},
+                    onRatingUpdate: (rating) {
+                      setState(() {
+                        rate = rating;
+                      });
+                    },
                   ),
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
-                const EditTextForm(
+                EditTextForm(
                   label: 'Leave comment...',
                   readOnly: false,
                   obscureText: false,
                   isMuchDec: true,
+                  controller: commmentController,
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
                 InkWell(
-                  onTap: () => Routers.replaceAllWithName(context, '/home'),
+                  onTap: () {
+                    con.ratings(context,
+                        rate: rate.toString(), comment: commmentController!.text);
+                  },
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 15.w, vertical: 3.w),

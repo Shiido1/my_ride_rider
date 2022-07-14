@@ -3,6 +3,7 @@ import 'package:my_ride/pages/auth/signin/signin.dart';
 import 'package:my_ride/pages/auth/signup/contact_info.dart';
 import 'package:my_ride/pages/auth/signup/otp_page.dart';
 import 'package:my_ride/pages/auth/signup/phone_page.dart';
+import 'package:my_ride/pages/home/change_dest_page.dart';
 import 'package:my_ride/pages/home/google_map_page.dart';
 import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/home/home_search_dest_page.dart';
@@ -18,7 +19,6 @@ import 'package:my_ride/widget/order.dart';
 import 'package:my_ride/widget/rate_screen.dart';
 
 import '../pages/trip/select_ride.dart';
-
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -63,6 +63,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case '/ratings':
       return MaterialPageRoute(builder: (_) => const RateScreen());
+
+    case '/change_destination_location':
+      return MaterialPageRoute(
+          builder: (_) => const ChangeDestinationLocaion());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

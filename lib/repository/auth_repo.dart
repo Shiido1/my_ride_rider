@@ -95,5 +95,65 @@ class AuthRepo with Services {
 
     return null;
   }
+
+  Future<Map<String, dynamic>?> scheduleTrip(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/create", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> cancelTrip(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/cancel", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
+  Future<Map<String, dynamic>?> changeLocation(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/change-drop-location", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
+
+  Future<Map<String, dynamic>?> ratings(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/cancel", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+  Future<Map<String, dynamic>?> estimatedCost(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("request/estimated-ride-costs", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
   
 }
