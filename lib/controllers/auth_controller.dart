@@ -8,6 +8,7 @@ import 'package:my_ride/models/auth_model.dart';
 import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/repository/auth_repo.dart';
 import 'package:my_ride/utils/Flushbar_mixin.dart';
+import 'package:my_ride/utils/driver_utils.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
@@ -30,6 +31,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   String deviceToken = "DeviceTokin";
   String countryCode = "+234";
   String otpValue = "1234";
+  final loadingKey = GlobalKey<FormState>();
 
   void sendPushNot({String? token, context}) async {
     setState(() {
@@ -55,7 +57,10 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "image":
               "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
           "request_id": SessionManager.instance.userInstantData["data"]
-              ["request_place"]["request_id"]
+              ["request_place"]["request_id"],
+          "distance": DriversUtil.rounded,
+          "drop_lat": dropLat,
+          "drop_long": dropLong,
         }
       });
       debugPrint("RESPONSE: $response");
@@ -181,6 +186,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           showErrorNotification(state!.context, response!["message"]);
         }
       } catch (e, str) {
+        print('object response $e');
         debugPrint("Error: $e");
         debugPrint("StackTrace: $str");
       }
@@ -243,7 +249,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
   }
 
-  void instantTrip(Map map) async {
+  void instantTrip({Map? map, BuildContext? context}) async {
     var drivers = [map];
     Map<String, dynamic>? response = await authRepo.instantTrip({
       "pick_lat": pickUpLat,
@@ -259,6 +265,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
     if (response != null && response["success"] == true) {
       print('trip is successful my nigga');
+      sendPushNot(token:token,context: context);
       var instantData = response["data"];
       SessionManager.instance.userInstantData = instantData;
     } else {
@@ -294,6 +301,34 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Routers.replaceAllWithName(state!.context, "/home");
       showSuccessNotificationWithTime(
           state!.context, 'You\'ve Successfully scheduled a trip', 5);
+      setState(() {
+        model.isLoading = false;
+      });
+    } else {
+      showErrorNotification(state!.context, response!["message"]);
+    }
+
+    setState(() {
+      model.isLoading = false;
+    });
+  }
+
+  void payment(
+      {String? cardNo, String? exMonth, String? exYear, String? cvc}) async {
+    setState(() {
+      model.isLoading = true;
+    });
+    Map<String, dynamic>? response = await authRepo.payment({
+      "card_number": cardNo,
+      "exp_month": exMonth,
+      "exp_year": exYear,
+      "cvc": cvc
+    });
+    if (response != null &&
+        response["success"] == 'Payment Method Added Successfully') {
+      Routers.replaceAllWithName(state!.context, "/ratings");
+      showSuccessNotificationWithTime(
+          state!.context, ' Your Payment is Successfully', 5);
       setState(() {
         model.isLoading = false;
       });
@@ -353,28 +388,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
   }
 
-  void estimatedCost(context, {distance, duration}) async {
-    Map<String, dynamic>? response = await authRepo.estimatedCost({
-      "distance": distance,
-      "duration": duration,
-      "drop_lat": dropLat,
-      "drop_lng": dropLong
-    });
-
-    if (response != null && response["success"] == true) {
-      print('estimated cost is successful my nigga');
-    } else {
-      showErrorNotification(state!.context, response!["message"]);
-    }
-  }
-
   void signOut(BuildContext context) async {
     await SessionManager.instance.logOut();
 
     Routers.replaceAllWithName(context, '/signin');
   }
-
-  final loadingKey = GlobalKey<FormState>();
 
   _formartFileImage(File? imageFile) {
     if (imageFile == null) return;
@@ -406,39 +424,5 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     setState(() {
       model.isLoading = false;
     });
-  }
-
-  // getTimeFromGoogleApi({String? origin, String? destination}) async {
-  //   try {
-  //     var response =
-  //         await makeNetworkCall(origin: origin, destination: destination);
-  //     for (int i = 0; i < response['rows'].length; i++) {
-  //       var res = response["rows"][i]['elements'];
-  //       print('print res $res');
-  //       for (int j = 0; j < res.length; j++) {
-  //         timeResponse = res[j]['duration']['text'];
-  //       }
-  //     }
-  //     print(timeResponse);
-  //     return timeResponse;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-}
-
-class Data {
-  String? uuid;
-
-  Data({this.uuid});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    Data(
-      uuid: json["uuid"] ?? "",
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {"uuid": uuid};
   }
 }

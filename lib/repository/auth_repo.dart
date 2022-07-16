@@ -33,7 +33,6 @@ class AuthRepo with Services {
     if (response != null) {
       return response;
     }
-
     return null;
   }
 
@@ -108,6 +107,18 @@ class AuthRepo with Services {
     return null;
   }
 
+  Future<Map<String, dynamic>?> payment(
+      Map<String, dynamic> credentials) async {
+    Map<String, dynamic>? response =
+        await apiPostRequests("payment/stripe/add/card", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Map<String, dynamic>?> cancelTrip(
       Map<String, dynamic> credentials) async {
     Map<String, dynamic>? response =
@@ -132,7 +143,6 @@ class AuthRepo with Services {
     return null;
   }
 
-
   Future<Map<String, dynamic>?> ratings(
       Map<String, dynamic> credentials) async {
     Map<String, dynamic>? response =
@@ -144,10 +154,11 @@ class AuthRepo with Services {
 
     return null;
   }
-  Future<Map<String, dynamic>?> estimatedCost(
+
+  Future <List<dynamic>?> estimatedCost(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
-        await apiPostRequests("request/estimated-ride-costs", credentials);
+    var response =
+        await apiPostQudusRequests("request/estimated-ride-costs", credentials);
 
     if (response != null) {
       return response;
@@ -155,5 +166,4 @@ class AuthRepo with Services {
 
     return null;
   }
-  
 }

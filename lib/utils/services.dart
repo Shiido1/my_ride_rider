@@ -130,8 +130,28 @@ mixin Services {
     } on DioError catch (e) {
       debugPrint("e.toString()");
       print(e.toString());
-      // return "";
       return {};
+    }
+  }
+
+  Future <List<dynamic>?> apiPostQudusRequests(
+      String endPoint, Map<String, dynamic> credentials,
+      {Map<String, dynamic>? header}) async {
+    try {
+      header ??= {};
+
+      Dio dio = await getDio();
+      Response response = await dio.post(endPoint,
+          data: credentials,
+          options: Options(headers: {
+            "Authorization": "Bearer " + await getAuthToken(),
+            ...header
+          }));
+      return response.data;
+    } on DioError catch (e) {
+      debugPrint("e.toString()");
+      print(e.toString());
+      return [];
     }
   }
 
@@ -314,6 +334,7 @@ mixin Services {
       return {
         "status": "error",
         "message": e.response?.data?["data"],
+        "email":e.response?.data?["data"]["errors"]["email"]
       };
     }
 

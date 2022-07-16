@@ -7,6 +7,7 @@ import 'dart:math' as Math;
 AuthController authController = AuthController();
 
 class DriversUtil {
+  static dynamic rounded;
   static DriversInformations returnClosest(
       LatLng pickUpLoc, List<DriversInformations> drivers) {
     List mapList = [];
@@ -19,7 +20,7 @@ class DriversUtil {
             double.parse(d.location![0].toString()),
             double.parse(d.location![1].toString()));
 
-        final rounded = dp(distanceInMeters, 5);
+        rounded = dp(distanceInMeters, 5);
         // map[d.name] = rounded;
         Map map = {"id": d.id, "distance": rounded, "name": d.name};
         mapList.add(map);

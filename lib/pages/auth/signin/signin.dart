@@ -8,7 +8,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class SigninPage extends StatefulWidget {
-  SigninPage({Key? key}) : super(key: key);
+  const SigninPage({Key? key}) : super(key: key);
 
   @override
   State createState() => _SigninPageState();

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -47,20 +48,34 @@ class _SelectRideState extends StateMVC<SelectRide> {
   bool? isSelectCoperate;
   LatLng? _pickUpLocation;
   dynamic instantValue;
+  int? timeInMin;
 
-  getInstantTripData() async {
+  Future<void> getTimeDurationInMin() async {
+    try {
+      timeInMin = await Provider.of<GoogleApiProvider>(context, listen: false)
+          .getTimeCostFromGoogleApi();
+      log('object int in time dur $timeInMin');
+    } catch (e) {
+      log('Debug: $e');
+    }
+  }
+
+  getInstantTripData(context) async {
     if (isSelectClassic! || isSelectExecutive! || isSelectCoperate == true) {
-      con.instantTrip({
+      con.instantTrip(map: {
         "driver_id": instantValue.id.toString(),
         "driver_lat": instantValue.location[0],
         "driver_lng": instantValue.location[1]
-      });
+      },context: context);
     }
   }
 
   getUsers() async {
     stream = snapshot1.onValue;
     stream!.listen((event) {});
+    await getTimeDurationInMin();
+    Provider.of<GoogleApiProvider>(context, listen: false)
+        .estimatedCost(timeInMin.toString());
   }
 
   @override
@@ -74,14 +89,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
     super.initState();
   }
 
-  estimateDistanceCost({lat2, lon2}) {
-   var distance = DriversUtil.getDistanceFromLatLonInKm(pickUpLat, pickUpLong, lat2, lon2);
-  }
-
   @override
   Widget build(BuildContext context) {
-    // getUsers();
-    // getTime();
+    getUsers();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -101,24 +111,41 @@ class _SelectRideState extends StateMVC<SelectRide> {
                   alignment: Alignment.topRight,
                   child: Padding(
                     padding: EdgeInsets.only(right: 4.w),
-                    child: CircleAvatar(
-                      radius: 28,
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover),
-                          ),
-                        ),
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const CircularProgressIndicator(),
-                      ),
-                    ),
+                    child:
+                        SessionManager.instance.usersData["profile_picture"] ==
+                                    null ||
+                                SessionManager.instance
+                                        .usersData["profile_picture"] ==
+                                    ''
+                            ? CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Icon(
+                                  Icons.person,
+                                  color: AppColors.grey1,
+                                  size: 23.sp,
+                                ),
+                                radius: 26,
+                              )
+                            : CircleAvatar(
+                                radius: 28,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const CircularProgressIndicator(),
+                                ),
+                              ),
                   ),
                 ),
                 SizedBox(
@@ -316,6 +343,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                       .getTimeFromGoogleApiExe(
                                           origin: pickUpLocationAdd,
                                           destination: value2.address);
+
                                   final value3 = DriversUtil.returnClosest(
                                       _pickUpLocation!,
                                       data.driversInformations!
@@ -347,66 +375,58 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             isSelectExecutive = false;
                                             isSelectCoperate = false;
                                           }),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 3.w),
-                                                width: 30.w,
-                                                height: 10.h,
-                                                decoration: BoxDecoration(
-                                                  image: const DecorationImage(
-                                                      image: AssetImage(
-                                                    'assets/images/car.png',
-                                                  )),
-                                                  color: !isSelectClassic!
-                                                      ? AppColors.transparent
-                                                      : AppColors.greyWhite1,
+                                          child: Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) => Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 3.w),
+                                                  width: 30.w,
+                                                  height: 10.h,
+                                                  decoration: BoxDecoration(
+                                                    image:
+                                                        const DecorationImage(
+                                                            image: AssetImage(
+                                                      'assets/images/car.png',
+                                                    )),
+                                                    color: !isSelectClassic!
+                                                        ? AppColors.transparent
+                                                        : AppColors.greyWhite1,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                'CLASSIC',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              SizedBox(
-                                                height: 0.5.h,
-                                              ),
-                                              Consumer<GoogleApiProvider>(
-                                                builder: (_, model, __) =>
-                                                    model.timeResponse == null
-                                                        ? Text(
-                                                            'No vehicle away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          )
-                                                        : Text(
-                                                            '${model.timeResponse} away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                              ),
-                                              SizedBox(
-                                                height: 1.h,
-                                              ),
-                                              Text(
-                                                '\$2',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'CLASSIC',
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                SizedBox(
+                                                  height: 0.5.h,
+                                                ),
+                                                TextView(
+                                                  text: model.timeResponse ==
+                                                          null
+                                                      ? ''
+                                                      : '${model.timeResponse} away',
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                TextView(
+                                                  text: model.classicEsCost ==
+                                                          null
+                                                      ? ''
+                                                      : '\$${model.classicEsCost}',
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         InkWell(
@@ -561,11 +581,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () async {
-                                await updateStatus(
-                                    id: id, status: request, context: context);
-                                getInstantTripData();
-                              },
+                              onTap: () =>
+                                updateStatus(
+                                    id: id, status: request, context: context),
                               child: Container(
                                 width: 200,
                                 height: 50,
@@ -615,6 +633,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
       String? token,
       BuildContext? context}) async {
     String token = await getToken(id);
+    // getInstantTripData(context);
     con.sendPushNot(token: token, context: context);
     up(path: id, status: status);
     saveRequestToDataBase(id, status);

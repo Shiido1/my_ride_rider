@@ -62,7 +62,11 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                             children: [
                               Stack(
                                 children: [
-                                  SessionManager.instance.usersData.isNotEmpty
+                                  SessionManager
+                                              .instance.usersData.isNotEmpty ||
+                                          SessionManager.instance.usersData[
+                                                  'profile_picture'] !=
+                                              null
                                       ? CircleAvatar(
                                           radius: 40,
                                           child: CachedNetworkImage(

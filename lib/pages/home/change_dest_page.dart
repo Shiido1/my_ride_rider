@@ -60,24 +60,41 @@ class _ChangeDestinationLocaionState extends State<ChangeDestinationLocaion> {
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 28,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
-                            ),
-                          ),
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const CircularProgressIndicator(),
-                        ),
-                      ),
+                      SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      null ||
+                                  SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      ''
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppColors.grey1,
+                                    size: 23.sp,
+                                  ),
+                                  radius: 26,
+                                )
+                              : CircleAvatar(
+                                  radius: 28,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const CircularProgressIndicator(),
+                                  ),
+                                ),
                     ],
                   ),
                   SizedBox(

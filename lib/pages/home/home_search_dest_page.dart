@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/global_model.dart';
@@ -73,24 +71,40 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 28,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
+                      SessionManager.instance.usersData["profile_picture"] ==
+                                  null ||
+                              SessionManager
+                                      .instance.usersData["profile_picture"] ==
+                                  ''
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.grey1,
+                                size: 23.sp,
+                              ),
+                              radius: 26,
+                            )
+                          : CircleAvatar(
+                              radius: 28,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const CircularProgressIndicator(),
+                              ),
                             ),
-                          ),
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const CircularProgressIndicator(),
-                        ),
-                      ),
                     ],
                   ),
                   SizedBox(

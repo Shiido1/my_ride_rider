@@ -40,24 +40,36 @@ class _RateScreenState extends StateMVC<RateScreen> {
                 SizedBox(
                   height: 7.5.h,
                 ),
-                CircleAvatar(
-                  radius: 70,
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}??'' ",
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
+                SessionManager.instance.usersData["profile_picture"] == null ||
+                        SessionManager.instance.usersData["profile_picture"] ==
+                            ''
+                    ? CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          color: AppColors.grey1,
+                          size: 50.sp,
+                        ),
+                        radius: 70,
+                      )
+                    : CircleAvatar(
+                        radius: 70,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const CircularProgressIndicator(),
+                        ),
                       ),
-                    ),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const CircularProgressIndicator(),
-                  ),
-                ),
                 SizedBox(
                   height: 4.h,
                 ),
@@ -124,7 +136,8 @@ class _RateScreenState extends StateMVC<RateScreen> {
                 InkWell(
                   onTap: () {
                     con.ratings(context,
-                        rate: rate.toString(), comment: commmentController!.text);
+                        rate: rate.toString(),
+                        comment: commmentController!.text);
                   },
                   child: Container(
                     padding:

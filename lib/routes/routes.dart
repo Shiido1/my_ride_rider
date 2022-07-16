@@ -15,7 +15,6 @@ import 'package:my_ride/pages/profile/profile.dart';
 import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
 import 'package:my_ride/pages/schedule/schedule.dart';
 import 'package:my_ride/pages/trip/rate_driver.dart';
-import 'package:my_ride/widget/order.dart';
 import 'package:my_ride/widget/rate_screen.dart';
 
 import '../pages/trip/select_ride.dart';
@@ -36,8 +35,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => ProfilePage());
     case '/select_ride':
       return MaterialPageRoute(builder: (_) => SelectRide());
-    case '/order':
-      return MaterialPageRoute(builder: (_) => const Order());
     case '/payment':
       return MaterialPageRoute(builder: (_) => PaymentPage());
     case '/rate_driver':

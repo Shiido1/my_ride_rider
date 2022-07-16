@@ -17,10 +17,11 @@ import 'package:google_api_headers/google_api_headers.dart';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import '../../widget/custom_dialog.dart';
 import '../../widget/text_form_field.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State createState() => _HomePageState();
@@ -44,7 +45,39 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   Position? _currentPosition;
   String? _currentAddress = '';
 
-  _getCurrentLocation() async {
+  _getCurrentLocation(context) async {
+
+    bool serviceEnabled;
+LocationPermission permission;
+
+// Test if location services are enabled.
+serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+
+permission = await Geolocator.checkPermission();
+if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+         showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomDialog();
+          });
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+if (permission == LocationPermission.deniedForever) {
+ // Permissions are denied forever, handle appropriately.
+ return Future.error(
+     'Location permissions are permanently denied, we cannot request permissions.');
+}
+return
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
@@ -54,9 +87,10 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
         _getAddressFromLatLng();
       });
     }).catchError((e) {
-      print(e);
+      throw (e);
     });
   }
+  
 
   _getAddressFromLatLng() async {
     try {
@@ -69,13 +103,13 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
         _currentAddress = "${place.locality}, ${place.street},${place.country}";
       });
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
   @override
   void initState() {
-    _getCurrentLocation();
+    _getCurrentLocation(context);
     super.initState();
   }
 
@@ -132,25 +166,41 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         InkWell(
                           onTap: () =>
                               scaffoldKey.currentState!.openEndDrawer(),
-                          child: CircleAvatar(
-                            radius: 28,
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover),
+                          child: SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      null ||
+                                  SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      ''
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppColors.grey1,
+                                    size: 23.sp,
+                                  ),
+                                  radius: 26,
+                                )
+                              : CircleAvatar(
+                                  radius: 28,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const CircularProgressIndicator(),
+                                  ),
                                 ),
-                              ),
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const CircularProgressIndicator(),
-                            ),
-                          ),
                         )
                       ],
                     ),
@@ -454,24 +504,41 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 32,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover),
-                            ),
-                          ),
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const CircularProgressIndicator(),
-                        ),
-                      ),
+                      SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      null ||
+                                  SessionManager.instance
+                                          .usersData["profile_picture"] ==
+                                      ''
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: AppColors.grey1,
+                                    size: 23.sp,
+                                  ),
+                                  radius: 26,
+                                )
+                              : CircleAvatar(
+                                  radius: 28,
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const CircularProgressIndicator(),
+                                  ),
+                                ),
                       Padding(
                         padding: EdgeInsets.only(top: 1.w, left: 3.w),
                         child: Column(
