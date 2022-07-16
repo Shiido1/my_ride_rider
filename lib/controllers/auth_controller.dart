@@ -33,7 +33,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   String otpValue = "1234";
   final loadingKey = GlobalKey<FormState>();
 
-  void sendPushNot({String? token, context}) async {
+  void sendPushNot() async {
     setState(() {
       model.isLoading = true;
     });
@@ -56,8 +56,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "drop_location": dropLocationAdd,
           "image":
               "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-          "request_id": SessionManager.instance.userInstantData["data"]
-              ["request_place"]["request_id"],
+          "request_id": SessionManager.instance.userInstantData["request_place"]["request_id"],
           "distance": DriversUtil.rounded,
           "drop_lat": dropLat,
           "drop_long": dropLong,
@@ -66,7 +65,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         showDialog(
-            context: context,
+            context: state!.context,
             builder: (BuildContext cntxt) {
               return const CustomRideDialog();
             });
@@ -249,7 +248,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
   }
 
-  void instantTrip({Map? map, BuildContext? context}) async {
+  void instantTrip(Map map) async {
     var drivers = [map];
     Map<String, dynamic>? response = await authRepo.instantTrip({
       "pick_lat": pickUpLat,
@@ -265,9 +264,10 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
     if (response != null && response["success"] == true) {
       print('trip is successful my nigga');
-      sendPushNot(token:token,context: context);
+      
       var instantData = response["data"];
       SessionManager.instance.userInstantData = instantData;
+      sendPushNot();
     } else {
       showErrorNotification(state!.context, response!["message"]);
     }
@@ -313,8 +313,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  void payment(
-      {String? cardNo, String? exMonth, String? exYear, String? cvc}) async {
+  void payment({
+    String? cardNo, 
+    String? exMonth,
+    String? exYear, 
+    String? cvc}) async {
     setState(() {
       model.isLoading = true;
     });

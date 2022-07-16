@@ -60,13 +60,13 @@ class _SelectRideState extends StateMVC<SelectRide> {
     }
   }
 
-  getInstantTripData(context) async {
+  getInstantTripData() async {
     if (isSelectClassic! || isSelectExecutive! || isSelectCoperate == true) {
-      con.instantTrip(map: {
+      con.instantTrip({
         "driver_id": instantValue.id.toString(),
         "driver_lat": instantValue.location[0],
         "driver_lng": instantValue.location[1]
-      },context: context);
+      });
     }
   }
 
@@ -581,16 +581,25 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () =>
+                              onTap: () async{
                                 updateStatus(
-                                    id: id, status: request, context: context),
+                                  id: id,
+                                  status: request,
+                                );
+                                  token = await getToken(id);
+                                
+                              },
                               child: Container(
                                 width: 200,
                                 height: 50,
                                 decoration: const BoxDecoration(
                                     color: AppColors.primary),
                                 child: Center(
-                                  child: TextView(
+                                  child: con.model.isLoading
+                              ? SpinKitWave(
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                ):TextView(
                                     text: isSelectClassic! ||
                                             isSelectExecutive! ||
                                             isSelectCoperate! == true
@@ -627,14 +636,14 @@ class _SelectRideState extends StateMVC<SelectRide> {
         'status': status,
       };
 
-  updateStatus(
-      {String? id,
-      String? status,
-      String? token,
-      BuildContext? context}) async {
-    String token = await getToken(id);
-    // getInstantTripData(context);
-    con.sendPushNot(token: token, context: context);
+  updateStatus({
+    String? id,
+    String? status,
+    // String? token,
+    // BuildContext? context
+  }) async {
+    await getInstantTripData();
+    // con.sendPushNot();
     up(path: id, status: status);
     saveRequestToDataBase(id, status);
     listenToRequestEvent(context);
