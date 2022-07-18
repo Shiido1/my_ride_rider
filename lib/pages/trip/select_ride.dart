@@ -438,67 +438,58 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             isSelectClassic = false;
                                             isSelectCoperate = false;
                                           }),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 3.w),
-                                                width: 30.w,
-                                                height: 10.h,
-                                                decoration: BoxDecoration(
-                                                  image: const DecorationImage(
-                                                      image: AssetImage(
-                                                    'assets/images/car.png',
-                                                  )),
-                                                  color: !isSelectExecutive!
-                                                      ? AppColors.transparent
-                                                      : AppColors.greyWhite1,
+                                          child: Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) => Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 3.w),
+                                                  width: 30.w,
+                                                  height: 10.h,
+                                                  decoration: BoxDecoration(
+                                                    image:
+                                                        const DecorationImage(
+                                                            image: AssetImage(
+                                                      'assets/images/car.png',
+                                                    )),
+                                                    color: !isSelectExecutive!
+                                                        ? AppColors.transparent
+                                                        : AppColors.greyWhite1,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                'EXECUTIVE',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              SizedBox(
-                                                height: 0.5.h,
-                                              ),
-                                              Consumer<GoogleApiProvider>(
-                                                builder: (_, model, __) =>
-                                                    model.timeResponseExecutive ==
+                                                Text(
+                                                  'EXECUTIVE',
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                SizedBox(
+                                                  height: 0.5.h,
+                                                ),
+                                                TextView(
+                                                    text: model.timeResponseExecutive ==
                                                             null
-                                                        ? Text(
-                                                            'No vehicle away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          )
-                                                        : Text(
-                                                            '${model.timeResponseExecutive} away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                              ),
-                                              SizedBox(
-                                                height: 1.h,
-                                              ),
-                                              Text(
-                                                '\$2',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
+                                                        ? ''
+                                                        : "\$${model.timeResponseExecutive} away",
+                                                    fontSize: 14.5.sp,
                                                     fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                                        FontWeight.w500),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                TextView(
+                                                  text: model.coperateEsCost ==
+                                                          null
+                                                      ? ''
+                                                      : '\$${model.executiveEsCost}',
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         InkWell(
@@ -510,67 +501,58 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             isSelectClassic = false;
                                             isSelectExecutive = false;
                                           }),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 3.w),
-                                                width: 30.w,
-                                                height: 10.h,
-                                                decoration: BoxDecoration(
-                                                  image: const DecorationImage(
-                                                      image: AssetImage(
-                                                    'assets/images/car.png',
-                                                  )),
-                                                  color: !isSelectCoperate!
-                                                      ? AppColors.transparent
-                                                      : AppColors.greyWhite1,
+                                          child: Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) => Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 3.w),
+                                                  width: 30.w,
+                                                  height: 10.h,
+                                                  decoration: BoxDecoration(
+                                                    image:
+                                                        const DecorationImage(
+                                                            image: AssetImage(
+                                                      'assets/images/car.png',
+                                                    )),
+                                                    color: !isSelectCoperate!
+                                                        ? AppColors.transparent
+                                                        : AppColors.greyWhite1,
+                                                  ),
                                                 ),
-                                              ),
-                                              Text(
-                                                'COPERATE',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              SizedBox(
-                                                height: 0.5.h,
-                                              ),
-                                              Consumer<GoogleApiProvider>(
-                                                builder: (_, model, __) =>
-                                                    model.timeResponseCoperate ==
-                                                            null
-                                                        ? Text(
-                                                            'No vehicle away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          )
-                                                        : Text(
-                                                            '${model.timeResponseCoperate} away',
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                              ),
-                                              SizedBox(
-                                                height: 1.h,
-                                              ),
-                                              Text(
-                                                '\$2',
-                                                style: TextStyle(
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'COPERATE',
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                SizedBox(
+                                                  height: 0.5.h,
+                                                ),
+                                                TextView(
+                                                  text: model.timeResponseCoperate ==
+                                                          null
+                                                      ? ''
+                                                      : '${model.timeResponseCoperate} away',
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                SizedBox(
+                                                  height: 1.h,
+                                                ),
+                                                TextView(
+                                                  text: model.coperateEsCost ==
+                                                          null
+                                                      ? ''
+                                                      : '\$${model.coperateEsCost}',
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
@@ -581,13 +563,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                               height: 15.h,
                             ),
                             InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 updateStatus(
                                   id: id,
                                   status: request,
                                 );
-                                  token = await getToken(id);
-                                
+                                token = await getToken(id);
                               },
                               child: Container(
                                 width: 200,
@@ -596,19 +577,20 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     color: AppColors.primary),
                                 child: Center(
                                   child: con.model.isLoading
-                              ? SpinKitWave(
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                ):TextView(
-                                    text: isSelectClassic! ||
-                                            isSelectExecutive! ||
-                                            isSelectCoperate! == true
-                                        ? 'Request ride'
-                                        : 'Select',
-                                    color: AppColors.white,
-                                    fontSize: 17.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                      ? SpinKitWave(
+                                          color: Colors.white,
+                                          size: 20.sp,
+                                        )
+                                      : TextView(
+                                          text: isSelectClassic! ||
+                                                  isSelectExecutive! ||
+                                                  isSelectCoperate! == true
+                                              ? 'Request ride'
+                                              : 'Select',
+                                          color: AppColors.white,
+                                          fontSize: 17.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                 ),
                               ),
                             ),
@@ -639,11 +621,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
   updateStatus({
     String? id,
     String? status,
-    // String? token,
-    // BuildContext? context
   }) async {
     await getInstantTripData();
-    // con.sendPushNot();
     up(path: id, status: status);
     saveRequestToDataBase(id, status);
     listenToRequestEvent(context);

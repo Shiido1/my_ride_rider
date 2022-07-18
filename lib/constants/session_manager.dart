@@ -19,7 +19,7 @@ class SessionManager {
 
   static const String keyAuthToken = 'auth_token';
   static const String keyUserData = 'users_data';
-  static const String keyInstantUserData = 'users_data';
+  static const String keyInstantUserData = 'users_instant_trip_data';
   static const String keyUserProfileData = 'users_profile_data';
   static const String keyUuid = 'uuid';
   static const String logginKey = 'loggin';

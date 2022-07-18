@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/models/global_model.dart';
@@ -124,9 +122,6 @@ class GoogleApiProvider extends ChangeNotifier {
   }
 
   void estimatedCost(String minDuration) async {
-    print('estimated cost is successful my nigga11111');
-
-    print('estimated cost is time $minDuration');
     var distance = DriversUtil.getDistanceFromLatLonInKm(
         double.parse(pickUpLat!),
         double.parse(pickUpLong!),
@@ -143,9 +138,10 @@ class GoogleApiProvider extends ChangeNotifier {
     for (int i = 0; i < _estimatedCostList!.length; i++) {
       classicEsCost = _estimatedCostList?[i]['Classic'].toInt() ?? 0;
       notifyListeners();
-      // executiveEsCost = _estimatedCostList?[i]['Executive'].toInt() ?? 0;
-      // coperateEsCost = _estimatedCostList?[i]['Coperative'].toInt() ?? 0;
-      // notifyListeners();
+      executiveEsCost = _estimatedCostList?[i]['Executive'] ?? 0;
+      notifyListeners();
+      coperateEsCost = _estimatedCostList?[i]['Coperative'] ?? 0;
+      notifyListeners();
     }
     notifyListeners();
   }

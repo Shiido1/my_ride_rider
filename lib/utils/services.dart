@@ -54,7 +54,7 @@ mixin Services {
     return dio;
   }
 
-    Future<Dio> getFcmDio() async {
+  Future<Dio> getFcmDio() async {
     Dio dio;
     String fcmBaseUrl = Constants.fcmBaseUrl;
 
@@ -101,7 +101,8 @@ mixin Services {
       Response response = await dio.post(endPoint,
           data: credentials,
           options: Options(headers: {
-            "Authorization": "key=AAAAapkT0IM:APA91bHly3mpmpelRfPuYzYHnIU01wxSLrykzXcj9O4QM6vmk2D0ixj7ZYba6c16gqqa8mc8izXUVY_Pz31Z5Kh72VH0D-li7yquH5GQxeK50SoTAdC5-FlKKUKlCokHJbdM6pfYkkgs",
+            "Authorization":
+                "key=AAAAapkT0IM:APA91bHly3mpmpelRfPuYzYHnIU01wxSLrykzXcj9O4QM6vmk2D0ixj7ZYba6c16gqqa8mc8izXUVY_Pz31Z5Kh72VH0D-li7yquH5GQxeK50SoTAdC5-FlKKUKlCokHJbdM6pfYkkgs",
             ...header
           }));
       return response.data;
@@ -113,7 +114,7 @@ mixin Services {
     }
   }
 
-  Future<Map<String, dynamic>?> apiPostRequests(
+  Future<Response?> apiPostRequests(
       String endPoint, Map<String, dynamic> credentials,
       {Map<String, dynamic>? header}) async {
     try {
@@ -126,15 +127,15 @@ mixin Services {
             "Authorization": "Bearer " + await getAuthToken(),
             ...header
           }));
-      return response.data;
+      return response;
     } on DioError catch (e) {
       debugPrint("e.toString()");
       print(e.toString());
-      return {};
+      return e.response;
     }
   }
 
-  Future <List<dynamic>?> apiPostQudusRequests(
+  Future<List<dynamic>?> apiPostQudusRequests(
       String endPoint, Map<String, dynamic> credentials,
       {Map<String, dynamic>? header}) async {
     try {
@@ -334,7 +335,7 @@ mixin Services {
       return {
         "status": "error",
         "message": e.response?.data?["data"],
-        "email":e.response?.data?["data"]["errors"]["email"]
+        "email": e.response?.data?["data"]["errors"]["email"]
       };
     }
 
@@ -354,10 +355,9 @@ mixin Services {
   }
 
   getAuthToken() async {
-    String? accessToken =  SessionManager.instance.authToken;
+    String? accessToken = SessionManager.instance.authToken;
 
     return accessToken;
-
   }
 
   checkForExpiredToken(DioError e) {

@@ -56,8 +56,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "drop_location": dropLocationAdd,
           "image":
               "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-          "request_id": SessionManager.instance.userInstantData["request_place"]["request_id"],
-          "distance": DriversUtil.rounded,
+          "request_id": SessionManager.instance.userInstantData["request_place"]
+              ["request_id"],
+          "distance": DriversUtil.rounded.toString(),
           "drop_lat": dropLat,
           "drop_long": dropLong,
         }
@@ -87,20 +88,20 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
 
     try {
-      Map<String, dynamic>? response = await authRepo.login({
+      Response? response = await authRepo.login({
         "email": model.emailController.text,
         "password": model.passwordController.text
       });
       debugPrint("RESPONSE: $response");
-      if (response != null && response.isNotEmpty) {
+      if (response != null && response.statusCode == 200) {
         SessionManager.instance.isLoggedIn = true;
-        SessionManager.instance.authToken = response["access_token"];
+        SessionManager.instance.authToken = response.data["access_token"];
         getUserDataWhenLogin();
         setState(() {
           model.isLoading = false;
         });
       } else {
-        showErrorNotification(state!.context, response!["message"]);
+        showErrorNotification(state!.context, response!.data!["message"]);
       }
     } catch (e, str) {
       debugPrint("Error: $e");
@@ -143,6 +144,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.getUserInfo();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
+        print('how response looks like $response');
         SessionManager.instance.usersData = response["data"];
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -163,7 +165,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       });
 
       try {
-        Map<String, dynamic>? response = await authRepo.register({
+        Response? response = await authRepo.register({
           "name": model.regFirstNameController.text,
           "last_name": model.regLastNameController.text,
           "email": model.regEmailController.text,
@@ -175,14 +177,24 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "password_confirmation": model.regConfirmPassController.text
         });
 
-        if (response != null && response.isNotEmpty) {
-          SessionManager.instance.authToken = response["access_token"];
+        if (response != null && response.statusCode == 200) {
+          SessionManager.instance.authToken = response.data["access_token"];
           Routers.replaceAllWithName(state!.context, "/profile");
           setState(() {
             model.isLoading = false;
           });
         } else {
-          showErrorNotification(state!.context, response!["message"]);
+          
+          String? valueError;
+          for (int i = 0; i < response!.data["errors"]["email"].length; i++) {
+            if(response.data["errors"]["email"][i].toString().isNotEmpty) {
+              valueError = response.data["errors"]["email"][i];
+            }else{
+              valueError = response.data["errors"]["mobile"][i];
+            }
+          }
+          print('error $valueError');
+          showErrorNotificationWithCallback(state!.context, valueError ?? '');
         }
       } catch (e, str) {
         print('object response $e');
@@ -209,13 +221,13 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       var uuid = SessionManager.instance.uuidData;
 
-      Map<String, dynamic>? response =
+      Response? response =
           await authRepo.otpVerification({"otp": otpValue, "uuid": uuid});
 
-      if (response != null && response["message"] == "success") {
+      if (response != null && response.statusCode == 200) {
         Navigator.pushNamed(state!.context, '/contact_info');
       } else {
-        showErrorNotification(state!.context, response!["message"]);
+        showErrorNotification(state!.context, response!.data["message"]);
       }
 
       setState(() {
@@ -230,16 +242,16 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = true;
       });
 
-      Map<String, dynamic>? response = await authRepo.phoneVerification(
+      Response? response = await authRepo.phoneVerification(
           {"mobile": model.insertPhoneController.text, "country": countryCode});
-      if (response != null && response["message"] == "success") {
-        var uUid = response["data"]["uuid"];
+      if (response != null && response.statusCode == 200) {
+        var uUid = response.data["data"]["uuid"];
         // LocalStorage().store("userid", uUid);
         SessionManager.instance.uuidData = uUid;
 
         Navigator.pushNamed(state!.context, '/otp_page');
       } else {
-        showErrorNotification(state!.context, response!["message"]);
+        showErrorNotification(state!.context, response!.data["message"]);
       }
 
       setState(() {
@@ -250,7 +262,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   void instantTrip(Map map) async {
     var drivers = [map];
-    Map<String, dynamic>? response = await authRepo.instantTrip({
+    Response? response = await authRepo.instantTrip({
       "pick_lat": pickUpLat,
       "pick_lng": pickUpLong,
       "drop_lat": dropLat,
@@ -262,14 +274,14 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "drop_address": dropLocationAdd,
       "driver": jsonEncode(drivers)
     });
-    if (response != null && response["success"] == true) {
+    if (response != null && response.statusCode == 200) {
       print('trip is successful my nigga');
-      
-      var instantData = response["data"];
+
+      var instantData = response.data["data"];
       SessionManager.instance.userInstantData = instantData;
       sendPushNot();
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -281,7 +293,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     setState(() {
       model.isLoading = true;
     });
-    Map<String, dynamic>? response = await authRepo.scheduleTrip({
+    Response? response = await authRepo.scheduleTrip({
       "pick_lat": pickUpLat,
       "pick_lng": pickUpLong,
       "drop_lat": dropLat,
@@ -296,7 +308,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           schedulePeriod // Can be instant, weekly, bi-weekly or monthly
       // "promocode_id": ""
     });
-    if (response != null && response["success"] == true) {
+    if (response != null && response.statusCode == 200) {
       // var instantData = response["data"];
       Routers.replaceAllWithName(state!.context, "/home");
       showSuccessNotificationWithTime(
@@ -305,7 +317,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = false;
       });
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -313,22 +325,19 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  void payment({
-    String? cardNo, 
-    String? exMonth,
-    String? exYear, 
-    String? cvc}) async {
+  void payment(
+      {String? cardNo, String? exMonth, String? exYear, String? cvc}) async {
     setState(() {
       model.isLoading = true;
     });
-    Map<String, dynamic>? response = await authRepo.payment({
+    Response? response = await authRepo.payment({
       "card_number": cardNo,
       "exp_month": exMonth,
       "exp_year": exYear,
       "cvc": cvc
     });
     if (response != null &&
-        response["success"] == 'Payment Method Added Successfully') {
+        response.data["success"] == 'Payment Method Added Successfully') {
       Routers.replaceAllWithName(state!.context, "/ratings");
       showSuccessNotificationWithTime(
           state!.context, ' Your Payment is Successfully', 5);
@@ -336,7 +345,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = false;
       });
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data!["message"]);
     }
 
     setState(() {
@@ -345,22 +354,22 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void cancelTrip(context) async {
-    Map<String, dynamic>? response = await authRepo.cancelTrip({
+    Response? response = await authRepo.cancelTrip({
       'request_id': SessionManager.instance.userInstantData["data"]
           ["request_place"]["request_id"],
       'custom_reason': 'for some reason'
     });
 
-    if (response != null && response["success"] == true) {
+    if (response != null && response.statusCode == 200) {
       print('cancel is successful my nigga');
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data!["message"]);
     }
   }
 
   void changeLocation() async {
-    Map<String, dynamic>? response = await authRepo.changeLocation({
+    Response? response = await authRepo.changeLocation({
       'request_id': SessionManager.instance.userInstantData["data"]
           ["request_place"]["request_id"],
       'drop_lat': dropLat,
@@ -368,26 +377,26 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       'drop_address': dropLocationAdd,
     });
 
-    if (response != null && response["success"] == true) {
+    if (response != null && response.statusCode == 200) {
       print('location changed is successful my nigga');
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data["message"]);
     }
   }
 
   void ratings(context, {String? rate, String? comment}) async {
-    Map<String, dynamic>? response = await authRepo.cancelTrip({
+    Response? response = await authRepo.cancelTrip({
       'request_id': SessionManager.instance.userInstantData["data"]
           ["request_place"]["request_id"],
       'rating': rate,
       'comment': comment,
     });
 
-    if (response != null && response["success"] == true) {
+    if (response != null && response.statusCode == 200) {
       print('rating is successful my nigga');
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotification(state!.context, response!["message"]);
+      showErrorNotification(state!.context, response!.data!["message"]);
     }
   }
 

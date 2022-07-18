@@ -21,7 +21,7 @@ import '../../widget/custom_dialog.dart';
 import '../../widget/text_form_field.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State createState() => _HomePageState();

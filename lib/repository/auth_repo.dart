@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/utils/services.dart';
 
@@ -14,8 +15,8 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> login(Map<String, String> credentials) async {
-    Map<String, dynamic>? response =
+  Future<Response?> login(Map<String, String> credentials) async {
+    Response? response =
         await apiPostRequests("user/login", credentials);
 
     if (response != null) {
@@ -25,9 +26,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> register(
+  Future<Response?> register(
       Map<String, String> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("user/register", credentials);
 
     if (response != null) {
@@ -36,9 +37,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> phoneVerification(
+  Future<Response?> phoneVerification(
       Map<String, String> credentials) async {
-    Map<String, dynamic>? response =
+   Response? response =
         await apiPostRequests("user/register/send-otp", credentials);
 
     if (response != null) {
@@ -48,9 +49,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> otpVerification(
+  Future<Response?> otpVerification(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("user/register/validate-otp", credentials);
 
     if (response != null) {
@@ -83,9 +84,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> instantTrip(
+  Future<Response?> instantTrip(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("request/create", credentials);
 
     if (response != null) {
@@ -95,9 +96,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> scheduleTrip(
+  Future<Response?> scheduleTrip(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("request/create", credentials);
 
     if (response != null) {
@@ -107,9 +108,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> payment(
+  Future<Response?> payment(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("payment/stripe/add/card", credentials);
 
     if (response != null) {
@@ -119,9 +120,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> cancelTrip(
+  Future<Response?> cancelTrip(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("request/cancel", credentials);
 
     if (response != null) {
@@ -131,9 +132,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> changeLocation(
+  Future<Response?> changeLocation(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+   Response? response =
         await apiPostRequests("request/change-drop-location", credentials);
 
     if (response != null) {
@@ -143,9 +144,9 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> ratings(
+  Future<Response?> ratings(
       Map<String, dynamic> credentials) async {
-    Map<String, dynamic>? response =
+    Response? response =
         await apiPostRequests("request/cancel", credentials);
 
     if (response != null) {
