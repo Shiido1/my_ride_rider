@@ -135,7 +135,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  void getUserData() async {
+  Future<void> getUserData() async {
     setState(() {
       model.isLoading = true;
     });
@@ -144,7 +144,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.getUserInfo();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
-        print('how response looks like $response');
         SessionManager.instance.usersData = response["data"];
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -166,7 +165,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       try {
         Response? response = await authRepo.register({
-          "name": model.regFirstNameController.text,
+          "name":
+              "${model.regFirstNameController.text} ${model.regLastNameController.text}",
           "last_name": model.regLastNameController.text,
           "email": model.regEmailController.text,
           "mobile": model.regPhoneNumberController.text,
@@ -184,20 +184,17 @@ class AuthController extends ControllerMVC with FlushBarMixin {
             model.isLoading = false;
           });
         } else {
-          
           String? valueError;
           for (int i = 0; i < response!.data["errors"]["email"].length; i++) {
-            if(response.data["errors"]["email"][i].toString().isNotEmpty) {
+            if (response.data["errors"]["email"][i].toString().isNotEmpty) {
               valueError = response.data["errors"]["email"][i];
-            }else{
+            } else {
               valueError = response.data["errors"]["mobile"][i];
             }
           }
-          print('error $valueError');
           showErrorNotificationWithCallback(state!.context, valueError ?? '');
         }
       } catch (e, str) {
-        print('object response $e');
         debugPrint("Error: $e");
         debugPrint("StackTrace: $str");
       }
@@ -246,7 +243,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           {"mobile": model.insertPhoneController.text, "country": countryCode});
       if (response != null && response.statusCode == 200) {
         var uUid = response.data["data"]["uuid"];
-        // LocalStorage().store("userid", uUid);
         SessionManager.instance.uuidData = uUid;
 
         Navigator.pushNamed(state!.context, '/otp_page');
@@ -261,6 +257,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void instantTrip(Map map) async {
+    setState(() {
+      model.isLoading = true;
+    });
     var drivers = [map];
     Response? response = await authRepo.instantTrip({
       "pick_lat": pickUpLat,
@@ -275,13 +274,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "driver": jsonEncode(drivers)
     });
     if (response != null && response.statusCode == 200) {
-      print('trip is successful my nigga');
-
       var instantData = response.data["data"];
       SessionManager.instance.userInstantData = instantData;
       sendPushNot();
     } else {
-      showErrorNotification(state!.context, response!.data["message"]);
+      showErrorNotificationWithCallback(state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -304,12 +301,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "drop_address": dropLocationAdd,
       "is_later": 1,
       "trip_start_time": scheduleTripDate,
-      "schedule_type":
-          schedulePeriod // Can be instant, weekly, bi-weekly or monthly
-      // "promocode_id": ""
+      "schedule_type": schedulePeriod
     });
     if (response != null && response.statusCode == 200) {
-      // var instantData = response["data"];
       Routers.replaceAllWithName(state!.context, "/home");
       showSuccessNotificationWithTime(
           state!.context, 'You\'ve Successfully scheduled a trip', 5);
@@ -317,35 +311,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = false;
       });
     } else {
-      showErrorNotification(state!.context, response!.data["message"]);
-    }
-
-    setState(() {
-      model.isLoading = false;
-    });
-  }
-
-  void payment(
-      {String? cardNo, String? exMonth, String? exYear, String? cvc}) async {
-    setState(() {
-      model.isLoading = true;
-    });
-    Response? response = await authRepo.payment({
-      "card_number": cardNo,
-      "exp_month": exMonth,
-      "exp_year": exYear,
-      "cvc": cvc
-    });
-    if (response != null &&
-        response.data["success"] == 'Payment Method Added Successfully') {
-      Routers.replaceAllWithName(state!.context, "/ratings");
-      showSuccessNotificationWithTime(
-          state!.context, ' Your Payment is Successfully', 5);
-      setState(() {
-        model.isLoading = false;
-      });
-    } else {
-      showErrorNotification(state!.context, response!.data!["message"]);
+      showErrorNotificationWithCallback(state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -354,21 +320,29 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void cancelTrip(context) async {
+    setState(() {
+      model.isLoading = true;
+    });
     Response? response = await authRepo.cancelTrip({
-      'request_id': SessionManager.instance.userInstantData["data"]
+      'request_id': SessionManager.instance.userInstantData
           ["request_place"]["request_id"],
       'custom_reason': 'for some reason'
     });
 
     if (response != null && response.statusCode == 200) {
-      print('cancel is successful my nigga');
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotification(state!.context, response!.data!["message"]);
+      showErrorNotificationWithCallback(state!.context, response!.data!["message"]);
     }
+    setState(() {
+      model.isLoading = false;
+    });
   }
 
   void changeLocation() async {
+    setState(() {
+      model.isLoading = true;
+    });
     Response? response = await authRepo.changeLocation({
       'request_id': SessionManager.instance.userInstantData["data"]
           ["request_place"]["request_id"],
@@ -378,26 +352,33 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
 
     if (response != null && response.statusCode == 200) {
-      print('location changed is successful my nigga');
     } else {
       showErrorNotification(state!.context, response!.data["message"]);
     }
+    setState(() {
+      model.isLoading = true;
+    });
   }
 
   void ratings(context, {String? rate, String? comment}) async {
-    Response? response = await authRepo.cancelTrip({
-      'request_id': SessionManager.instance.userInstantData["data"]
+    setState(() {
+      model.isLoading = true;
+    });
+    Response? response = await authRepo.ratings({
+      'request_id': SessionManager.instance.userInstantData
           ["request_place"]["request_id"],
       'rating': rate,
       'comment': comment,
     });
 
     if (response != null && response.statusCode == 200) {
-      print('rating is successful my nigga');
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotification(state!.context, response!.data!["message"]);
+      showErrorNotificationWithCallback(state!.context, response!.data!["message"]);
     }
+    setState(() {
+      model.isLoading = true;
+    });
   }
 
   void signOut(BuildContext context) async {
@@ -422,12 +403,11 @@ class AuthController extends ControllerMVC with FlushBarMixin {
             _formartFileImage(image).readAsBytesSync(),
             filename: image!.path.split("/").last)
       });
-      debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         getUserData();
         UserDialog.hideLoading(loadingKey);
       } else {
-        showErrorNotification(state!.context, response!["message"]);
+        showErrorNotificationWithCallback(state!.context, response!["message"]);
       }
     } catch (e, str) {
       debugPrint("Error: $e");

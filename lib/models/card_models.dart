@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Card_Model{
+import 'global_model.dart';
 
-  // ignore: non_constant_identifier_names
-  static final TextEditingController card_HolderController = TextEditingController();
-  static final TextEditingController cardNoController = TextEditingController();
-  static final TextEditingController cvvController = TextEditingController();
-  static final TextEditingController exDateController = TextEditingController();
+class CardModel{
+
+  final TextEditingController cardHolderController = TextEditingController(text: cardHolder);
+  final TextEditingController cardNoController = TextEditingController(text: cardno);
+  final TextEditingController cvvController = TextEditingController(text: cvv);
+  final TextEditingController monthController = TextEditingController(text: month);
+  final TextEditingController yearController = TextEditingController(text: year);
+  final GlobalKey<FormState> cardFormKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
 }

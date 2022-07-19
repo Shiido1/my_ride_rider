@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../../../utils/router.dart';
 
-class RegistrationSuccess extends StatelessWidget {
+import '../../../controllers/auth_controller.dart';
+import '../../../models/global_model.dart';
+
+class RegistrationSuccess extends StatefulWidget {
   const RegistrationSuccess({Key? key}) : super(key: key);
+
+  @override
+  State createState() => _RegistrationSuccessState();
+}
+
+class _RegistrationSuccessState extends StateMVC<RegistrationSuccess> {
+  _RegistrationSuccessState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +88,28 @@ class RegistrationSuccess extends StatelessWidget {
             left: Adaptive.w(20),
             top: Adaptive.h(100) - 100,
             child: ElevatedButton(
-              onPressed: () {
-                Routers.pushNamed(context, '/home');
-              },
+              onPressed: () => navigate(),
               child: const Text("Home page"),
               style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
+                minimumSize:
+                    MaterialStateProperty.all(const Size.fromHeight(50)),
                 backgroundColor: MaterialStateProperty.all(AppColors.primary),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(0))),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0))),
               ),
             ),
           )
         ],
       ),
     );
+  }
+
+  navigate() async {
+    setState(() {
+      isRegistration = false;
+    });
+    print(isRegistration.toString);
+    await con.getUserData();
+    Routers.replaceAllWithName(context, '/home');
   }
 }

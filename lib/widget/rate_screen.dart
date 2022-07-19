@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/widget/text_form_field.dart';
@@ -148,11 +149,16 @@ class _RateScreenState extends StateMVC<RateScreen> {
                         color: AppColors.primary,
                       ),
                     ),
-                    child: TextView(
-                        text: 'Submit',
-                        fontSize: 18.sp,
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w700),
+                    child: con.model.isLoading
+                        ? SpinKitWave(
+                            color: Colors.white,
+                            size: 20.sp,
+                          )
+                        : TextView(
+                            text: 'Submit',
+                            fontSize: 18.sp,
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w700),
                   ),
                 ),
               ],

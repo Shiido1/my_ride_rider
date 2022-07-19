@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../constants/colors.dart';
+import '../controllers/auth_controller.dart';
 import '../utils/router.dart';
 
-class CustomRideDialog extends StatelessWidget {
+class CustomRideDialog extends StatefulWidget {
   const CustomRideDialog({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State createState() => _CustomRideDialogState();
+}
+
+class _CustomRideDialogState extends StateMVC<CustomRideDialog> {
+  _CustomRideDialogState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +74,7 @@ class CustomRideDialog extends StatelessWidget {
                 height: 3.4.h,
               ),
               InkWell(
-                onTap: () => Routers.replaceAllWithName(context, "/home"),
+                onTap: () => con.cancelTrip(context),
                 child: Text(
                   "Cancel Request",
                   style: TextStyle(
@@ -79,11 +92,22 @@ class CustomRideDialog extends StatelessWidget {
       );
 }
 
-class ArrivalCustomRideDialog extends StatelessWidget {
+class ArrivalCustomRideDialog extends StatefulWidget {
   const ArrivalCustomRideDialog({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State createState() => _ArrivalCustomRideDialogState();
+}
+
+class _ArrivalCustomRideDialogState extends StateMVC<ArrivalCustomRideDialog> {
+  _ArrivalCustomRideDialogState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
+  
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -290,7 +314,7 @@ class ArrivalCustomRideDialog extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: InkWell(
-                      onTap: () => Routers.replaceAllWithName(context, "/home"),
+                      onTap: () =>  con.cancelTrip(context),
                       child: Text(
                         "Cancel Request",
                         style: TextStyle(

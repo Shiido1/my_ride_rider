@@ -95,24 +95,23 @@ class _SelectRideState extends StateMVC<SelectRide> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 6.h),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context),
-                    )),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 4.w),
-                    child:
-                        SessionManager.instance.usersData["profile_picture"] ==
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 4.w),
+                        child: SessionManager.instance
+                                        .usersData["profile_picture"] ==
                                     null ||
                                 SessionManager.instance
                                         .usersData["profile_picture"] ==
@@ -146,465 +145,475 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                       const CircularProgressIndicator(),
                                 ),
                               ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.w),
-                  child: Text(
-                    'Order',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5.w),
+                    child: Text(
+                      'Order',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Container(
-                  height: 250,
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 180,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20))),
-                        child: Row(children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Column(
-                              children: [
-                                const Icon(
-                                  Icons.person,
-                                  color: AppColors.primary,
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 1,
-                                  decoration: const BoxDecoration(
-                                    border: Border.symmetric(
-                                      vertical: BorderSide(
-                                        color: AppColors.primary,
-                                        width: 1,
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  Container(
+                    height: 250,
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 180,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primary),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20))),
+                          child: Row(children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Column(
+                                children: [
+                                  const Icon(
+                                    Icons.person,
+                                    color: AppColors.primary,
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 1,
+                                    decoration: const BoxDecoration(
+                                      border: Border.symmetric(
+                                        vertical: BorderSide(
+                                          color: AppColors.primary,
+                                          width: 1,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const Icon(
-                                  Icons.location_on,
-                                  color: AppColors.primary,
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 1.h),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                TextFormField(
-                                  controller: pickupController,
-                                  decoration:
-                                      Constants.defaultDecoration.copyWith(
-                                    labelText: "FROM",
-                                    labelStyle: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ),
-                                TextFormField(
-                                  controller: destinationController,
-                                  decoration:
-                                      Constants.defaultDecoration.copyWith(
-                                    labelText: "TO",
-                                    labelStyle: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 1.w),
-                          const Center(child: Icon(Icons.repeat))
-                        ]),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            child: const TextWidget(),
-                            height: 10.5.h,
-                            decoration: const BoxDecoration(
-                                color: AppColors.primary,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    topLeft: Radius.circular(30))),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.w),
-                            child: Container(
-                              padding: EdgeInsets.only(top: 3.w),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Container(
-                                  height: 3,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black12,
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: AppColors.primary,
+                                  )
+                                ],
                               ),
-                              height: 60,
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(25))),
                             ),
-                          ),
-                        ],
-                      ),
-                      if (con.model.isLoading)
-                        Center(
-                          child: SpinKitWave(
-                            color: AppColors.primary,
-                            size: 25.sp,
-                          ),
+                            SizedBox(width: 1.h),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  TextFormField(
+                                    controller: pickupController,
+                                    decoration:
+                                        Constants.defaultDecoration.copyWith(
+                                      labelText: "FROM",
+                                      labelStyle: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    controller: destinationController,
+                                    decoration:
+                                        Constants.defaultDecoration.copyWith(
+                                      labelText: "TO",
+                                      labelStyle: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 1.w),
+                            const Center(child: Icon(Icons.repeat))
+                          ]),
                         ),
-                      if (!con.model.isLoading)
-                        Column(
+                      ],
+                    ),
+                  ),
+                  Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Stack(
                           children: [
-                            StreamBuilder(
-                                stream: snapshot1.onValue,
-                                builder:
-                                    (_, AsyncSnapshot<DatabaseEvent> snap) {
-                                  if (snap.data == null || !snap.hasData) {
-                                    return Container();
-                                  }
-
-                                  final d = Map<dynamic, dynamic>.from(snap
-                                      .data!
-                                      .snapshot
-                                      .value! as Map<dynamic, dynamic>);
-
-                                  AvailableDrivers data =
-                                      AvailableDrivers.fromMap(map: d);
-
-                                  final value1 = DriversUtil.returnClosest(
-                                      _pickUpLocation!,
-                                      data.driversInformations!
-                                          .where((element) =>
-                                              element.isActive == 1 &&
-                                              element.isAvailable == 1 &&
-                                              element.isApproved == 1 &&
-                                              element.vehicleTypeName ==
-                                                  "Classic")
-                                          .toList());
-                                  Provider.of<GoogleApiProvider>(context,
-                                          listen: false)
-                                      .getTimeFromGoogleApi(
-                                          origin: pickUpLocationAdd,
-                                          destination: value1.address);
-
-                                  final value2 = DriversUtil.returnClosest(
-                                      _pickUpLocation!,
-                                      data.driversInformations!
-                                          .where((element) =>
-                                              element.isActive == 1 &&
-                                              element.isAvailable == 1 &&
-                                              element.isApproved == 1 &&
-                                              element.vehicleTypeName ==
-                                                  "Executive")
-                                          .toList());
-                                  Provider.of<GoogleApiProvider>(context,
-                                          listen: false)
-                                      .getTimeFromGoogleApiExe(
-                                          origin: pickUpLocationAdd,
-                                          destination: value2.address);
-
-                                  final value3 = DriversUtil.returnClosest(
-                                      _pickUpLocation!,
-                                      data.driversInformations!
-                                          .where((element) =>
-                                              element.isActive == 1 &&
-                                              element.isAvailable == 1 &&
-                                              element.isApproved == 1 &&
-                                              element.vehicleTypeName ==
-                                                  "Coperate")
-                                          .toList());
-
-                                  Provider.of<GoogleApiProvider>(context,
-                                          listen: false)
-                                      .getTimeFromGoogleApiCoperate(
-                                          origin: pickUpLocationAdd,
-                                          destination: value3.address);
-                                  return SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    physics:
-                                        const AlwaysScrollableScrollPhysics(),
-                                    child: Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () => setState(() {
-                                            instantValue = value1;
-                                            id = value1.id.toString();
-                                            request = 'request';
-                                            isSelectClassic = true;
-                                            isSelectExecutive = false;
-                                            isSelectCoperate = false;
-                                          }),
-                                          child: Consumer<GoogleApiProvider>(
-                                            builder: (_, model, __) => Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 3.w),
-                                                  width: 30.w,
-                                                  height: 10.h,
-                                                  decoration: BoxDecoration(
-                                                    image:
-                                                        const DecorationImage(
-                                                            image: AssetImage(
-                                                      'assets/images/car.png',
-                                                    )),
-                                                    color: !isSelectClassic!
-                                                        ? AppColors.transparent
-                                                        : AppColors.greyWhite1,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'CLASSIC',
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                                SizedBox(
-                                                  height: 0.5.h,
-                                                ),
-                                                TextView(
-                                                  text: model.timeResponse ==
-                                                          null
-                                                      ? ''
-                                                      : '${model.timeResponse} away',
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextView(
-                                                  text: model.classicEsCost ==
-                                                          null
-                                                      ? ''
-                                                      : '\$${model.classicEsCost}',
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () => setState(() {
-                                            instantValue = value2;
-                                            id = value2.id.toString();
-                                            request = 'request';
-                                            isSelectExecutive = true;
-                                            isSelectClassic = false;
-                                            isSelectCoperate = false;
-                                          }),
-                                          child: Consumer<GoogleApiProvider>(
-                                            builder: (_, model, __) => Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 3.w),
-                                                  width: 30.w,
-                                                  height: 10.h,
-                                                  decoration: BoxDecoration(
-                                                    image:
-                                                        const DecorationImage(
-                                                            image: AssetImage(
-                                                      'assets/images/car.png',
-                                                    )),
-                                                    color: !isSelectExecutive!
-                                                        ? AppColors.transparent
-                                                        : AppColors.greyWhite1,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'EXECUTIVE',
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                                SizedBox(
-                                                  height: 0.5.h,
-                                                ),
-                                                TextView(
-                                                    text: model.timeResponseExecutive ==
-                                                            null
-                                                        ? ''
-                                                        : "\$${model.timeResponseExecutive} away",
-                                                    fontSize: 14.5.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextView(
-                                                  text: model.coperateEsCost ==
-                                                          null
-                                                      ? ''
-                                                      : '\$${model.executiveEsCost}',
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        InkWell(
-                                          onTap: () => setState(() {
-                                            instantValue = value3;
-                                            id = value3.id.toString();
-                                            request = 'request';
-                                            isSelectCoperate = true;
-                                            isSelectClassic = false;
-                                            isSelectExecutive = false;
-                                          }),
-                                          child: Consumer<GoogleApiProvider>(
-                                            builder: (_, model, __) => Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 3.w),
-                                                  width: 30.w,
-                                                  height: 10.h,
-                                                  decoration: BoxDecoration(
-                                                    image:
-                                                        const DecorationImage(
-                                                            image: AssetImage(
-                                                      'assets/images/car.png',
-                                                    )),
-                                                    color: !isSelectCoperate!
-                                                        ? AppColors.transparent
-                                                        : AppColors.greyWhite1,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'COPERATE',
-                                                  style: TextStyle(
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                                SizedBox(
-                                                  height: 0.5.h,
-                                                ),
-                                                TextView(
-                                                  text: model.timeResponseCoperate ==
-                                                          null
-                                                      ? ''
-                                                      : '${model.timeResponseCoperate} away',
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                                SizedBox(
-                                                  height: 1.h,
-                                                ),
-                                                TextView(
-                                                  text: model.coperateEsCost ==
-                                                          null
-                                                      ? ''
-                                                      : '\$${model.coperateEsCost}',
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }),
-                            SizedBox(
-                              height: 15.h,
+                            Container(
+                              child: const TextWidget(),
+                              height: 10.5.h,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(30),
+                                      topLeft: Radius.circular(30))),
                             ),
-                            InkWell(
-                              onTap: () async {
-                                updateStatus(
-                                  id: id,
-                                  status: request,
-                                );
-                                token = await getToken(id);
-                              },
+                            Padding(
+                              padding: EdgeInsets.only(top: 10.w),
                               child: Container(
-                                width: 200,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                    color: AppColors.primary),
-                                child: Center(
-                                  child: con.model.isLoading
-                                      ? SpinKitWave(
-                                          color: Colors.white,
-                                          size: 20.sp,
-                                        )
-                                      : TextView(
-                                          text: isSelectClassic! ||
-                                                  isSelectExecutive! ||
-                                                  isSelectCoperate! == true
-                                              ? 'Request ride'
-                                              : 'Select',
-                                          color: AppColors.white,
-                                          fontSize: 17.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                padding: EdgeInsets.only(top: 3.w),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    height: 3,
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black12,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                  ),
                                 ),
+                                height: 60,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25))),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10.h,
                             ),
                           ],
-                        )
-                    ],
+                        ),
+                        if (con.model.isLoading)
+                          Center(
+                            child: SpinKitWave(
+                              color: AppColors.primary,
+                              size: 25.sp,
+                            ),
+                          ),
+                        if (!con.model.isLoading)
+                          Column(
+                            children: [
+                              StreamBuilder(
+                                  stream: snapshot1.onValue,
+                                  builder:
+                                      (_, AsyncSnapshot<DatabaseEvent> snap) {
+                                    if (snap.data == null || !snap.hasData) {
+                                      return Container();
+                                    }
+
+                                    final d = Map<dynamic, dynamic>.from(snap
+                                        .data!
+                                        .snapshot
+                                        .value! as Map<dynamic, dynamic>);
+
+                                    AvailableDrivers data =
+                                        AvailableDrivers.fromMap(map: d);
+
+                                    final value1 = DriversUtil.returnClosest(
+                                        _pickUpLocation!,
+                                        data.driversInformations!
+                                            .where((element) =>
+                                                element.isActive == 1 &&
+                                                element.isAvailable == 1 &&
+                                                element.isApproved == 1 &&
+                                                element.vehicleTypeName ==
+                                                    "Classic")
+                                            .toList());
+                                    Provider.of<GoogleApiProvider>(context,
+                                            listen: false)
+                                        .getTimeFromGoogleApi(
+                                            origin: pickUpLocationAdd,
+                                            destination: value1.address);
+
+                                    final value2 = DriversUtil.returnClosest(
+                                        _pickUpLocation!,
+                                        data.driversInformations!
+                                            .where((element) =>
+                                                element.isActive == 1 &&
+                                                element.isAvailable == 1 &&
+                                                element.isApproved == 1 &&
+                                                element.vehicleTypeName ==
+                                                    "Executive")
+                                            .toList());
+                                    Provider.of<GoogleApiProvider>(context,
+                                            listen: false)
+                                        .getTimeFromGoogleApiExe(
+                                            origin: pickUpLocationAdd,
+                                            destination: value2.address);
+
+                                    final value3 = DriversUtil.returnClosest(
+                                        _pickUpLocation!,
+                                        data.driversInformations!
+                                            .where((element) =>
+                                                element.isActive == 1 &&
+                                                element.isAvailable == 1 &&
+                                                element.isApproved == 1 &&
+                                                element.vehicleTypeName ==
+                                                    "Coperate")
+                                            .toList());
+
+                                    Provider.of<GoogleApiProvider>(context,
+                                            listen: false)
+                                        .getTimeFromGoogleApiCoperate(
+                                            origin: pickUpLocationAdd,
+                                            destination: value3.address);
+                                    return SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () => setState(() {
+                                              instantValue = value1;
+                                              id = value1.id.toString();
+                                              request = 'request';
+                                              isSelectClassic = true;
+                                              isSelectExecutive = false;
+                                              isSelectCoperate = false;
+                                            }),
+                                            child: Consumer<GoogleApiProvider>(
+                                              builder: (_, model, __) => Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 3.w),
+                                                    width: 30.w,
+                                                    height: 10.h,
+                                                    decoration: BoxDecoration(
+                                                      image:
+                                                          const DecorationImage(
+                                                              image: AssetImage(
+                                                        'assets/images/car.png',
+                                                      )),
+                                                      color: !isSelectClassic!
+                                                          ? AppColors
+                                                              .transparent
+                                                          : AppColors
+                                                              .greyWhite1,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'CLASSIC',
+                                                    style: TextStyle(
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 0.5.h,
+                                                  ),
+                                                  TextView(
+                                                    text: model.timeResponse ==
+                                                            null
+                                                        ? ''
+                                                        : '${model.timeResponse} away',
+                                                    fontSize: 14.5.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 1.h,
+                                                  ),
+                                                  TextView(
+                                                    text: model.classicEsCost ==
+                                                            null
+                                                        ? ''
+                                                        : '\$${model.classicEsCost}',
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () => setState(() {
+                                              instantValue = value2;
+                                              id = value2.id.toString();
+                                              request = 'request';
+                                              isSelectExecutive = true;
+                                              isSelectClassic = false;
+                                              isSelectCoperate = false;
+                                            }),
+                                            child: Consumer<GoogleApiProvider>(
+                                              builder: (_, model, __) => Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 3.w),
+                                                    width: 30.w,
+                                                    height: 10.h,
+                                                    decoration: BoxDecoration(
+                                                      image:
+                                                          const DecorationImage(
+                                                              image: AssetImage(
+                                                        'assets/images/car.png',
+                                                      )),
+                                                      color: !isSelectExecutive!
+                                                          ? AppColors
+                                                              .transparent
+                                                          : AppColors
+                                                              .greyWhite1,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'EXECUTIVE',
+                                                    style: TextStyle(
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 0.5.h,
+                                                  ),
+                                                  TextView(
+                                                      text: model.timeResponseExecutive ==
+                                                              null
+                                                          ? ''
+                                                          : "\$${model.timeResponseExecutive} away",
+                                                      fontSize: 14.5.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  SizedBox(
+                                                    height: 1.h,
+                                                  ),
+                                                  TextView(
+                                                    text: model.coperateEsCost ==
+                                                            null
+                                                        ? ''
+                                                        : '\$${model.executiveEsCost}',
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () => setState(() {
+                                              instantValue = value3;
+                                              id = value3.id.toString();
+                                              request = 'request';
+                                              isSelectCoperate = true;
+                                              isSelectClassic = false;
+                                              isSelectExecutive = false;
+                                            }),
+                                            child: Consumer<GoogleApiProvider>(
+                                              builder: (_, model, __) => Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        right: 3.w),
+                                                    width: 30.w,
+                                                    height: 10.h,
+                                                    decoration: BoxDecoration(
+                                                      image:
+                                                          const DecorationImage(
+                                                              image: AssetImage(
+                                                        'assets/images/car.png',
+                                                      )),
+                                                      color: !isSelectCoperate!
+                                                          ? AppColors
+                                                              .transparent
+                                                          : AppColors
+                                                              .greyWhite1,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'COPERATE',
+                                                    style: TextStyle(
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 0.5.h,
+                                                  ),
+                                                  TextView(
+                                                    text: model.timeResponseCoperate ==
+                                                            null
+                                                        ? ''
+                                                        : '${model.timeResponseCoperate} away',
+                                                    fontSize: 14.5.sp,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 1.h,
+                                                  ),
+                                                  TextView(
+                                                    text: model.coperateEsCost ==
+                                                            null
+                                                        ? ''
+                                                        : '\$${model.coperateEsCost}',
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  updateStatus(
+                                    id: id,
+                                    status: request,
+                                  );
+                                  token = await getToken(id);
+                                },
+                                child: Container(
+                                  width: 200,
+                                  height: 50,
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.primary),
+                                  child: Center(
+                                    child: con.model.isLoading
+                                        ? SpinKitWave(
+                                            color: Colors.white,
+                                            size: 20.sp,
+                                          )
+                                        : TextView(
+                                            text: isSelectClassic! ||
+                                                    isSelectExecutive! ||
+                                                    isSelectCoperate! == true
+                                                ? 'Request ride'
+                                                : 'Select',
+                                            color: AppColors.white,
+                                            fontSize: 17.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                            ],
+                          )
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

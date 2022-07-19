@@ -15,5 +15,12 @@ String? id, request, driverRequestID;
 String? driverFname, vehicleNumber, vehicleColor, vehicleName;
 String? token;
 
+String? cardno;
+String? cardHolder;
+String? cvv;
+String? month;
+String? year;
+bool? isRegistration;
+
 String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
 final databaseReference = FirebaseDatabase.instance.ref();

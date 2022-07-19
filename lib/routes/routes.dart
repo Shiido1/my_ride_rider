@@ -9,7 +9,7 @@ import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/home/home_search_dest_page.dart';
 import 'package:my_ride/pages/payment/add_card_page.dart';
 import 'package:my_ride/pages/payment/card.dart';
-import 'package:my_ride/pages/payment/payment.dart';
+// import 'package:my_ride/pages/payment/payment.dart';
 import 'package:my_ride/pages/profile/edit_profile.dart';
 import 'package:my_ride/pages/profile/profile.dart';
 import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
@@ -35,10 +35,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => ProfilePage());
     case '/select_ride':
       return MaterialPageRoute(builder: (_) => SelectRide());
-    case '/payment':
-      return MaterialPageRoute(builder: (_) => PaymentPage());
-    case '/rate_driver':
-      return MaterialPageRoute(builder: (_) => const RateDriver());
+    // case '/payment':
+    //   return MaterialPageRoute(builder: (_) => PaymentPage());
+    // case '/rate_driver':
+    //   return MaterialPageRoute(builder: (_) => const RateDriver());
     case '/schedule_page':
       return MaterialPageRoute(builder: (_) => SchedulePage());
 

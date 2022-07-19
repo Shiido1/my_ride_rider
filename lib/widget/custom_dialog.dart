@@ -3,13 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../constants/colors.dart';
 import 'text_widget.dart';
-
-
-
-
 
 class CustomDialog extends StatefulWidget {
   const CustomDialog({

@@ -10,6 +10,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../components/reg_model.dart';
 import '../../controllers/auth_controller.dart';
+import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 
@@ -241,6 +242,9 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                           child: ElevatedButton(
                             onPressed: () {
                               Routers.pushNamed(context, '/add_card');
+                              setState(() {
+                                isRegistration = true;
+                              });
                             },
                             child: const Text("Continue"),
                             style: ButtonStyle(

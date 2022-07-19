@@ -167,4 +167,14 @@ class AuthRepo with Services {
 
     return null;
   }
+
+  Future<Response?> addcard(Map<String, String> credentials) async {
+    Response? response = await apiPostRequests("payment/stripe/add/card", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
 }
