@@ -158,6 +158,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void signUp() async {
+    String? valueError;
     if (model.regFormKey.currentState?.validate() == true) {
       setState(() {
         model.isLoading = true;
@@ -183,17 +184,28 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           setState(() {
             model.isLoading = false;
           });
-        } else {
-          String? valueError;
-          for (int i = 0; i < response!.data["errors"]["email"].length; i++) {
-            if (response.data["errors"]["email"][i].toString().isNotEmpty) {
-              valueError = response.data["errors"]["email"][i];
-            } else {
+        } else if (response!.data["errors"]["mobile"]!=null) {
+          for (int i = 0; i < response.data["errors"]["mobile"].length; i++) {
+            if (response.data["errors"]["mobile"][i].toString().isNotEmpty) {
               valueError = response.data["errors"]["mobile"][i];
             }
           }
           showErrorNotificationWithCallback(state!.context, valueError ?? '');
-        }
+          }else if (response.data["errors"]["email"]!=null){
+            for (int i = 0; i < response.data["errors"]["email"].length; i++) {
+              if (response.data["errors"]["email"][i].toString().isNotEmpty) {
+                valueError = response.data["errors"]["email"][i];
+              }
+            }
+            showErrorNotificationWithCallback(state!.context, valueError ?? '');
+          }else if (response.data["errors"]["password"]!=null){
+            for (int i = 0; i < response.data["errors"]["password"].length; i++) {
+              if (response.data["errors"]["password"][i].toString().isNotEmpty) {
+                valueError = response.data["errors"]["password"][i];
+              }
+            showErrorNotificationWithCallback(state!.context, valueError ?? '');
+            }
+          }
       } catch (e, str) {
         debugPrint("Error: $e");
         debugPrint("StackTrace: $str");
@@ -278,7 +290,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       SessionManager.instance.userInstantData = instantData;
       sendPushNot();
     } else {
-      showErrorNotificationWithCallback(state!.context, response!.data["message"]);
+      showErrorNotificationWithCallback(
+          state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -311,7 +324,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         model.isLoading = false;
       });
     } else {
-      showErrorNotificationWithCallback(state!.context, response!.data["message"]);
+      showErrorNotificationWithCallback(
+          state!.context, response!.data["message"]);
     }
 
     setState(() {
@@ -324,15 +338,16 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       model.isLoading = true;
     });
     Response? response = await authRepo.cancelTrip({
-      'request_id': SessionManager.instance.userInstantData
-          ["request_place"]["request_id"],
+      'request_id': SessionManager.instance.userInstantData["request_place"]
+          ["request_id"],
       'custom_reason': 'for some reason'
     });
 
     if (response != null && response.statusCode == 200) {
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotificationWithCallback(state!.context, response!.data!["message"]);
+      showErrorNotificationWithCallback(
+          state!.context, response!.data!["message"]);
     }
     setState(() {
       model.isLoading = false;
@@ -365,8 +380,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       model.isLoading = true;
     });
     Response? response = await authRepo.ratings({
-      'request_id': SessionManager.instance.userInstantData
-          ["request_place"]["request_id"],
+      'request_id': SessionManager.instance.userInstantData["request_place"]
+          ["request_id"],
       'rating': rate,
       'comment': comment,
     });
@@ -374,7 +389,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     if (response != null && response.statusCode == 200) {
       Routers.replaceAllWithName(context, '/home');
     } else {
-      showErrorNotificationWithCallback(state!.context, response!.data!["message"]);
+      showErrorNotificationWithCallback(
+          state!.context, response!.data!["message"]);
     }
     setState(() {
       model.isLoading = true;
