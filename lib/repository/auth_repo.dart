@@ -72,6 +72,16 @@ class AuthRepo with Services {
     return null;
   }
 
+  Future<Map<String, dynamic>?> getLocationHistroy() async {
+    Map<String, dynamic>? response = await apiGetRequests("request/user-completed-trips");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Map<String, dynamic>?> profilePicture(
       Map<String, dynamic> credentials) async {
     Map<String, dynamic>? response =
@@ -147,7 +157,7 @@ class AuthRepo with Services {
   Future<Response?> ratings(
       Map<String, dynamic> credentials) async {
     Response? response =
-        await apiPostRequests("request/cancel", credentials);
+        await apiPostRequests("request/rating", credentials);
 
     if (response != null) {
       return response;

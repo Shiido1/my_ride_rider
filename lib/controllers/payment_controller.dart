@@ -51,7 +51,8 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
             }
           }
         } else {
-          showErrorNotification(state!.context, response!.data!["message"]);
+          showErrorNotificationWithCallback(
+              state!.context, response!.data!["message"] ?? '');
         }
       } catch (e, str) {
         debugPrint("Error: $e");

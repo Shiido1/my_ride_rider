@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../constants/colors.dart';
 import '../../constants/constants.dart';
 import '../../constants/session_manager.dart';
+import '../../controllers/auth_controller.dart';
 import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/text_widget.dart';
@@ -23,10 +25,15 @@ class SelectedDriverScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SelectedDriverScreen> createState() => _SelectedDriverScreenState();
+  State createState() => _SelectedDriverScreenState();
 }
 
-class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
+class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
+  _SelectedDriverScreenState(): super(AuthController()) {
+    con = controller as AuthController;
+  }
+
+  late AuthController con;
   TextEditingController? pickupController =
       TextEditingController(text: pickUpLocationAdd);
   TextEditingController destinationController =
@@ -423,7 +430,7 @@ class _SelectedDriverScreenState extends State<SelectedDriverScreen> {
                                   ),
                                   TextView(
                                       onTap: () =>
-                                          Routers.pushNamed(context, '/home'),
+                                          con.cancelTrip(context),
                                       text: 'Cancel Request',
                                       color: AppColors.red,
                                       fontSize: 16.5.sp,

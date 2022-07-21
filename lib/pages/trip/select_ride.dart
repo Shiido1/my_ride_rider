@@ -34,9 +34,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
   }
 
   late AuthController con;
-
-  DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
-  final _stream = databaseReference.child("drivers");
+  // final _stream = databaseReference.child("drivers");
   Stream<DatabaseEvent>? stream;
 
   TextEditingController? pickupController =
@@ -380,7 +378,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: EdgeInsets.only(
@@ -411,20 +409,22 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     height: 0.5.h,
                                                   ),
                                                   TextView(
-                                                    text: model.timeResponse ==
-                                                            null
-                                                        ? ''
-                                                        : '${model.timeResponse} away',
-                                                    fontSize: 14.5.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                                      text: model.timeResponse ==
+                                                              null
+                                                          ? 'No vehicle\n available'
+                                                          : '${model.timeResponse}\naway',
+                                                      fontSize: 14.5.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      textAlign:
+                                                          TextAlign.center),
                                                   SizedBox(
                                                     height: 1.h,
                                                   ),
                                                   TextView(
                                                     text: model.classicEsCost ==
                                                             null
-                                                        ? ''
+                                                        ? 'No cost'
                                                         : '\$${model.classicEsCost}',
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.bold,
@@ -445,7 +445,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: EdgeInsets.only(
@@ -478,9 +478,11 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                   TextView(
                                                       text: model.timeResponseExecutive ==
                                                               null
-                                                          ? ''
-                                                          : "\$${model.timeResponseExecutive} away",
+                                                          ? 'No vehicle\n available'
+                                                          : "${model.timeResponseExecutive}\naway",
                                                       fontSize: 14.5.sp,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       fontWeight:
                                                           FontWeight.w500),
                                                   SizedBox(
@@ -489,7 +491,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                   TextView(
                                                     text: model.coperateEsCost ==
                                                             null
-                                                        ? ''
+                                                        ? 'No cost'
                                                         : '\$${model.executiveEsCost}',
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.bold,
@@ -510,7 +512,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: EdgeInsets.only(
@@ -543,9 +545,10 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                   TextView(
                                                     text: model.timeResponseCoperate ==
                                                             null
-                                                        ? ''
-                                                        : '${model.timeResponseCoperate} away',
+                                                        ? 'No vehicle\n available'
+                                                        : '${model.timeResponseCoperate}\naway',
                                                     fontSize: 14.5.sp,
+                                                    textAlign: TextAlign.center,
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                   SizedBox(
@@ -554,9 +557,10 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                   TextView(
                                                     text: model.coperateEsCost ==
                                                             null
-                                                        ? ''
+                                                        ? 'No cost'
                                                         : '\$${model.coperateEsCost}',
                                                     fontSize: 16.sp,
+                                                    textAlign: TextAlign.start,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ],
@@ -603,7 +607,20 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                 ),
                               ),
                               SizedBox(
-                                height: 10.h,
+                                height: 2.h,
+                              ),
+                              isSelectClassic! ||
+                                      isSelectExecutive! ||
+                                      isSelectCoperate! == true
+                                  ? TextView(
+                                      onTap: () => con.cancelTrip(context),
+                                      text: 'Cancel Request',
+                                      color: AppColors.red,
+                                      fontSize: 16.5.sp,
+                                      fontWeight: FontWeight.w700)
+                                  : Container(),
+                              SizedBox(
+                                height: 5.h,
                               ),
                             ],
                           )
@@ -618,14 +635,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
       ),
     );
   }
-
-  up({path, status}) async {
-    await snapshot1.child(path).update(updatefb(status: status));
-  }
-
-  Map<String, dynamic> updatefb({String? status}) => {
-        'status': status,
-      };
 
   updateStatus({
     String? id,
@@ -662,32 +671,6 @@ class _SelectRideState extends StateMVC<SelectRide> {
       'mobile': SessionManager.instance.usersData["mobile"],
       'arrive_pick_up': 'not yet',
       'arrive_drop': 'not yet',
-    });
-  }
-
-  listenToRequestEvent(context) async {
-    Map<String, dynamic>? driverRes;
-    StreamSubscription<DatabaseEvent>? _counterSubscription;
-    DatabaseEvent dataEvent =
-        await databaseReference.child("drivers").child(id!).once();
-    driverRes = Map<String, dynamic>.from(dataEvent.snapshot.value as Map);
-
-    _counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
-      print(event.snapshot.value.toString());
-      if (event.snapshot.value.toString() == 'Accepted') {
-        driverFname = driverRes?['name'];
-        vehicleNumber = driverRes?['vehicle_number'];
-        vehicleColor = driverRes?['vehicle_color'];
-        vehicleName = driverRes?['vehicle_make'];
-        Routers.replace(
-            context,
-            SelectedDriverScreen(
-                fname: driverFname ?? '',
-                color: vehicleColor ?? '',
-                plateNo: vehicleNumber ?? '',
-                carname: vehicleName ?? ''));
-        _counterSubscription?.cancel();
-      }
     });
   }
 }

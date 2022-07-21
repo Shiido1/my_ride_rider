@@ -42,7 +42,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.sendPushNot({
         "to": token,
         "notification": {
-          "title": "You'\ve just received a notification",
+          "title": "You have just received a notification",
           "body":
               "From ${SessionManager.instance.usersData["name"]} for a ride to $dropLocationAdd",
           "mutable_content": true,
@@ -70,6 +70,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
             builder: (BuildContext cntxt) {
               return const CustomRideDialog();
             });
+        setState(() {
+          model.isLoading = false;
+        });
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -83,33 +86,43 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void signIn() async {
-    setState(() {
-      model.isLoading = true;
-    });
-
-    try {
-      Response? response = await authRepo.login({
-        "email": model.emailController.text,
-        "password": model.passwordController.text
+    if (model.loginFormKey.currentState?.validate() == true) {
+      String? valueError;
+      setState(() {
+        model.isLoading = true;
       });
-      debugPrint("RESPONSE: $response");
-      if (response != null && response.statusCode == 200) {
-        SessionManager.instance.isLoggedIn = true;
-        SessionManager.instance.authToken = response.data["access_token"];
-        getUserDataWhenLogin();
-        setState(() {
-          model.isLoading = false;
+
+      try {
+        Response? response = await authRepo.login({
+          "email": model.emailController.text,
+          "password": model.passwordController.text
         });
-      } else {
-        showErrorNotification(state!.context, response!.data!["message"]);
+        debugPrint("RESPONSE: $response");
+        if (response != null && response.statusCode == 200) {
+          SessionManager.instance.isLoggedIn = true;
+          SessionManager.instance.authToken = response.data["access_token"];
+          getUserDataWhenLogin();
+          setState(() {
+            model.isLoading = false;
+          });
+        } else if (response!.data["errors"]["email"] != null) {
+          for (int i = 0; i < response.data["errors"]["email"].length; i++) {
+            if (response.data["errors"]["email"][i].toString().isNotEmpty) {
+              valueError = response.data["errors"]["email"][i];
+            }
+          }
+          showErrorNotificationWithCallback(state!.context, valueError ?? '');
+        } else {
+          showErrorNotification(state!.context, response.data!["message"]);
+        }
+      } catch (e, str) {
+        debugPrint("Error: $e");
+        debugPrint("StackTrace: $str");
       }
-    } catch (e, str) {
-      debugPrint("Error: $e");
-      debugPrint("StackTrace: $str");
+      setState(() {
+        model.isLoading = false;
+      });
     }
-    setState(() {
-      model.isLoading = false;
-    });
   }
 
   void getUserDataWhenLogin() async {
@@ -145,6 +158,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
+        setState(() {
+          model.isLoading = false;
+        });
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -184,28 +200,28 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           setState(() {
             model.isLoading = false;
           });
-        } else if (response!.data["errors"]["mobile"]!=null) {
+        } else if (response!.data["errors"]["mobile"] != null) {
           for (int i = 0; i < response.data["errors"]["mobile"].length; i++) {
             if (response.data["errors"]["mobile"][i].toString().isNotEmpty) {
               valueError = response.data["errors"]["mobile"][i];
             }
           }
           showErrorNotificationWithCallback(state!.context, valueError ?? '');
-          }else if (response.data["errors"]["email"]!=null){
-            for (int i = 0; i < response.data["errors"]["email"].length; i++) {
-              if (response.data["errors"]["email"][i].toString().isNotEmpty) {
-                valueError = response.data["errors"]["email"][i];
-              }
-            }
-            showErrorNotificationWithCallback(state!.context, valueError ?? '');
-          }else if (response.data["errors"]["password"]!=null){
-            for (int i = 0; i < response.data["errors"]["password"].length; i++) {
-              if (response.data["errors"]["password"][i].toString().isNotEmpty) {
-                valueError = response.data["errors"]["password"][i];
-              }
-            showErrorNotificationWithCallback(state!.context, valueError ?? '');
+        } else if (response.data["errors"]["email"] != null) {
+          for (int i = 0; i < response.data["errors"]["email"].length; i++) {
+            if (response.data["errors"]["email"][i].toString().isNotEmpty) {
+              valueError = response.data["errors"]["email"][i];
             }
           }
+          showErrorNotificationWithCallback(state!.context, valueError ?? '');
+        } else if (response.data["errors"]["password"] != null) {
+          for (int i = 0; i < response.data["errors"]["password"].length; i++) {
+            if (response.data["errors"]["password"][i].toString().isNotEmpty) {
+              valueError = response.data["errors"]["password"][i];
+            }
+            showErrorNotificationWithCallback(state!.context, valueError ?? '');
+          }
+        }
       } catch (e, str) {
         debugPrint("Error: $e");
         debugPrint("StackTrace: $str");
@@ -286,6 +302,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "driver": jsonEncode(drivers)
     });
     if (response != null && response.statusCode == 200) {
+      setState(() {
+        model.isLoading = false;
+      });
       var instantData = response.data["data"];
       SessionManager.instance.userInstantData = instantData;
       sendPushNot();
@@ -344,6 +363,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
 
     if (response != null && response.statusCode == 200) {
+      await up(path: id, status: "Idle");
       Routers.replaceAllWithName(context, '/home');
     } else {
       showErrorNotificationWithCallback(

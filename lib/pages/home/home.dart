@@ -8,8 +8,11 @@ import 'package:my_ride/constants/session_manager.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/controllers/home_controller.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/models/provider.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:my_ride/utils/router.dart';
+import 'package:my_ride/widget/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -46,39 +49,31 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   String? _currentAddress = '';
 
   _getCurrentLocation(context) async {
-
     bool serviceEnabled;
-LocationPermission permission;
+    LocationPermission permission;
 
 // Test if location services are enabled.
-serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
-
-permission = await Geolocator.checkPermission();
-if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
+    permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-         showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const CustomDialog();
-          });
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialog();
+            });
         return Future.error('Location permissions are denied');
       }
     }
 
-if (permission == LocationPermission.deniedForever) {
- // Permissions are denied forever, handle appropriately.
- return Future.error(
-     'Location permissions are permanently denied, we cannot request permissions.');
-}
-return
-    Geolocator.getCurrentPosition(
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
@@ -90,7 +85,6 @@ return
       throw (e);
     });
   }
-  
 
   _getAddressFromLatLng() async {
     try {
@@ -121,6 +115,7 @@ return
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<GoogleApiProvider>(context, listen: false).getLocationHistory();
     return SafeArea(
       child: Scaffold(
           drawerEnableOpenDragGesture: false,
@@ -232,7 +227,7 @@ return
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: 7.h,
+                      height: 5.h,
                     ),
                     EditTextForm(
                       onTapped: () async {
@@ -243,7 +238,6 @@ return
                           types: [],
                           strictbounds: false,
                           components: [Component(Component.country, 'ng')],
-                          //google_map_webservice package
                           onError: (err) {
                             print(err);
                           },
@@ -283,8 +277,7 @@ return
                       child: Row(
                         children: [
                           Container(
-                            height: 50,
-                            width: 50,
+                            height: 10.h,
                             color: AppColors.primary,
                             padding: const EdgeInsets.all(10),
                             child: const Icon(
@@ -308,10 +301,10 @@ return
                               });
                             },
                             child: Container(
-                              width: 68.w,
+                              width: 70.6.w,
                               color: AppColors.primary,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1.5.w, horizontal: 2.5.w),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -348,7 +341,7 @@ return
                           'Add place',
                           style: TextStyle(
                             fontSize: 15.sp,
-                            // fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w400,
                             color: AppColors.primary,
                           ),
                         ),
@@ -362,10 +355,10 @@ return
                       height: 2.h,
                     ),
                     Text(
-                      'Nearest pickup location',
+                      'History',
                       style: TextStyle(
                         fontSize: 17.sp,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                       ),
                     ),
@@ -373,14 +366,17 @@ return
                       height: 2.h,
                     ),
                     SizedBox(
-                      height: 32.h,
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return nearSavedLoacation();
-                        },
-                      ),
-                    ),
+                        height: 32.h,
+                        child: Consumer<GoogleApiProvider>(
+                            builder: (_, provider, __) {
+                          return ListView.builder(
+                            itemCount: provider.responsse!["data"].length,
+                            itemBuilder: (context, index) {
+                              return nearSavedLoacation(provider
+                                  .responsse!["data"][index]["pick_address"]);
+                            },
+                          );
+                        })),
                   ],
                 ),
               ),
@@ -424,7 +420,6 @@ return
             ),
             child: InkWell(
               onTap: () {
-                print("this line");
                 Routers.pushNamed(context, '/google_map_page');
               },
               child: Row(
@@ -445,16 +440,19 @@ return
     );
   }
 
-  nearSavedLoacation() => InkWell(
+  nearSavedLoacation(String? text) => InkWell(
         onTap: () {
-          // _showModalBottomSheet();
+          setState(() {
+            pickupController!.text = text!;
+          });
         },
-        child: Card(
-          color: Colors.blueGrey[100],
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              children: [
+        child: Container(
+          padding: EdgeInsets.only(bottom: 1.6.w),
+          child: Card(
+            color: Colors.blueGrey[100],
+            child: Padding(
+              padding: EdgeInsets.all(2.w),
+              child: Row(children: [
                 const CircleAvatar(
                   backgroundColor: Colors.green,
                   child: Icon(
@@ -463,11 +461,16 @@ return
                   ),
                   radius: 15,
                 ),
-                const SizedBox(width: 20),
-                Column(
-                  children: const [Text("Bannex Plaza"), Text("Wuse zone 2")],
-                )
-              ],
+                SizedBox(width: 3.5.w),
+                Expanded(
+                  child: TextView(
+                    text: text ?? "",
+                    fontSize: 16.sp,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ]),
             ),
           ),
         ),
@@ -481,10 +484,7 @@ return
             size: 22.sp,
             color: AppColors.primary,
           ),
-          title: Text(
-            "$text",
-            style: TextStyle(fontSize: 17.sp),
-          ),
+          title: TextView(text: "$text", fontSize: 17.sp),
           onTap: onTap,
         ),
       );
@@ -504,41 +504,40 @@ return
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      null ||
-                                  SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      ''
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppColors.grey1,
-                                    size: 23.sp,
-                                  ),
-                                  radius: 26,
-                                )
-                              : CircleAvatar(
-                                  radius: 28,
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const CircularProgressIndicator(),
+                      SessionManager.instance.usersData["profile_picture"] ==
+                                  null ||
+                              SessionManager
+                                      .instance.usersData["profile_picture"] ==
+                                  ''
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.grey1,
+                                size: 23.sp,
+                              ),
+                              radius: 26,
+                            )
+                          : CircleAvatar(
+                              radius: 28,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
                                   ),
                                 ),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const CircularProgressIndicator(),
+                              ),
+                            ),
                       Padding(
                         padding: EdgeInsets.only(top: 1.w, left: 3.w),
                         child: Column(

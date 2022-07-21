@@ -24,3 +24,14 @@ bool? isRegistration;
 
 String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
 final databaseReference = FirebaseDatabase.instance.ref();
+
+
+DatabaseReference snapshot1 = FirebaseDatabase.instance.ref('drivers');
+
+up({path, status}) async {
+  await snapshot1.child(path).update(updatefb(status: status));
+}
+
+Map<String, dynamic> updatefb({String? status}) => {
+      'status': status,
+};

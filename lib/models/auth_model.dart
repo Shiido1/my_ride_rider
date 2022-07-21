@@ -10,34 +10,37 @@ class AuthModel {
   ///sign up
   final TextEditingController regFirstNameController = TextEditingController();
   final TextEditingController regLastNameController = TextEditingController();
-  final TextEditingController regPhoneNumberController = TextEditingController();
+  final TextEditingController regPhoneNumberController =
+      TextEditingController();
   final TextEditingController regEmailController = TextEditingController();
   final TextEditingController regPasswordController = TextEditingController();
-  final TextEditingController regConfirmPassController = TextEditingController();
+  final TextEditingController regConfirmPassController =
+      TextEditingController();
   final TextEditingController regdeviceTypeController = TextEditingController();
 
-  TextEditingController destinationController = TextEditingController(text: dropLocationAdd);
+  TextEditingController destinationController =
+      TextEditingController(text: dropLocationAdd);
 
-  TextEditingController pickupController = TextEditingController(text: pickUpLocationAdd);
+  TextEditingController pickupController =
+      TextEditingController(text: pickUpLocationAdd);
   final GlobalKey<FormState> regFormKey = GlobalKey<FormState>();
 
- //insert phone
+  //insert phone
   final TextEditingController insertPhoneController = TextEditingController();
   final GlobalKey<FormState> insertPhoneFormKey = GlobalKey<FormState>();
   bool isLoading = false;
 
- //otp
+  //otp
   final TextEditingController otpController = TextEditingController();
   final GlobalKey<FormState> otpFormKey = GlobalKey<FormState>();
 
-
-
-  /// model for profile 
+  /// model for profile
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController emailProfileController = TextEditingController();
-  final TextEditingController passwordProfileController = TextEditingController();
+  final TextEditingController passwordProfileController =
+      TextEditingController();
   final TextEditingController phoneVersionController = TextEditingController();
   final TextEditingController deviceTokenController = TextEditingController();
   final TextEditingController countryCodeController = TextEditingController();

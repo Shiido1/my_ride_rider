@@ -72,14 +72,11 @@ class App extends StatelessWidget {
   }
 
   bool checkAuthenticated(data) {
-    //debugPrint("checkAuthenticated");
 
     if (data["token"] != null &&
         data["user"] != null &&
         data["token"] != "" &&
         data["user"] != "") return true;
-
-    // debugPrint("checkAuthenticated1");
 
     return false;
   }
@@ -93,7 +90,6 @@ class App extends StatelessWidget {
 
       try {
         dynamic _userid = SessionManager.instance.uuidData;
-        // await LocalStorage().fetch("userid");
         accessToken = SessionManager.instance.authToken;
 
         if (_userid != null) {}

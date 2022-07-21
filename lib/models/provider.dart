@@ -26,6 +26,8 @@ class GoogleApiProvider extends ChangeNotifier {
   int? classicEsCost;
   int? executiveEsCost;
   int? coperateEsCost;
+  Map<String,dynamic>? get responsse => _responsse;
+  Map<String,dynamic>? _responsse;
 
   getTimeFromGoogleApi({String? origin, String? destination}) async {
     try {
@@ -86,7 +88,6 @@ class GoogleApiProvider extends ChangeNotifier {
         var res = response["rows"][i]['elements'];
         for (int j = 0; j < res.length; j++) {
           _time = res[j]['duration']['text'];
-          print('objectof time $_time');
         }
       }
 
@@ -95,10 +96,7 @@ class GoogleApiProvider extends ChangeNotifier {
       rethrow;
     }
 
-    print(time);
-
     List<String> _timeList = _time!.split(' ');
-    print(_timeList);
     notifyListeners();
     return convertToMinutes(_timeList);
   }
@@ -144,6 +142,17 @@ class GoogleApiProvider extends ChangeNotifier {
       notifyListeners();
     }
     notifyListeners();
+  }
+
+  getLocationHistory() async {
+    try {
+      Map<String, dynamic>? response = await authRepo.getLocationHistroy();
+      _responsse = response;
+    } catch (e, str) {
+      debugPrint("Error: $e");
+      debugPrint("StackTrace: $str");
+    }
+    return responsse;
   }
 }
 

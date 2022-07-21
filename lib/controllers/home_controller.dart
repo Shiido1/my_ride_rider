@@ -14,34 +14,10 @@ class HomeController extends ControllerMVC with FlushBarMixin {
 
   final HomeModel model;
   final AuthRepo authRepo = AuthRepo();
-  // var resTimeClassic, resTimeExecutive, resTimeCoperate;
 
   void closeDrawer() {
     Navigator.of(state!.context).pop();
   }
-
-  // void getUserData() async {
-  //   setState(() {
-  //     model.isLoading = true;
-  //   });
-
-  //   try {
-  //     Map<String, dynamic>? response = await authRepo.getUserInfo();
-  //     debugPrint("RESPONSE: $response");
-  //     if (response != null && response.isNotEmpty) {
-  //       SessionManager.instance.usersData = response["data"];
-  //       print('print user res: $response');
-  //     } else {
-  //       showErrorNotification(state!.context, response!["message"]);
-  //     }
-  //   } catch (e, str) {
-  //     debugPrint("Error: $e");
-  //     debugPrint("StackTrace: $str");
-  //   }
-  //   setState(() {
-  //     model.isLoading = false;
-  //   });
-  // }
 
 }
 
