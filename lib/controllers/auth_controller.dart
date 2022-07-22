@@ -67,7 +67,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       if (response != null && response.isNotEmpty) {
         showDialog(
             context: state!.context,
-            builder: (BuildContext cntxt) {
+            builder: (BuildContext context) {
               return const CustomRideDialog();
             });
         setState(() {

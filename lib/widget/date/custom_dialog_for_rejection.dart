@@ -17,7 +17,6 @@ class CustomDialogForRejection extends StatelessWidget {
     );
   }
 
-
   _buildContext(
       BuildContext context,
       ) =>
@@ -37,18 +36,8 @@ class CustomDialogForRejection extends StatelessWidget {
               ),
               TextView(
                 text:" Your request for a ride was kindly rejected by the driver, please try requesting for another ride\nThanks",
-                fontSize: 17.sp, fontWeight: FontWeight.w600,
+                fontSize: 16.8.sp, fontWeight: FontWeight.w600,
                 textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 3.4.h,
-              ),
-              TextView(
-                text: "Please try again...",
-                  fontSize: 16.sp, fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                height: 3.4.h,
               ),
               SizedBox(
                 height: 2.h,
