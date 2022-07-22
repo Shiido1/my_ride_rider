@@ -82,8 +82,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
     isSelectExecutive = false;
     isSelectCoperate = false;
     getUsers();
-    _pickUpLocation = LatLng(double.parse(pickUpLat!.toString()),
-        double.parse(pickUpLong!.toString()));
+    _pickUpLocation = LatLng(double.parse(pickUpLat!),
+        double.parse(pickUpLong!));
     super.initState();
   }
 

@@ -7,15 +7,15 @@ import 'package:my_ride/widget/text_form_field.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-class SigninPage extends StatefulWidget {
-  const SigninPage({Key? key}) : super(key: key);
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State createState() => _SigninPageState();
+  State createState() => _SignInPageState();
 }
 
-class _SigninPageState extends StateMVC<SigninPage> with ValidationMixin {
-  _SigninPageState() : super(AuthController()) {
+class _SignInPageState extends StateMVC<SignInPage> with ValidationMixin {
+  _SignInPageState() : super(AuthController()) {
     con = controller as AuthController;
   }
   late AuthController con;

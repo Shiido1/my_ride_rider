@@ -13,7 +13,7 @@ mixin FlushBarMixin {
           size: 28.0,
           color: Colors.green[300],
         ),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         leftBarIndicatorColor: Colors.green[300],
         flushbarPosition: FlushbarPosition.TOP,
       ).show(context);

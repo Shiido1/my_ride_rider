@@ -9,7 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class ContactInfoPage extends StatefulWidget {
-  ContactInfoPage({Key? key}) : super(key: key);
+  const ContactInfoPage({Key? key}) : super(key: key);
 
   @override
   State createState() => _ContactInfoPageState();

@@ -4,21 +4,20 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/session_manager.dart';
 import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/text_form_field.dart';
 
-class ChangeDestinationLocaion extends StatefulWidget {
-  const ChangeDestinationLocaion({Key? key}) : super(key: key);
+class ChangeDestinationLocation extends StatefulWidget {
+  const ChangeDestinationLocation({Key? key}) : super(key: key);
 
   @override
-  State<ChangeDestinationLocaion> createState() => _ChangeDestinationLocaionState();
+  State<ChangeDestinationLocation> createState() => _ChangeDestinationLocationState();
 }
 
-class _ChangeDestinationLocaionState extends State<ChangeDestinationLocaion> {
+class _ChangeDestinationLocationState extends State<ChangeDestinationLocation> {
 
 
   TextEditingController destinationController =
@@ -166,9 +165,7 @@ class _ChangeDestinationLocaionState extends State<ChangeDestinationLocaion> {
                           strictbounds: false,
                           components: [Component(Component.country, 'ng')],
                           //google_map_webservice package
-                          onError: (err) {
-                            print(err);
-                          },
+                          onError: (err) {},
                         );
 
                         if (place != null) {

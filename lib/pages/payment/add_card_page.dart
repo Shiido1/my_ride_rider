@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../components/loading_button.dart';
 import '../../components/my_app_bar.dart';
 import '../../constants/colors.dart';

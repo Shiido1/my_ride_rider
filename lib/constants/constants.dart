@@ -4,9 +4,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/models/global_model.dart';
-
+import 'package:my_ride/utils/Flushbar_mixin.dart';
+import 'package:my_ride/widget/date/custom_dialog_for_rejection.dart';
 import '../pages/trip/selected_driver_screen.dart';
 import '../utils/router.dart';
+
 
 class Constants {
   static const String stripePublishableKey =
@@ -97,10 +99,21 @@ listenToRequestEvent(context) async {
         Routers.replace(
             context,
             SelectedDriverScreen(
-                fname: driverFname ?? '',
+                fName: driverFname ?? '',
                 color: vehicleColor ?? '',
                 plateNo: vehicleNumber ?? '',
-                carname: vehicleName ?? ''));
+                carName: vehicleName ?? ''));
+        _counterSubscription?.cancel();
+      }
+      else if (event.snapshot.value.toString() == 'Ignore'){
+        Routers.replaceAllWithName(
+            context,
+            '/home');
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogForRejection();
+            });
         _counterSubscription?.cancel();
       }
     });

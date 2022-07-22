@@ -423,12 +423,10 @@ class _MapScreenState extends State<MapScreen> {
         .child('${SessionManager.instance.usersData["id"]}')
         .onChildChanged
         .listen((event) {
-      print(
-          'printing pick up arrival matrasss ${event.snapshot.value.toString()}');
       if (event.snapshot.value.toString() == 'Arrived') {
         showDialog(
             context: context,
-            builder: (BuildContext cntxt) {
+            builder: (BuildContext context) {
               return const ArrivalCustomRideDialog();
             });
         _counterSubscription?.cancel();
@@ -443,12 +441,10 @@ class _MapScreenState extends State<MapScreen> {
         .child('${SessionManager.instance.usersData["id"]}')
         .onChildChanged
         .listen((event) {
-      print(
-          'printing pick up arrival matrasss ${event.snapshot.value.toString()}');
       if (event.snapshot.value.toString() == 'Arrived Destination') {
         showDialog(
             context: context,
-            builder: (BuildContext cntxt) {
+            builder: (BuildContext context) {
               return const DestinationCustomRideDialog();
             });
         startTimer();
@@ -465,7 +461,7 @@ class _MapScreenState extends State<MapScreen> {
         if (_start == 0) {
           showDialog(
             context: context,
-            builder: (BuildContext cntxt) {
+            builder: (BuildContext context) {
               return const SuccessPaymentCustomRideDialog();
             });
           setState(() {

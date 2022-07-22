@@ -3,7 +3,6 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../controllers/auth_controller.dart';
 import '../../../models/global_model.dart';
 
@@ -108,7 +107,6 @@ class _RegistrationSuccessState extends StateMVC<RegistrationSuccess> {
     setState(() {
       isRegistration = false;
     });
-    print(isRegistration.toString);
     await con.getUserData();
     Routers.replaceAllWithName(context, '/home');
   }

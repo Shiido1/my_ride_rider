@@ -6,7 +6,7 @@ import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddCardPage extends StatefulWidget {
-  AddCardPage({Key? key}) : super(key: key);
+  const AddCardPage({Key? key}) : super(key: key);
 
   @override
   State<AddCardPage> createState() => _AddCardPageState();

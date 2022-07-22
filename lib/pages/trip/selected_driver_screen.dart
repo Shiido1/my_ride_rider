@@ -12,16 +12,16 @@ import '../../utils/router.dart';
 import '../../widget/text_widget.dart';
 
 class SelectedDriverScreen extends StatefulWidget {
-  final String fname;
+  final String fName;
   final String color;
   final String plateNo;
-  final String carname;
+  final String carName;
   const SelectedDriverScreen({
     Key? key,
-    required this.fname,
+    required this.fName,
     required this.color,
     required this.plateNo,
-    required this.carname,
+    required this.carName,
   }) : super(key: key);
 
   @override
@@ -318,7 +318,7 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           TextView(
-                                              text: widget.fname,
+                                              text: widget.fName,
                                               fontSize: 16.5.sp,
                                               fontWeight: FontWeight.w700),
                                           SizedBox(
@@ -360,7 +360,7 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           TextView(
-                                              text: widget.carname,
+                                              text: widget.carName,
                                               fontSize: 16.5.sp,
                                               fontWeight: FontWeight.w700),
                                           SizedBox(

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextSection extends StatelessWidget {
@@ -10,25 +9,21 @@ class TextSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextField(
-        textAlign: TextAlign.start,
-        obscureText: obscure,
-        keyboardType: textType,
-        controller: controller,
-        style: TextStyle(
-
-          color: Colors.black87,
-
-        ),
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(),
+    return TextField(
+      textAlign: TextAlign.start,
+      obscureText: obscure,
+      keyboardType: textType,
+      controller: controller,
+      style: const TextStyle(
+        color: Colors.black87,
+      ),
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: const OutlineInputBorder(),
 
 
 
 
-        ),
       ),
     );
   }

@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
-import 'package:my_ride/utils/router.dart';
-import 'package:my_ride/widget/map_screen.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';

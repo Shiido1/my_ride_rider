@@ -45,7 +45,7 @@ class App extends StatelessWidget {
                                 return HomePage();
                               }
                             }
-                            return const OnboardingPage();
+                            return const OnBoardingPage();
                           } else {
                             return Stack(
                               children: <Widget>[

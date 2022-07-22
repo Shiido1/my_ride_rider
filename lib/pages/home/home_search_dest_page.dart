@@ -5,13 +5,15 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/session_manager.dart';
 import '../../controllers/home_controller.dart';
+import '../../models/provider.dart';
 import '../../utils/router.dart';
 import '../../widget/text_form_field.dart';
+import '../../widget/text_widget.dart';
 
 class HomeSearchDestination extends StatefulWidget {
   const HomeSearchDestination({Key? key}) : super(key: key);
@@ -26,17 +28,13 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
   }
 
   late HomeController con;
-  // String googleApikey = "AIzaSyAaF3Z1gioxA2z3_7kwD9nyDu1nhFcaT8U";
-  // GoogleMapController? mapController; //contrller for Google map
-  // CameraPosition? cameraPosition;
-  // LatLng startLocation = const LatLng(9.072264, 7.491302);
-  // final databaseReference = FirebaseDatabase.instance.ref();
 
   TextEditingController destinationController =
       TextEditingController(text: 'Enter destination location');
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<GoogleApiProvider>(context, listen: false).getLocationHistory();
     return SafeArea(
       child: Scaffold(
         body: ListView(
@@ -54,20 +52,16 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Nearest ride is',
-                            style: TextStyle(
+                          TextView(
+                            text:'Nearest ride is',
                               fontSize: 16.sp,
                               color: Colors.white,
-                            ),
                           ),
-                          Text(
-                            '7min away',
-                            style: TextStyle(
-                              fontSize: 14.sp,
+                          TextView(
+                            text:'minutes away',
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                            ),
                           ),
                         ],
                       ),
@@ -110,23 +104,21 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                   SizedBox(
                     height: 4.h,
                   ),
-                  Text(
-                    "Your Pickup Location",
-                    style: TextStyle(
+                  TextView(
+                    text: "Your Pickup Location",
                       fontSize: 18.sp,
                       color: Colors.white,
-                    ),
+
                   ),
                   SizedBox(
                     height: 4.h,
                   ),
-                  Text(
-                    "$pickUpLocationAdd",
-                    style: TextStyle(
+                  TextView(
+                    text:"$pickUpLocationAdd",
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
-                    ),
+
                   ),
                   const Spacer(),
                   InkWell(
@@ -176,9 +168,7 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                           strictbounds: false,
                           components: [Component(Component.country, 'ng')],
                           //google_map_webservice package
-                          onError: (err) {
-                            print(err);
-                          },
+                          onError: (err) {},
                         );
 
                         if (place != null) {
@@ -194,9 +184,9 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                                 await const GoogleApiHeaders().getHeaders(),
                             //from google_api_headers package
                           );
-                          String placeid = place.placeId ?? "0";
+                          String placeId = place.placeId ?? "0";
                           final detail =
-                              await plist.getDetailsByPlaceId(placeid);
+                              await plist.getDetailsByPlaceId(placeId);
                           final geometry = detail.result.geometry!;
                           dropLat = geometry.location.lat.toString();
                           dropLong = geometry.location.lng.toString();
@@ -213,26 +203,43 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                     SizedBox(
                       height: 4.h,
                     ),
-                    Text(
-                      'History',
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green,
-                      ),
-                    ),
+                TextView(
+                  text:'No History',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.primary,
+                ),
                     SizedBox(
                       height: 1.3.h,
                     ),
                     SizedBox(
-                      height: 25.h,
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return addedHistory();
-                        },
-                      ),
-                    ),
+                        height: 32.h,
+                        child: Consumer<GoogleApiProvider>(
+                            builder: (_, provider, __) {
+                              if (provider.responses == null) {
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primary,
+                                    ));
+                              }
+                              if (provider.responses!.isEmpty) {
+                                return TextView(
+                                  text:'No History',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primary,
+                                );
+                              }
+                              return ListView.builder(
+                                itemCount: provider.responses!["data"].length,
+                                itemBuilder: (context, index) {
+                                  return addedHistory(text:provider
+                                      .responses!["data"][index]["drop_address"],lat:provider
+                                      .responses!["data"][index]["drop_lat"].toString(),long:provider
+                                      .responses!["data"][index]["drop_lng"].toString());
+                                },
+                              );
+                            })),
                     SizedBox(
                       height: 10.h,
                     )
@@ -269,8 +276,15 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
     );
   }
 
-  addedHistory() => InkWell(
-        onTap: () {},
+      addedHistory({String? text,String? long,String? lat}) => InkWell(
+        onTap: () {
+          setState(() {
+            dropLocationAdd = text!;
+            destinationController.text = text;
+            dropLat = lat;
+            dropLong = long;
+          });
+        },
         child: Card(
           color: Colors.blueGrey[100],
           child: Padding(
@@ -285,10 +299,15 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                   ),
                   radius: 15,
                 ),
-                const SizedBox(width: 20),
-                Column(
-                  children: const [Text("Bannex Plaza"), Text("Wuse zone 2")],
-                )
+                SizedBox(width: 3.5.w),
+                Expanded(
+                  child: TextView(
+                    text: text ?? "",
+                    fontSize: 16.sp,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),

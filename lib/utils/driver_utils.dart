@@ -2,7 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 
 import '../models/driver.model.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math_math;
 
 AuthController authController = AuthController();
 
@@ -25,23 +25,18 @@ class DriversUtil {
         Map map = {"id": d.id, "distance": rounded, "name": d.name};
         mapList.add(map);
       }
-      print('printing closest: $mapList');
       Map secondMap = mapList.reduce((value, element) =>
           value["distance"] < element["distance"] ? value : element);
-      print('print second map: $secondMap');
 
-      DriversInformations driversInformations =
+      DriversInformations driversInformation =
           drivers.where((element) => element.id == secondMap["id"]).first;
-
-      print('print drivers info :$driversInformations');
-
-      return driversInformations;
+      return driversInformation;
     }
     return DriversInformations();
   }
 
   static double dp(double val, int places) {
-    num mod = Math.pow(10.0, places);
+    num mod = math_math.pow(10.0, places);
     return ((val * mod).round().toDouble() / mod);
   }
 
@@ -50,17 +45,17 @@ class DriversUtil {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1); // deg2rad below
     var dLon = deg2rad(lon2 - lon1);
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) *
-            Math.cos(deg2rad(lat2)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var a = math_math.sin(dLat / 2) * math_math.sin(dLat / 2) +
+        math_math.cos(deg2rad(lat1)) *
+            math_math.cos(deg2rad(lat2)) *
+            math_math.sin(dLon / 2) *
+            math_math.sin(dLon / 2);
+    var c = 2 * math_math.atan2(math_math.sqrt(a), math_math.sqrt(1 - a));
     var d = R * c; // Distance in km
     return d;
   }
 
   static double deg2rad(deg) {
-    return deg * (Math.pi / 180);
+    return deg * (math_math.pi / 180);
   }
 }

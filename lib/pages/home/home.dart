@@ -24,7 +24,7 @@ import '../../widget/custom_dialog.dart';
 import '../../widget/text_form_field.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State createState() => _HomePageState();
@@ -40,7 +40,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
   final databaseReference = FirebaseDatabase.instance.ref();
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
-  GoogleMapController? mapController; //contrller for Google map
+  GoogleMapController? mapController;
   CameraPosition? cameraPosition;
   TextEditingController? pickupController =
       TextEditingController(text: 'Enter pickup location');
@@ -141,7 +141,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                             Text(
                               'Nearest ride is',
                               style: TextStyle(
-                                fontSize: 16.5.sp,
+                                fontSize: 16.8.sp,
                                 color: Colors.white,
                               ),
                             ),
@@ -151,7 +151,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                             Text(
                               'minutes away',
                               style: TextStyle(
-                                fontSize: 14.5.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
@@ -213,7 +213,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                     Text(
                       'Select your pickup location',
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 16.8.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -341,7 +341,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           'Add place',
                           style: TextStyle(
                             fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w600,
                             color: AppColors.primary,
                           ),
                         ),
@@ -354,13 +354,12 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                     SizedBox(
                       height: 2.h,
                     ),
-                    Text(
-                      'History',
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
-                      ),
+                    TextView(
+                      text:'History',
+
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
                     ),
                     SizedBox(
                       height: 2.h,
@@ -369,11 +368,27 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         height: 32.h,
                         child: Consumer<GoogleApiProvider>(
                             builder: (_, provider, __) {
+                              if (provider.responses == null) {
+                                return const Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.primary,
+                                        ));
+                              }
+                              if (provider.responses!.isEmpty) {
+                                return TextView(
+                                  text:'No History',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primary,
+                                );
+                              }
                           return ListView.builder(
-                            itemCount: provider.responsse!["data"].length,
+                            itemCount: provider.responses!["data"].length,
                             itemBuilder: (context, index) {
-                              return nearSavedLoacation(provider
-                                  .responsse!["data"][index]["pick_address"]);
+                              return nearSavedLocation(text:provider
+                                  .responses!["data"][index]["pick_address"],long: provider
+                                  .responses!["data"][index]["pick_lng"].toString(),lat: provider
+                                  .responses!["data"][index]["pick_lat"].toString());
                             },
                           );
                         })),
@@ -440,10 +455,13 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
     );
   }
 
-  nearSavedLoacation(String? text) => InkWell(
+  nearSavedLocation({String? text,String? long,String? lat}) => InkWell(
         onTap: () {
           setState(() {
-            pickupController!.text = text!;
+            pickUpLocationAdd = text!;
+            pickupController!.text = text;
+            pickUpLat = lat;
+            pickUpLong = long;
           });
         },
         child: Container(

@@ -185,9 +185,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                   GestureDetector(
                     onTap: () => showCustomDialog(context, items: schedulePlans,
                         onTap: (value) {
-                      print(value);
                       setState(() {
-                        // isCalendar = !isCalendar!;
                         scheduleValue = value;
                       });
                       Routers.pop(context);
@@ -245,7 +243,6 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                           setState(() {
                             scheduleDate = value.toString().split(' ')[0];
                           });
-                          print(' new date $scheduleDate');
                         },
                       )),
                   SizedBox(
@@ -261,9 +258,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                         strictbounds: false,
                         components: [Component(Component.country, 'ng')],
                         //google_map_webservice package
-                        onError: (err) {
-                          print(err);
-                        },
+                        onError: (err) {},
                       );
 
                       if (place != null) {
@@ -309,9 +304,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                         strictbounds: false,
                         components: [Component(Component.country, 'ng')],
                         //google_map_webservice package
-                        onError: (err) {
-                          print(err);
-                        },
+                        onError: (err) {},
                       );
 
                       if (place != null) {
@@ -443,12 +436,6 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                       ),
                     ),
                   ),
-                  // LoadingButton(
-                  //   label: "Continue",
-                  //   onPressed: createScheduleTrip(),
-                  //   disabled: false,
-                  //   isLoading: con.model.isLoading,
-                  // ),
                   SizedBox(
                     height: 10.h,
                   ),

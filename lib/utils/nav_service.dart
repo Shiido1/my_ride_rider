@@ -12,13 +12,11 @@ class NavigationService {
   }
 
   Future<dynamic> logOut() async {
-    // LocalStorage _appLocalStorage = LocalStorage();
     await SessionManager.instance.logOut();
     AuthProvider authProvider =
         Provider.of<AuthProvider>(navigatorKey.currentContext!, listen: false);
 
     authProvider.token = "";
-    // await _appLocalStorage.store("access_token", "");
 
     return navigatorKey.currentState!
         .pushNamedAndRemoveUntil("/signin", (Route r) => r == null);

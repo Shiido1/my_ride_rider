@@ -26,8 +26,8 @@ class GoogleApiProvider extends ChangeNotifier {
   int? classicEsCost;
   int? executiveEsCost;
   int? coperateEsCost;
-  Map<String,dynamic>? get responsse => _responsse;
-  Map<String,dynamic>? _responsse;
+  Map<String,dynamic>? get responses => _responses;
+  Map<String,dynamic>? _responses;
 
   getTimeFromGoogleApi({String? origin, String? destination}) async {
     try {
@@ -147,12 +147,14 @@ class GoogleApiProvider extends ChangeNotifier {
   getLocationHistory() async {
     try {
       Map<String, dynamic>? response = await authRepo.getLocationHistroy();
-      _responsse = response;
+      _responses = response;
+      notifyListeners();
     } catch (e, str) {
       debugPrint("Error: $e");
       debugPrint("StackTrace: $str");
     }
-    return responsse;
+    notifyListeners();
+    return _responses;
   }
 }
 

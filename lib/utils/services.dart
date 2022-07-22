@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'dart:io';
-
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -86,7 +85,6 @@ mixin Services {
         maxWidth: 10090,
       ),
     );
-    // }
 
     return dio;
   }
@@ -108,8 +106,6 @@ mixin Services {
       return response.data;
     } on DioError catch (e) {
       debugPrint("e.toString()");
-      print(e.toString());
-      // return "";
       return {};
     }
   }
@@ -130,7 +126,6 @@ mixin Services {
       return response;
     } on DioError catch (e) {
       debugPrint("e.toString()");
-      print(e.toString());
       return e.response;
     }
   }
@@ -151,7 +146,6 @@ mixin Services {
       return response.data;
     } on DioError catch (e) {
       debugPrint("e.toString()");
-      print(e.toString());
       return [];
     }
   }
@@ -166,7 +160,6 @@ mixin Services {
             "Authorization": "Bearer " + await getAuthToken(),
             "Content-Type": "multipart/form-data"
           }));
-//      print(response);
       return convert.json.decode(response.toString());
     } on DioError catch (e) {
       return catchError(e);
@@ -245,7 +238,6 @@ mixin Services {
               headers: {"Authorization": "Bearer " + await getAuthToken()}));
       return convert.json.decode(response.toString());
     } on DioError catch (e) {
-      print(e);
       return catchError(e);
     }
   }
@@ -261,7 +253,6 @@ mixin Services {
               headers: {"Authorization": "Bearer " + await getAuthToken()}));
       return convert.json.decode(response.toString());
     } on DioError catch (e) {
-      print(e);
       return catchError(e);
     }
   }

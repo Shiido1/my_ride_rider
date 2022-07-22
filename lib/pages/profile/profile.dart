@@ -15,7 +15,7 @@ import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State createState() => _ProfilePageState();

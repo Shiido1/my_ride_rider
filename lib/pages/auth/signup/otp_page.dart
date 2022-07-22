@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:my_ride/components/loading_button.dart';
 import 'package:my_ride/constants/colors.dart';
@@ -9,10 +8,9 @@ import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
-import '../../../utils/router.dart';
 
 class OTPPage extends StatefulWidget {
-  OTPPage({Key? key}) : super(key: key);
+  const OTPPage({Key? key}) : super(key: key);
 
   @override
   State createState() => _OTPPageState();

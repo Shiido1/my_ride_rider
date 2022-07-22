@@ -257,7 +257,7 @@ class _ArrivalCustomRideDialogState extends StateMVC<ArrivalCustomRideDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextView(
-                          text: "Don\'t keep your driver waiting!",
+                          text: "Don't keep your driver waiting!",
                           fontSize: 14.5.sp,
                           color: AppColors.red,
                         ),
