@@ -22,20 +22,30 @@ class SessionManager {
   static const String keyInstantUserData = 'users_instant_trip_data';
   static const String keyUserProfileData = 'users_profile_data';
   static const String keyUuid = 'uuid';
-  static const String logginKey = 'loggin';
+  static const String loggingKey = 'logging';
+  static const String keyEmail = 'email';
+  static const String addCardKey = 'acd_card';
 
   String get authToken => sharedPreferences!.getString(keyAuthToken) ?? '';
+  String get verifyEmail => sharedPreferences!.getString(keyEmail) ?? '';
   String get uuidData => sharedPreferences!.getString(keyUuid) ?? '';
-  bool get isLoggedIn => sharedPreferences?.getBool(logginKey) ?? false;
+  bool get isLoggedIn => sharedPreferences?.getBool(loggingKey) ?? false;
+  bool get isAddCard => sharedPreferences?.getBool(addCardKey) ?? false;
 
   set isLoggedIn(bool logging) =>
-      sharedPreferences!.setBool(logginKey, logging);
+      sharedPreferences!.setBool(loggingKey, logging);
 
   set authToken(String authToken) =>
       sharedPreferences!.setString(keyAuthToken, authToken);
 
+  set verifyEmail(String verifyEmail) =>
+      sharedPreferences!.setString(keyEmail, verifyEmail);
+
   set uuidData(String uuidData) =>
       sharedPreferences!.setString(keyUuid, uuidData);
+
+  set isAddCard(bool addCard) =>
+      sharedPreferences!.setBool(addCardKey, addCard);
 
   Map<String, dynamic> get usersData =>
       json.decode(sharedPreferences!.getString(keyUserData) ?? '');
@@ -57,18 +67,6 @@ class SessionManager {
 
   Future<bool> logOut() async {
     await sharedPreferences!.clear();
-    // try {
-    //   // final cacheDir = await getTemporaryDirectory();
-    //   if (cacheDir.existsSync()) {
-    //     cacheDir.deleteSync(recursive: true);
-    //   }
-    //   final appDir = await getApplicationSupportDirectory();
-    //   if (appDir.existsSync()) {
-    //     appDir.deleteSync(recursive: true);
-    //   }
-    // } catch (e) {
-    //   // logger.d("error clearing cache");
-    // }
     return true;
   }
 }

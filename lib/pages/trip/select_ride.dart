@@ -73,7 +73,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
     stream!.listen((event) {});
     await getTimeDurationInMin();
     Provider.of<GoogleApiProvider>(context, listen: false)
-        .estimatedCost(timeInMin.toString());
+        .estimatedCost(timeInMin.toString(),context: context);
   }
 
   @override
@@ -286,14 +286,14 @@ class _SelectRideState extends StateMVC<SelectRide> {
                             ),
                           ],
                         ),
-                        if (con.model.isLoading)
+                        if (con.model.isInstantLoading)
                           Center(
                             child: SpinKitWave(
                               color: AppColors.primary,
                               size: 25.sp,
                             ),
                           ),
-                        if (!con.model.isLoading)
+                        if (!con.model.isInstantLoading)
                           Column(
                             children: [
                               StreamBuilder(
@@ -588,7 +588,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                   decoration: const BoxDecoration(
                                       color: AppColors.primary),
                                   child: Center(
-                                    child: con.model.isLoading
+                                    child: con.model.isInstantLoading
                                         ? SpinKitWave(
                                             color: Colors.white,
                                             size: 20.sp,

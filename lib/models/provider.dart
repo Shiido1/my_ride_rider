@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/utils/Flushbar_mixin.dart';
 import 'package:my_ride/utils/api_call.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -9,7 +11,7 @@ import '../repository/auth_repo.dart';
 import '../states/auth_state.dart';
 import '../utils/driver_utils.dart';
 
-class GoogleApiProvider extends ChangeNotifier {
+class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
   GoogleApiProvider();
 
   final AuthRepo authRepo = AuthRepo();
@@ -22,7 +24,7 @@ class GoogleApiProvider extends ChangeNotifier {
   String? _timeResponseExecutive;
   String? _timeResponseCoperate;
   AuthController? authController;
-  List? _estimatedCostList;
+  Response? _estimatedCostList;
   int? classicEsCost;
   int? executiveEsCost;
   int? coperateEsCost;
@@ -119,7 +121,7 @@ class GoogleApiProvider extends ChangeNotifier {
     return DateTime.now().minute;
   }
 
-  void estimatedCost(String minDuration) async {
+  void estimatedCost(String minDuration,{context}) async {
     var distance = DriversUtil.getDistanceFromLatLonInKm(
         double.parse(pickUpLat!),
         double.parse(pickUpLong!),
@@ -133,20 +135,25 @@ class GoogleApiProvider extends ChangeNotifier {
       "drop_lng": dropLong
     });
 
-    for (int i = 0; i < _estimatedCostList!.length; i++) {
-      classicEsCost = _estimatedCostList?[i]['Classic'].toInt() ?? 0;
-      notifyListeners();
-      executiveEsCost = _estimatedCostList?[i]['Executive'] ?? 0;
-      notifyListeners();
-      coperateEsCost = _estimatedCostList?[i]['Coperative'] ?? 0;
-      notifyListeners();
+    if (_estimatedCostList != null && _estimatedCostList?.statusCode == 200) {
+      for (int i = 0; i < _estimatedCostList!.data.length; i++) {
+        classicEsCost = _estimatedCostList?.data[i]['Classic'].toInt() ?? 0;
+        notifyListeners();
+        executiveEsCost = _estimatedCostList?.data[i]['Executive'] ?? 0;
+        notifyListeners();
+        coperateEsCost = _estimatedCostList?.data[i]['Coperative'] ?? 0;
+        notifyListeners();
+      }
+    } else {
+      showErrorNotificationWithCallback(
+          context, _estimatedCostList!.data["error"]);
     }
     notifyListeners();
   }
 
   getLocationHistory() async {
     try {
-      Map<String, dynamic>? response = await authRepo.getLocationHistroy();
+      Map<String, dynamic>? response = await authRepo.getLocationHistory();
       _responses = response;
       notifyListeners();
     } catch (e, str) {

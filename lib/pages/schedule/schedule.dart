@@ -420,7 +420,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                           color: Color(0XFF000B49),
                         ),
                         child: Center(
-                          child: con.model.isLoading
+                          child: con.model.isScheduleLoading
                               ? SpinKitWave(
                                   color: Colors.white,
                                   size: 20.sp,

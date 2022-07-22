@@ -83,13 +83,6 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                           labelText: "Email Address",
                         ),
                       ),
-                      // TextFormField(
-                      //   validator: validateDeviceType,
-                      //   controller: con.model.regdeviceTypeController,
-                      //   decoration: Constants.defaultDecoration.copyWith(
-                      //     labelText: "Device Type",
-                      //   ),
-                      // ),
                       TextFormField(
                         validator: validatePassword,
                         obscureText: true,
@@ -155,7 +148,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage> with ValidationMix
                       Padding(
                         padding: EdgeInsets.only(top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
                         child: LoadingButton(
-                          isLoading: con.model.isLoading,
+                          isLoading: con.model.isSignUpLoading,
                           label: "Register",
                           onPressed: con.signUp,
                           disabled: con.model.regFormKey.currentState?.validate(),

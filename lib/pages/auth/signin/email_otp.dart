@@ -1,32 +1,31 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_ride/components/loading_button.dart';
-import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/constants/constants.dart';
-import 'package:my_ride/controllers/auth_controller.dart';
-import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import '../../../components/loading_button.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/constants.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../../partials/mixins/validations.dart';
 
-
-class OTPPage extends StatefulWidget {
-  const OTPPage({Key? key}) : super(key: key);
+class EmailOtp extends StatefulWidget {
+  const EmailOtp({Key? key}) : super(key: key);
 
   @override
-  State createState() => _OTPPageState();
+  State createState() => _EmailOtpState();
 }
 
-class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
-  _OTPPageState() : super(AuthController()) {
+class _EmailOtpState extends StateMVC<EmailOtp> with ValidationMixin {
+  _EmailOtpState() : super(AuthController()) {
     con = controller as AuthController;
   }
   late AuthController con;
   String otpValue = "1234";
-  String errorMssg = "enter 1234 to proceed";
+  String errorMsg = "enter 1234 to proceed";
   TextEditingController otpController = TextEditingController();
-  Timer? _timer;
   LoadingButton? loadingButton;
   bool isLoading = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,37 +34,38 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
           elevation: 0,
           backgroundColor: Colors.transparent),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal:5.w, vertical: 5.w),
         child: SingleChildScrollView(
           child: SizedBox(
             height: Adaptive.h(100) - 100,
             child: Form(
-              key: con.model.otpFormKey,
+              key: con.model.emailOtpFormKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly
+                ,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'OTP has been sent to your number',
+                        'OTP has been sent to your email',
                         style: TextStyle(
                           fontSize: 17.sp,
                           color: AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 30),
-                 
+
                       TextFormField(
                         validator: validateOTP_Test,
-                        controller: con.model.otpController,
+                        controller: con.model.emailOtpController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "OTP",
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: 2.h),
                       TextButton(
-                          onPressed: () {}, child: const Text('Resend OTP')),
+                          onPressed: con.forgotPassword, child: const Text('Resend OTP')),
                     ],
                   ),
                   Column(
@@ -76,12 +76,12 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                             right: Adaptive.w(15),
                             left: Adaptive.w(15)),
                         child: LoadingButton(
-                          isLoading: con.model.isVerifyOTPLoading,
+                          isLoading: con.model.isVerifyEmailOTPLoading,
                           label: "Continue",
-                          onPressed: con.verifyOTP,
+                          onPressed: con.verifyEmailOTP,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                     SizedBox(height: 20.h),
                     ],
                   ),
                 ],
@@ -91,13 +91,5 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
         ),
       ),
     );
-  }
-
-  void delayforthresec() {
-    _timer = Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        loadingButton?.isLoading = true;
-      });
-    });
   }
 }

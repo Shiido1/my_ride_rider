@@ -31,7 +31,7 @@ class App extends StatelessWidget {
             ),
             home: SessionManager.instance.isLoggedIn
                 ? ResponsiveSizer(builder: (context, orientation, screenType) {
-                    return HomePage();
+                    return const HomePage();
                   })
                 : ResponsiveSizer(
                     builder: (context, orientation, screenType) {
@@ -42,7 +42,7 @@ class App extends StatelessWidget {
                             /// Check if the user has a persisted authentication data
                             if (snapshot.data["access_token"] != null) {
                               if (checkAuthenticated(snapshot.data)) {
-                                return HomePage();
+                                return const HomePage();
                               }
                             }
                             return const OnBoardingPage();

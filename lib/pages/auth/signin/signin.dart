@@ -3,6 +3,7 @@ import 'package:my_ride/components/loading_button.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/widget/text_form_field.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -101,11 +102,11 @@ class _SignInPageState extends StateMVC<SignInPage> with ValidationMixin {
                           label: "Sign In",
                           onPressed: con.signIn,
                           disabled: false,
-                          isLoading: con.model.isLoading,
+                          isLoading: con.model.isLoginLoading,
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () =>Routers.pushNamed(context, '/forgot'),
                         child: Text(
                           'Forgot password?',
                           style: TextStyle(

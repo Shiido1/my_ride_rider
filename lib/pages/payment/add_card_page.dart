@@ -261,9 +261,9 @@ class _AddCardState extends StateMVC<AddCard> with ValidationMixin {
                                   padding: EdgeInsets.only(
                                       top: 4.w, right: 8.w, left: 8.w),
                                   child: LoadingButton(
-                                      isLoading: con.model.isLoading,
+                                      isLoading: con.model.isCardLoading,
                                       label: "Continue",
-                                      onPressed: con.addcard
+                                      onPressed: con.addCard
                                       //
                                       ),
                                 ),

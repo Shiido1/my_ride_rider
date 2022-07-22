@@ -149,7 +149,7 @@ class _RateScreenState extends StateMVC<RateScreen> {
                         color: AppColors.primary,
                       ),
                     ),
-                    child: con.model.isLoading
+                    child: con.model.isRatingLoading
                         ? SpinKitWave(
                             color: Colors.white,
                             size: 20.sp,

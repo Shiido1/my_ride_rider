@@ -313,44 +313,17 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                       SizedBox(
                         height: 9.h,
                       ),
-                      // Center(
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //       setState(() {
-                      //         cardno = cardNoController.text;
-                      //         month = expMonthController.text;
-                      //         year = expYearController.text;
-                      //         cvv = cvvController.text;
-                      //       });
-                      //       navigate();
-                      //       print('object $cardno');
-                      //     },
-                      //     child: Container(
-                      //       width: 220,
-                      //       height: 50,
-                      //       decoration:
-                      //           const BoxDecoration(color: Color(0XFF000B49)),
-                      //       child: Center(
-                      //         child: Text(
-                      //           'Continue',
-                      //           style: TextStyle(
-                      //               color: Colors.white, fontSize: 16.sp),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                                     padding: EdgeInsets.only(
                                         top: 4.w, right: 8.w, left: 8.w),
                                     child: LoadingButton(
-                                        isLoading: con.model.isLoading,
+                                        isLoading: con.model.isCardLoading,
                                         label: (con.model.cardFormKey.currentState
                                                     ?.validate() ==
                                                 true)
                                             ? "Add Card"
                                             : "Continue",
-                                        onPressed: con.addcard
+                                        onPressed: con.addCard
                                         //
                                         ),
                                   ),

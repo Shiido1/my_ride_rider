@@ -16,7 +16,18 @@ class AuthModel {
   final TextEditingController regPasswordController = TextEditingController();
   final TextEditingController regConfirmPassController =
       TextEditingController();
-  final TextEditingController regdeviceTypeController = TextEditingController();
+  final TextEditingController regDeviceTypeController = TextEditingController();
+
+
+  GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
+  final TextEditingController forgotPasswordController = TextEditingController();
+  // email otp
+  final TextEditingController emailOtpController = TextEditingController();
+  GlobalKey<FormState> emailOtpFormKey = GlobalKey<FormState>();
+  // reset password
+  GlobalKey<FormState> restPassFormKey = GlobalKey<FormState>();
+  final TextEditingController resetPasswordController = TextEditingController();
+  final TextEditingController resetConPassController = TextEditingController();
 
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
@@ -28,7 +39,23 @@ class AuthModel {
   //insert phone
   final TextEditingController insertPhoneController = TextEditingController();
   final GlobalKey<FormState> insertPhoneFormKey = GlobalKey<FormState>();
-  bool isLoading = false;
+  bool isLoginLoading = false;
+  bool isPushLoading = false;
+  bool isUserLoginLoading = false;
+  bool isGetUserLoading = false;
+  bool isSignUpLoading = false;
+  bool isVerifyOTPLoading = false;
+  bool isVerifyEmailOTPLoading = false;
+  bool isResetLoading = false;
+  bool isForgotLoading = false;
+  bool isPhoneVerificationLoading = false;
+  bool isInstantLoading = false;
+  bool isScheduleLoading = false;
+  bool isCancelLoading = false;
+  bool isChangeLoading = false;
+  bool isRatingLoading = false;
+  bool isUserProfileLoading = false;
+
 
   //otp
   final TextEditingController otpController = TextEditingController();

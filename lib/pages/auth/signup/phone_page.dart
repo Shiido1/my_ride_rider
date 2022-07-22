@@ -117,7 +117,7 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                           padding:
                               const EdgeInsets.only(top: 40, right: 0, left: 0),
                           child: LoadingButton(
-                            isLoading: con.model.isLoading,
+                            isLoading: con.model.isPhoneVerificationLoading,
                             label: (con.model.insertPhoneFormKey.currentState
                                         ?.validate() ==
                                     true)
@@ -125,8 +125,6 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                                 : "Continue",
                             onPressed: con.phoneVerification,
 
-                            /*   onPressed: (){
-                                Routers.pushNamed(context, '/otp_page');} */
                           ),
                         ),
                       ],

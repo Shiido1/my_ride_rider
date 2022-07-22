@@ -12,6 +12,7 @@ import 'package:my_ride/utils/driver_utils.dart';
 import 'package:my_ride/utils/router.dart';
 import '../components/reg_model.dart';
 import '../constants/session_manager.dart';
+import '../pages/auth/signin/signin.dart';
 import '../utils/users_dialog.dart';
 import '../widget/custom_waiting_widget.dart';
 
@@ -35,7 +36,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   void sendPushNot() async {
     setState(() {
-      model.isLoading = true;
+      model.isPushLoading = true;
     });
 
     try {
@@ -61,6 +62,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "distance": DriversUtil.rounded.toString(),
           "drop_lat": dropLat,
           "drop_long": dropLong,
+          "mobile": SessionManager.instance.usersData["mobile"],
         }
       });
       debugPrint("RESPONSE: $response");
@@ -71,7 +73,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
               return const CustomRideDialog();
             });
         setState(() {
-          model.isLoading = false;
+          model.isPushLoading = false;
         });
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -81,7 +83,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("StackTrace: $str");
     }
     setState(() {
-      model.isLoading = false;
+      model.isPushLoading = false;
     });
   }
 
@@ -89,7 +91,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     if (model.loginFormKey.currentState?.validate() == true) {
       String? valueError;
       setState(() {
-        model.isLoading = true;
+        model.isLoginLoading = true;
       });
 
       try {
@@ -103,7 +105,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           SessionManager.instance.authToken = response.data["access_token"];
           getUserDataWhenLogin();
           setState(() {
-            model.isLoading = false;
+            model.isLoginLoading = false;
           });
         } else if (response!.data["errors"]["email"] != null) {
           for (int i = 0; i < response.data["errors"]["email"].length; i++) {
@@ -120,14 +122,14 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         debugPrint("StackTrace: $str");
       }
       setState(() {
-        model.isLoading = false;
+        model.isLoginLoading = false;
       });
     }
   }
 
   void getUserDataWhenLogin() async {
     setState(() {
-      model.isLoading = true;
+      model.isUserLoginLoading = true;
     });
 
     try {
@@ -144,13 +146,13 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("StackTrace: $str");
     }
     setState(() {
-      model.isLoading = false;
+      model.isUserLoginLoading = false;
     });
   }
 
   Future<void> getUserData() async {
     setState(() {
-      model.isLoading = true;
+      model.isGetUserLoading = true;
     });
 
     try {
@@ -159,7 +161,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       if (response != null && response.isNotEmpty) {
         SessionManager.instance.usersData = response["data"];
         setState(() {
-          model.isLoading = false;
+          model.isGetUserLoading = false;
         });
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -169,7 +171,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("StackTrace: $str");
     }
     setState(() {
-      model.isLoading = false;
+      model.isGetUserLoading = false;
     });
   }
 
@@ -177,7 +179,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     String? valueError;
     if (model.regFormKey.currentState?.validate() == true) {
       setState(() {
-        model.isLoading = true;
+        model.isSignUpLoading = true;
       });
 
       try {
@@ -198,7 +200,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           SessionManager.instance.authToken = response.data["access_token"];
           Routers.replaceAllWithName(state!.context, "/profile");
           setState(() {
-            model.isLoading = false;
+            model.isSignUpLoading = false;
           });
         } else if (response!.data["errors"]["mobile"] != null) {
           for (int i = 0; i < response.data["errors"]["mobile"].length; i++) {
@@ -233,7 +235,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       passwordNam = model.regEmailController.text;
 
       setState(() {
-        model.isLoading = false;
+        model.isSignUpLoading = false;
       });
     }
   }
@@ -241,7 +243,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   void verifyOTP() async {
     if (model.otpFormKey.currentState?.validate() == true) {
       setState(() {
-        model.isLoading = true;
+        model.isVerifyOTPLoading = true;
       });
 
       var uuid = SessionManager.instance.uuidData;
@@ -252,11 +254,84 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       if (response != null && response.statusCode == 200) {
         Navigator.pushNamed(state!.context, '/contact_info');
       } else {
-        showErrorNotification(state!.context, response!.data["message"]);
+        showErrorNotificationWithCallback(
+            state!.context, response!.data["message"]);
       }
 
       setState(() {
-        model.isLoading = false;
+        model.isVerifyOTPLoading = false;
+      });
+    }
+  }
+
+  void verifyEmailOTP() async {
+    if (model.emailOtpFormKey.currentState?.validate() == true) {
+      setState(() {
+        model.isVerifyEmailOTPLoading = true;
+      });
+
+      var uuid = SessionManager.instance.uuidData;
+      Response? response = await authRepo.emailOtpVerification(
+          {"token": model.emailOtpController.text, "uuid": uuid});
+
+      if (response != null && response.statusCode == 200) {
+        var email = response.data["data"]["email"];
+        SessionManager.instance.verifyEmail = email;
+        Routers.pushNamed(state!.context, '/reset_password');
+      } else {
+        showErrorNotificationWithCallback(
+            state!.context, response!.data["message"]);
+      }
+
+      setState(() {
+        model.isVerifyEmailOTPLoading = false;
+      });
+    }
+  }
+
+  void resetPass() async {
+    if (model.restPassFormKey.currentState?.validate() == true) {
+      setState(() {
+        model.isResetLoading = true;
+      });
+      Response? response = await authRepo.resetPassword({
+        "password": model.resetPasswordController.text,
+        "password_confirmation": model.resetConPassController.text,
+        "email": SessionManager.instance.verifyEmail
+      });
+      if (response != null && response.statusCode == 200) {
+        Routers.replace(state!.context, const SignInPage());
+      } else {
+        showErrorNotificationWithCallback(
+            state!.context, response!.data["message"]);
+      }
+
+      setState(() {
+        model.isResetLoading = false;
+      });
+    }
+  }
+
+  void forgotPassword() async {
+    if (model.forgotPasswordFormKey.currentState?.validate() == true) {
+      setState(() {
+        model.isForgotLoading = true;
+      });
+
+      Response? response = await authRepo.forgotPassword({
+        "email": model.forgotPasswordController.text,
+      });
+      if (response != null && response.statusCode == 200) {
+        var uUId = response.data["data"]["uuid"];
+        SessionManager.instance.uuidData = uUId;
+        Routers.pushNamed(state!.context, '/email_otp');
+      } else {
+        showErrorNotificationWithCallback(
+            state!.context, response!.data["message"]);
+      }
+
+      setState(() {
+        model.isForgotLoading = false;
       });
     }
   }
@@ -264,7 +339,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   void phoneVerification() async {
     if (model.insertPhoneFormKey.currentState?.validate() == true) {
       setState(() {
-        model.isLoading = true;
+        model.isPhoneVerificationLoading = true;
       });
 
       Response? response = await authRepo.phoneVerification(
@@ -275,18 +350,19 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
         Navigator.pushNamed(state!.context, '/otp_page');
       } else {
-        showErrorNotification(state!.context, response!.data["message"]);
+        showErrorNotificationWithCallback(
+            state!.context, response!.data["message"]);
       }
 
       setState(() {
-        model.isLoading = false;
+        model.isPhoneVerificationLoading = false;
       });
     }
   }
 
   void instantTrip(Map map) async {
     setState(() {
-      model.isLoading = true;
+      model.isInstantLoading = true;
     });
     var drivers = [map];
     Response? response = await authRepo.instantTrip({
@@ -303,7 +379,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
     if (response != null && response.statusCode == 200) {
       setState(() {
-        model.isLoading = false;
+        model.isInstantLoading = false;
       });
       var instantData = response.data["data"];
       SessionManager.instance.userInstantData = instantData;
@@ -314,13 +390,13 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
 
     setState(() {
-      model.isLoading = false;
+      model.isInstantLoading = false;
     });
   }
 
   void scheduleTrip({String? scheduleTripDate, String? schedulePeriod}) async {
     setState(() {
-      model.isLoading = true;
+      model.isScheduleLoading = true;
     });
     Response? response = await authRepo.scheduleTrip({
       "pick_lat": pickUpLat,
@@ -340,7 +416,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       showSuccessNotificationWithTime(
           state!.context, 'You\'ve Successfully scheduled a trip', 5);
       setState(() {
-        model.isLoading = false;
+        model.isScheduleLoading = false;
       });
     } else {
       showErrorNotificationWithCallback(
@@ -348,13 +424,13 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
 
     setState(() {
-      model.isLoading = false;
+      model.isScheduleLoading = false;
     });
   }
 
   void cancelTrip(context) async {
     setState(() {
-      model.isLoading = true;
+      model.isCancelLoading = true;
     });
     Response? response = await authRepo.cancelTrip({
       'request_id': SessionManager.instance.userInstantData["request_place"]
@@ -364,19 +440,19 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
     if (response != null && response.statusCode == 200) {
       await up(path: id, status: "Idle");
-      Routers.replaceAllWithName(context, '/home');
+      Routers.pushNamed(context, '/home');
     } else {
       showErrorNotificationWithCallback(
           state!.context, response!.data!["message"]);
     }
     setState(() {
-      model.isLoading = false;
+      model.isCancelLoading = false;
     });
   }
 
   void changeLocation() async {
     setState(() {
-      model.isLoading = true;
+      model.isChangeLoading = true;
     });
     Response? response = await authRepo.changeLocation({
       'request_id': SessionManager.instance.userInstantData["data"]
@@ -391,13 +467,13 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       showErrorNotification(state!.context, response!.data["message"]);
     }
     setState(() {
-      model.isLoading = true;
+      model.isChangeLoading = true;
     });
   }
 
   void ratings(context, {String? rate, String? comment}) async {
     setState(() {
-      model.isLoading = true;
+      model.isRatingLoading = true;
     });
     Response? response = await authRepo.ratings({
       'request_id': SessionManager.instance.userInstantData["request_place"]
@@ -408,12 +484,14 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
     if (response != null && response.statusCode == 200) {
       Routers.replaceAllWithName(context, '/home');
+      showSuccessNotificationWithTime(
+          state!.context, response.data['message'], 3);
     } else {
       showErrorNotificationWithCallback(
           state!.context, response!.data!["message"]);
     }
     setState(() {
-      model.isLoading = true;
+      model.isRatingLoading = true;
     });
   }
 
@@ -423,20 +501,20 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     Routers.replaceAllWithName(context, '/signin');
   }
 
-  _formartFileImage(File? imageFile) {
+  _formatFileImage(File? imageFile) {
     if (imageFile == null) return;
     return File(imageFile.path.replaceAll('\'', '').replaceAll('File: ', ''));
   }
 
   void getUserProfileData({File? image, BuildContext? context}) async {
     setState(() {
-      model.isLoading = true;
+      model.isUserProfileLoading = true;
     });
     try {
       UserDialog.showLoading(context!, loadingKey);
       Map<String, dynamic>? response = await authRepo.profilePicture({
         "profile_picture": MultipartFile.fromBytes(
-            _formartFileImage(image).readAsBytesSync(),
+            _formatFileImage(image).readAsBytesSync(),
             filename: image!.path.split("/").last)
       });
       if (response != null && response.isNotEmpty) {
@@ -450,7 +528,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       debugPrint("StackTrace: $str");
     }
     setState(() {
-      model.isLoading = false;
+      model.isUserProfileLoading = false;
     });
   }
 }

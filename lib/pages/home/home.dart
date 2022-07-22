@@ -238,9 +238,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           types: [],
                           strictbounds: false,
                           components: [Component(Component.country, 'ng')],
-                          onError: (err) {
-                            print(err);
-                          },
+                          onError: (err) {},
                         );
 
                         if (place != null) {
@@ -355,8 +353,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                       height: 2.h,
                     ),
                     TextView(
-                      text:'History',
-
+                      text: 'History',
                       fontSize: 17.sp,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
@@ -368,27 +365,32 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         height: 32.h,
                         child: Consumer<GoogleApiProvider>(
                             builder: (_, provider, __) {
-                              if (provider.responses == null) {
-                                return const Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppColors.primary,
-                                        ));
-                              }
-                              if (provider.responses!.isEmpty) {
-                                return TextView(
-                                  text:'No History',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primary,
-                                );
-                              }
+                          if (provider.responses == null) {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ));
+                          }
+                          if (provider.responses!["data"] == []) {
+                            return TextView(
+                              text: 'No History',
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primary,
+                            );
+                          }
                           return ListView.builder(
                             itemCount: provider.responses!["data"].length,
                             itemBuilder: (context, index) {
-                              return nearSavedLocation(text:provider
-                                  .responses!["data"][index]["pick_address"],long: provider
-                                  .responses!["data"][index]["pick_lng"].toString(),lat: provider
-                                  .responses!["data"][index]["pick_lat"].toString());
+                              return nearSavedLocation(
+                                  text: provider.responses!["data"][index]
+                                      ["pick_address"],
+                                  long: provider.responses!["data"][index]
+                                          ["pick_lng"]
+                                      .toString(),
+                                  lat: provider.responses!["data"][index]
+                                          ["pick_lat"]
+                                      .toString());
                             },
                           );
                         })),
@@ -455,7 +457,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
     );
   }
 
-  nearSavedLocation({String? text,String? long,String? lat}) => InkWell(
+  nearSavedLocation({String? text, String? long, String? lat}) => InkWell(
         onTap: () {
           setState(() {
             pickUpLocationAdd = text!;

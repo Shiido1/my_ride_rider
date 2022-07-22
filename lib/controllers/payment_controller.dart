@@ -24,14 +24,14 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
 
   final AuthRepo paymentRepo = AuthRepo();
 
-  void addcard() async {
+  void addCard() async {
     if (model.cardFormKey.currentState?.validate() == true) {
       setState(() {
-        model.isLoading = true;
+        model.isCardLoading = true;
       });
 
       try {
-        Response? response = await paymentRepo.addcard({
+        Response? response = await paymentRepo.addCard({
           "card_number": model.cardNoController.text,
           "exp_month": model.monthController.text,
           "cvc": model.cvvController.text,
@@ -41,6 +41,7 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
           {
             if (isRegistration == true) {
               Routers.replaceAllWithName(state!.context, "/reg_success");
+              SessionManager.instance.isAddCard = true;
             } else {
               Routers.replace(
                   state!.context,
@@ -64,14 +65,14 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
       month = model.monthController.text;
 
       setState(() {
-        model.isLoading = false;
+        model.isCardLoading = false;
       });
     }
   }
 
   Future<void> getUserData() async {
     setState(() {
-      model.isLoading = true;
+      model.isGetUserLoading = true;
     });
 
     try {
@@ -87,7 +88,7 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
       debugPrint("StackTrace: $str");
     }
     setState(() {
-      model.isLoading = false;
+      model.isGetUserLoading = false;
     });
   }
 }

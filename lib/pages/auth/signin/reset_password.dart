@@ -1,32 +1,32 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_ride/components/loading_button.dart';
-import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/constants/constants.dart';
-import 'package:my_ride/controllers/auth_controller.dart';
-import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import '../../../components/loading_button.dart';
+import '../../../constants/colors.dart';
+import '../../../constants/constants.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../../partials/mixins/validations.dart';
+import '../../../widget/text_widget.dart';
 
 
-class OTPPage extends StatefulWidget {
-  const OTPPage({Key? key}) : super(key: key);
+
+class ResetPassword extends StatefulWidget {
+  const ResetPassword ({Key? key}) : super(key: key);
 
   @override
-  State createState() => _OTPPageState();
+  State createState() => _ResetPasswordState();
 }
 
-class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
-  _OTPPageState() : super(AuthController()) {
+class _ResetPasswordState extends StateMVC<ResetPassword> with ValidationMixin {
+  _ResetPasswordState() : super(AuthController()) {
     con = controller as AuthController;
   }
   late AuthController con;
-  String otpValue = "1234";
-  String errorMssg = "enter 1234 to proceed";
+
   TextEditingController otpController = TextEditingController();
-  Timer? _timer;
   LoadingButton? loadingButton;
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,37 +35,46 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
           elevation: 0,
           backgroundColor: Colors.transparent),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.w),
         child: SingleChildScrollView(
           child: SizedBox(
             height: Adaptive.h(100) - 100,
             child: Form(
-              key: con.model.otpFormKey,
+              key: con.model.restPassFormKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'OTP has been sent to your number',
-                        style: TextStyle(
-                          fontSize: 17.sp,
+                      TextView(
+                        text:'Reset your password',
+
+                          fontSize: 20.sp,
                           color: AppColors.primary,
-                        ),
+                        fontWeight: FontWeight.w700,
                       ),
-                      const SizedBox(height: 30),
-                 
+                      SizedBox(height: 10.h),
+
                       TextFormField(
-                        validator: validateOTP_Test,
-                        controller: con.model.otpController,
+                        obscureText: true,
+                        validator: validatePassword,
+                        controller: con.model.resetPasswordController,
                         decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "OTP",
+                          labelText: "Password",
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      TextButton(
-                          onPressed: () {}, child: const Text('Resend OTP')),
+                     SizedBox(height: 5.h,),
+                      TextFormField(
+                        obscureText: true,
+                        validator: validatePassword,
+                        controller: con.model.resetConPassController,
+                        decoration: Constants.defaultDecoration.copyWith(
+                          labelText: "Confirm password",
+                        ),
+                      ),
+                     SizedBox(height: 5.h),
+
                     ],
                   ),
                   Column(
@@ -76,12 +85,12 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                             right: Adaptive.w(15),
                             left: Adaptive.w(15)),
                         child: LoadingButton(
-                          isLoading: con.model.isVerifyOTPLoading,
-                          label: "Continue",
-                          onPressed: con.verifyOTP,
+                          isLoading: con.model.isResetLoading,
+                          label: "Reset password",
+                          onPressed: con.resetPass,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                     SizedBox(height: 9.h),
                     ],
                   ),
                 ],
@@ -91,13 +100,5 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
         ),
       ),
     );
-  }
-
-  void delayforthresec() {
-    _timer = Timer(const Duration(milliseconds: 400), () {
-      setState(() {
-        loadingButton?.isLoading = true;
-      });
-    });
   }
 }

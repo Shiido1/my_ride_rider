@@ -130,26 +130,6 @@ mixin Services {
     }
   }
 
-  Future<List<dynamic>?> apiPostQudusRequests(
-      String endPoint, Map<String, dynamic> credentials,
-      {Map<String, dynamic>? header}) async {
-    try {
-      header ??= {};
-
-      Dio dio = await getDio();
-      Response response = await dio.post(endPoint,
-          data: credentials,
-          options: Options(headers: {
-            "Authorization": "Bearer " + await getAuthToken(),
-            ...header
-          }));
-      return response.data;
-    } on DioError catch (e) {
-      debugPrint("e.toString()");
-      return [];
-    }
-  }
-
   Future<Map<String, dynamic>?> apiUploadPostRequests(
       String endPoint, Map<String, dynamic> credentials) async {
     try {

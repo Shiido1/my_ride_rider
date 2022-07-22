@@ -9,6 +9,7 @@ import '../../constants/session_manager.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/global_model.dart';
 import '../../utils/router.dart';
+import '../../widget/map_screen.dart';
 import '../../widget/text_widget.dart';
 
 class SelectedDriverScreen extends StatefulWidget {
@@ -200,18 +201,21 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 1.5.w),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3.5.w, vertical: 1.2.w),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.white, width: 2),
-                              ),
-                              child: Icon(
-                                Icons.phone,
-                                color: AppColors.white,
-                                size: 20.sp,
+                            InkWell(
+                              onTap: () => callNumber(),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 1.5.w),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 3.5.w, vertical: 1.2.w),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.white, width: 2),
+                                ),
+                                child: Icon(
+                                  Icons.phone,
+                                  color: AppColors.white,
+                                  size: 20.sp,
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -410,8 +414,19 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                     height: 7.h,
                                   ),
                                   InkWell(
-                                    onTap: () => Routers.pushNamed(
-                                        context, '/card_payment'),
+                                    onTap: () {
+                                      if(SessionManager.instance.isAddCard==true){
+                                        Routers.replace(context,
+                                            MapScreen(
+                                                fname: driverFname!,
+                                                pickLocation: pickUpLocationAdd!,
+                                                dropLocation: dropLocationAdd!));
+                                      }
+                                      else{
+                                        Routers.pushNamed(
+                                            context, '/card_payment');
+                                      }
+                                    },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 15.w, vertical: 3.w),

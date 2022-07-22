@@ -11,5 +11,6 @@ class CardModel{
   final TextEditingController yearController = TextEditingController(text: year);
   final GlobalKey<FormState> cardFormKey = GlobalKey<FormState>();
 
-  bool isLoading = false;
+  bool isCardLoading = false;
+  bool isGetUserLoading = false;
 }

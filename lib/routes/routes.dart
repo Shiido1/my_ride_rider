@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_ride/pages/auth/signin/email_otp.dart';
+import 'package:my_ride/pages/auth/signin/forgot_password.dart';
+import 'package:my_ride/pages/auth/signin/reset_password.dart';
 import 'package:my_ride/pages/auth/signin/signin.dart';
 import 'package:my_ride/pages/auth/signup/contact_info.dart';
 import 'package:my_ride/pages/auth/signup/otp_page.dart';
@@ -29,7 +32,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/home':
       return MaterialPageRoute(builder: (_) => const HomePage());
     case '/profile':
-      return MaterialPageRoute(builder: (_) => ProfilePage());
+      return MaterialPageRoute(builder: (_) => const ProfilePage());
     case '/select_ride':
       return MaterialPageRoute(builder: (_) => const SelectRide());
     case '/schedule_page':
@@ -46,6 +49,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const EditProfileScreen());
     case '/ratings':
       return MaterialPageRoute(builder: (_) => const RateScreen());
+    case '/forgot':
+      return MaterialPageRoute(builder: (_) => const ForgotPassword());
+    case '/email_otp':
+      return MaterialPageRoute(builder: (_) => const EmailOtp());
+    case '/reset_password':
+      return MaterialPageRoute(builder: (_) => const ResetPassword());
     case '/change_destination_location':
       return MaterialPageRoute(
           builder: (_) => const ChangeDestinationLocation());

@@ -49,11 +49,45 @@ class AuthRepo with Services {
     return null;
   }
 
+  Future<Response?> resetPassword(
+      Map<String, String> credentials) async {
+    Response? response =
+    await apiPostRequests("password/reset", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Response?> otpVerification(
       Map<String, dynamic> credentials) async {
     Response? response =
         await apiPostRequests("user/register/validate-otp", credentials);
 
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
+  Future<Response?> emailOtpVerification(
+      Map<String, dynamic> credentials) async {
+    Response? response =
+    await apiPostRequests("password/validate-token", credentials);
+
+    if (response != null) {
+
+      return response;
+    }
+
+    return null;
+  }
+  Future<Response?> forgotPassword(
+      Map<String, dynamic> credentials) async {
+    Response? response = await apiPostRequests("password/forgot", credentials);
     if (response != null) {
       return response;
     }
@@ -72,7 +106,7 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Map<String, dynamic>?> getLocationHistroy() async {
+  Future<Map<String, dynamic>?> getLocationHistory() async {
     Map<String, dynamic>? response = await apiGetRequests("request/user-completed-trips");
 
     if (response != null) {
@@ -166,10 +200,10 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future <List<dynamic>?> estimatedCost(
+  Future <Response?> estimatedCost(
       Map<String, dynamic> credentials) async {
-    var response =
-        await apiPostQudusRequests("request/estimated-ride-costs", credentials);
+    Response? response =
+        await apiPostRequests("request/estimated-ride-costs", credentials);
 
     if (response != null) {
       return response;
@@ -178,7 +212,7 @@ class AuthRepo with Services {
     return null;
   }
 
-  Future<Response?> addcard(Map<String, String> credentials) async {
+  Future<Response?> addCard(Map<String, String> credentials) async {
     Response? response = await apiPostRequests("payment/stripe/add/card", credentials);
 
     if (response != null) {
