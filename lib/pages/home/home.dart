@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../widget/custom_dialog.dart';
@@ -69,7 +69,6 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -271,6 +270,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                     ),
                     Container(
                       height: 50,
+                      width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(vertical: 3.w),
                       child: Row(
                         children: [
@@ -286,46 +286,48 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           SizedBox(
                             width: 2.w,
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                pickUpLat =
-                                    _currentPosition!.latitude.toString();
-                                pickUpLong =
-                                    _currentPosition!.longitude.toString();
-                                pickUpLocationAdd = _currentAddress;
-                                pickupController = TextEditingController(
-                                    text: _currentAddress);
-                              });
-                            },
-                            child: Container(
-                              width: 70.6.w,
-                              color: AppColors.primary,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 1.5.w, horizontal: 2.5.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Your current location',
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      '$_currentAddress',
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  pickUpLat =
+                                      _currentPosition!.latitude.toString();
+                                  pickUpLong =
+                                      _currentPosition!.longitude.toString();
+                                  pickUpLocationAdd = _currentAddress;
+                                  pickupController = TextEditingController(
+                                      text: _currentAddress);
+                                });
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: AppColors.primary,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 1.5.w, horizontal: 2.5.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Your current location',
                                       style: TextStyle(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
                                         color: Colors.white,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Text(
+                                        '$_currentAddress',
+                                        style: TextStyle(
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -371,12 +373,14 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                               color: AppColors.primary,
                             ));
                           }
-                          if (provider.responses!["data"] == []) {
-                            return TextView(
-                              text: 'No History',
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primary,
+                          if (provider.responses!["data"].isEmpty) {
+                            return Center(
+                              child: TextView(
+                                text: 'No History',
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
+                              ),
                             );
                           }
                           return ListView.builder(
@@ -563,25 +567,24 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'User Name',
-                              style: TextStyle(
+                            TextView(
+                              text:'${SessionManager.instance
+                                          .usersData["name"]}',
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primary,
-                              ),
+                              
                             ),
                             InkWell(
                               onTap: () {
                                 con.closeDrawer();
                                 Routers.pushNamed(context, "/edit_profile");
                               },
-                              child: Text(
-                                'Edit profile',
-                                style: TextStyle(
-                                  fontSize: 15.sp,
+                              child: TextView(
+                                text:'Edit profile',
+                                  fontSize: 16.sp,
                                   color: AppColors.primary,
-                                ),
+                                
                               ),
                             ),
                             SizedBox(

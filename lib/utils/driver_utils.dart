@@ -21,7 +21,6 @@ class DriversUtil {
             double.parse(d.location![1].toString()));
 
         rounded = dp(distanceInMeters, 5);
-        // map[d.name] = rounded;
         Map map = {"id": d.id, "distance": rounded, "name": d.name};
         mapList.add(map);
       }

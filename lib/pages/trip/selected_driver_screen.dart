@@ -17,9 +17,11 @@ class SelectedDriverScreen extends StatefulWidget {
   final String color;
   final String plateNo;
   final String carName;
+  final String noOfRides;
   const SelectedDriverScreen({
     Key? key,
     required this.fName,
+    required this.noOfRides,
     required this.color,
     required this.plateNo,
     required this.carName,
@@ -338,7 +340,7 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                                 width: 1.w,
                                               ),
                                               TextView(
-                                                  text: '54',
+                                                  text: widget.noOfRides,
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w700),
                                             ],

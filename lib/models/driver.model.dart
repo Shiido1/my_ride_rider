@@ -52,6 +52,7 @@ class DriversInformations {
   final String? token;
   final String? mobile;
   final String? name;
+  final String? noOfRides;
   final int? updatedAt;
   final String? vehicleNumber;
   final String? vehicleType;
@@ -62,6 +63,7 @@ class DriversInformations {
     this.id,
     this.isActive,
     this.isAvailable,
+    this.noOfRides,
     this.isApproved,
     this.location,
     this.mobile,
@@ -91,6 +93,7 @@ class DriversInformations {
       'vehicle_type': vehicleType,
       'vehicle_type_name': vehicleTypeName,
       'address': address,
+      'no_of_rides:': noOfRides,
     };
   }
 
@@ -111,6 +114,7 @@ class DriversInformations {
       vehicleType: map['vehicle_type'],
       vehicleTypeName: map['vehicle_type_name'],
       address: map['address'],
+      noOfRides: map['no_of_rides:'],
     );
   }
 
@@ -121,7 +125,7 @@ class DriversInformations {
 
   @override
   String toString() {
-    return 'DriversInformations(id: $id, is_active: $isActive, is_approved: $isApproved, is_available: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updated_at: $updatedAt, vehicle_number: $vehicleNumber, vehicle_type: $vehicleType, vehicle_type_name: $vehicleTypeName,address: $address)';
+    return 'DriversInformations(id: $id, is_active: $isActive, is_approved: $isApproved, is_available: $isAvailable, location: $location, mobile: $mobile, status: $status, token:$token, name: $name, updated_at: $updatedAt, vehicle_number: $vehicleNumber, vehicle_type: $vehicleType, vehicle_type_name: $vehicleTypeName,address: $address, no_of_rides: $noOfRides)';
   }
 
   @override
@@ -142,7 +146,8 @@ class DriversInformations {
         other.vehicleNumber == vehicleNumber &&
         other.vehicleType == vehicleType &&
         other.vehicleTypeName == vehicleTypeName &&
-        other.address == address;
+        other.address == address &&
+        other.noOfRides == noOfRides;
   }
 
   @override
@@ -160,6 +165,7 @@ class DriversInformations {
         vehicleNumber.hashCode ^
         vehicleType.hashCode ^
         address.hashCode ^
+        noOfRides.hashCode ^
         vehicleTypeName.hashCode;
   }
 }

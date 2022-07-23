@@ -5,6 +5,7 @@ import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/constants/constants.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
+import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -43,21 +44,19 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Get Started',
-                          style: TextStyle(
+                        TextView(
+                          text:'Get Started',
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                             color: AppColors.primary,
-                          ),
+                          
                         ),
                         SizedBox(height: 3.h),
-                        Text(
-                          'Enter your phone number.',
-                          style: TextStyle(
+                        TextView(
+                          text:'Enter your phone number.',
                             fontSize: 17.sp,
                             color: AppColors.primary,
-                          ),
+                          
                         ),
                         SizedBox(
                           height: 2.h,
@@ -70,12 +69,11 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                           decoration: Constants.inputDecoration.copyWith(
                             labelText: "phone number",
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Text(
-                                " +1 ",
-                                style: TextStyle(
-                                    color: AppColors.primary, fontSize: 20.sp),
-                              ),
+                              padding: EdgeInsets.all(5.w),
+                              child: TextView(
+                                text:" +1 ",
+                                    color: AppColors.primary, fontSize: 18.sp),
+                              
                             ),
                           ),
                         ),
@@ -115,7 +113,7 @@ class _PhoneNumberPageState extends StateMVC<PhoneNumberPage>
                         ),
                         Padding(
                           padding:
-                              const EdgeInsets.only(top: 40, right: 0, left: 0),
+                              EdgeInsets.only(top: 8.w, right: 0, left: 0),
                           child: LoadingButton(
                             isLoading: con.model.isPhoneVerificationLoading,
                             label: (con.model.insertPhoneFormKey.currentState

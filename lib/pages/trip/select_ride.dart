@@ -19,6 +19,7 @@ import '../../controllers/auth_controller.dart';
 import '../../models/driver.model.dart';
 import '../../utils/driver_utils.dart';
 import '../../widget/TextWidget.dart';
+import '../../widget/date/custom_dialog_for_rejection.dart';
 import '../../widget/text_widget.dart';
 
 class SelectRide extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
   }
 
   late AuthController con;
-  // final _stream = databaseReference.child("drivers");
+  final _stream = databaseReference.child("drivers");
   Stream<DatabaseEvent>? stream;
 
   TextEditingController? pickupController =
@@ -73,7 +74,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
     stream!.listen((event) {});
     await getTimeDurationInMin();
     Provider.of<GoogleApiProvider>(context, listen: false)
-        .estimatedCost(timeInMin.toString(),context: context);
+        .estimatedCost(timeInMin.toString(), context: context);
   }
 
   @override
@@ -82,8 +83,8 @@ class _SelectRideState extends StateMVC<SelectRide> {
     isSelectExecutive = false;
     isSelectCoperate = false;
     getUsers();
-    _pickUpLocation = LatLng(double.parse(pickUpLat!),
-        double.parse(pickUpLong!));
+    _pickUpLocation =
+        LatLng(double.parse(pickUpLat!), double.parse(pickUpLong!));
     super.initState();
   }
 
@@ -671,6 +672,42 @@ class _SelectRideState extends StateMVC<SelectRide> {
       'mobile': SessionManager.instance.usersData["mobile"],
       'arrive_pick_up': 'not yet',
       'arrive_drop': 'not yet',
+    });
+  }
+
+  listenToRequestEvent(context) async {
+    Map<String, dynamic>? driverRes;
+    StreamSubscription<DatabaseEvent>? _counterSubscription;
+    DatabaseEvent dataEvent =
+        await databaseReference.child("drivers").child(id!).once();
+    driverRes = Map<String, dynamic>.from(dataEvent.snapshot.value as Map);
+
+    _counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
+      if (event.snapshot.value.toString() == 'Accepted') {
+        driverFname = driverRes?['name'];
+        vehicleNumber = driverRes?['vehicle_number'];
+        vehicleColor = driverRes?['vehicle_color'];
+        vehicleName = driverRes?['vehicle_make'];
+        mobile = driverRes?['mobile'].toString();
+        noOfRides = driverRes?['no_of_rides'].toString();
+        Routers.replace(
+            context,
+            SelectedDriverScreen(
+                fName: driverFname ?? '',
+                color: vehicleColor ?? '',
+                plateNo: vehicleNumber ?? '',
+                noOfRides: noOfRides ?? '',
+                carName: vehicleName ?? ''));
+        _counterSubscription?.cancel();
+      } else if (event.snapshot.value.toString() == 'Ignore') {
+        Routers.replaceAllWithName(context, '/home');
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const CustomDialogForRejection();
+            });
+        _counterSubscription?.cancel();
+      }
     });
   }
 }

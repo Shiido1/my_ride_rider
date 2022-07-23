@@ -8,6 +8,7 @@ import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
+import '../../../widget/text_widget.dart';
 
 class OTPPage extends StatefulWidget {
   const OTPPage({Key? key}) : super(key: key);
@@ -47,15 +48,13 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'OTP has been sent to your number',
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          color: AppColors.primary,
-                        ),
+                      TextView(
+                        text: 'OTP has been sent to your number',
+                        fontSize: 18.sp,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w500,
                       ),
                       const SizedBox(height: 30),
-                 
                       TextFormField(
                         validator: validateOTP_Test,
                         controller: con.model.otpController,

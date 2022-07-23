@@ -55,8 +55,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "last_name": SessionManager.instance.usersData["last_name"],
           "pick_location": pickUpLocationAdd,
           "drop_location": dropLocationAdd,
-          "image":
-              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+          "image": SessionManager.instance.usersData["profile_picture"] == null
+              ? 'https://myride.dreamlabs.com.ng/assets/images/default-profile-picture.jpeg'
+              : "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
           "request_id": SessionManager.instance.userInstantData["request_place"]
               ["request_id"],
           "distance": DriversUtil.rounded.toString(),
@@ -136,8 +137,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.getUserInfo();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
-        SessionManager.instance.usersData = response["data"];
         Routers.replaceAllWithName(state!.context, '/home');
+        SessionManager.instance.usersData = response["data"];
       } else {
         showErrorNotification(state!.context, response!["message"]);
       }
@@ -440,7 +441,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
     if (response != null && response.statusCode == 200) {
       await up(path: id, status: "Idle");
-      Routers.pushNamed(context, '/home');
+      Routers.replaceAllWithName(context, '/home');
     } else {
       showErrorNotificationWithCallback(
           state!.context, response!.data!["message"]);
@@ -486,12 +487,15 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Routers.replaceAllWithName(context, '/home');
       showSuccessNotificationWithTime(
           state!.context, response.data['message'], 3);
+      setState(() {
+        model.isRatingLoading = false;
+      });
     } else {
       showErrorNotificationWithCallback(
           state!.context, response!.data!["message"]);
     }
     setState(() {
-      model.isRatingLoading = true;
+      model.isRatingLoading = false;
     });
   }
 

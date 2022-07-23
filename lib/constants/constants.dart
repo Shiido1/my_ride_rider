@@ -1,13 +1,5 @@
-import 'dart:async';
-
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/models/global_model.dart';
-import 'package:my_ride/utils/Flushbar_mixin.dart';
-import 'package:my_ride/widget/date/custom_dialog_for_rejection.dart';
-import '../pages/trip/selected_driver_screen.dart';
-import '../utils/router.dart';
 
 class Constants {
   static const String stripePublishableKey =
@@ -79,39 +71,4 @@ class Constants {
     focusedErrorBorder: UnderlineInputBorder(
         borderSide: BorderSide(width: 0, color: Colors.transparent)),
   );
-}
-
-final _stream = databaseReference.child("drivers");
-listenToRequestEvent(context) async {
-  Map<String, dynamic>? driverRes;
-  StreamSubscription<DatabaseEvent>? _counterSubscription;
-  DatabaseEvent dataEvent =
-      await databaseReference.child("drivers").child(id!).once();
-  driverRes = Map<String, dynamic>.from(dataEvent.snapshot.value as Map);
-
-  _counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
-    if (event.snapshot.value.toString() == 'Accepted') {
-      driverFname = driverRes?['name'];
-      vehicleNumber = driverRes?['vehicle_number'];
-      vehicleColor = driverRes?['vehicle_color'];
-      vehicleName = driverRes?['vehicle_make'];
-      mobile = driverRes?['mobile'];
-      Routers.replace(
-          context,
-          SelectedDriverScreen(
-              fName: driverFname ?? '',
-              color: vehicleColor ?? '',
-              plateNo: vehicleNumber ?? '',
-              carName: vehicleName ?? ''));
-      _counterSubscription?.cancel();
-    } else if (event.snapshot.value.toString() == 'Ignore') {
-      Routers.replaceAllWithName(context, '/home');
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const CustomDialogForRejection();
-          });
-      _counterSubscription?.cancel();
-    }
-  });
 }

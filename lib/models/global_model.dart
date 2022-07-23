@@ -16,6 +16,7 @@ String? id, request, driverRequestID;
 String? driverFname, vehicleNumber, vehicleColor, vehicleName;
 String? token;
 String? mobile;
+String? noOfRides;
 String? cardno;
 String? cardHolder;
 String? cvv;
@@ -34,9 +35,8 @@ up({path, status}) async {
 
 Map<String, dynamic> updatefb({String? status}) => {
       'status': status,
-};
+    };
 
-callNumber() async{
-  const number = '07068997903'; //set the number here
-  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+callNumber() async {
+  await FlutterPhoneDirectCaller.callNumber(mobile!);
 }
