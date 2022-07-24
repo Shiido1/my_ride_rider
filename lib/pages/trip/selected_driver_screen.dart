@@ -32,7 +32,7 @@ class SelectedDriverScreen extends StatefulWidget {
 }
 
 class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
-  _SelectedDriverScreenState(): super(AuthController()) {
+  _SelectedDriverScreenState() : super(AuthController()) {
     con = controller as AuthController;
   }
 
@@ -55,41 +55,37 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
               alignment: Alignment.topRight,
               child: Padding(
                 padding: EdgeInsets.only(right: 4.w),
-                child: SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      null ||
-                                  SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      ''
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppColors.grey1,
-                                    size: 23.sp,
-                                  ),
-                                  radius: 26,
-                                )
-                              : CircleAvatar(
-                                  radius: 28,
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const CircularProgressIndicator(),
-                                  ),
-                                ),
+                child: SessionManager.instance.usersData["profile_picture"] ==
+                            null ||
+                        SessionManager.instance.usersData["profile_picture"] ==
+                            ''
+                    ? CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          color: AppColors.grey1,
+                          size: 23.sp,
+                        ),
+                        radius: 26,
+                      )
+                    : CircleAvatar(
+                        radius: 28,
+                        child: CachedNetworkImage(
+                          imageUrl: SessionManager
+                              .instance.usersData["profile_picture"],
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const CircularProgressIndicator(),
+                        ),
+                      ),
               ),
             ),
             SizedBox(
@@ -417,14 +413,17 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      if(SessionManager.instance.isAddCard==true){
-                                        Routers.replace(context,
+                                      if (SessionManager.instance.isAddCard ==
+                                          true) {
+                                        Routers.replace(
+                                            context,
                                             MapScreen(
                                                 fname: driverFname!,
-                                                pickLocation: pickUpLocationAdd!,
-                                                dropLocation: dropLocationAdd!));
-                                      }
-                                      else{
+                                                pickLocation:
+                                                    pickUpLocationAdd!,
+                                                dropLocation:
+                                                    dropLocationAdd!));
+                                      } else {
                                         Routers.pushNamed(
                                             context, '/card_payment');
                                       }
@@ -446,8 +445,7 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                     height: 1.5.h,
                                   ),
                                   TextView(
-                                      onTap: () =>
-                                          con.cancelTrip(context),
+                                      onTap: () => con.cancelTrip(context),
                                       text: 'Cancel Request',
                                       color: AppColors.red,
                                       fontSize: 16.5.sp,

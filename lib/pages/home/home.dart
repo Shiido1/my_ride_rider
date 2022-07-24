@@ -179,7 +179,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                                   radius: 28,
                                   child: CachedNetworkImage(
                                     imageUrl:
-                                        "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                        SessionManager.instance.usersData["profile_picture"],
                                     imageBuilder: (context, imageProvider) =>
                                         Container(
                                       decoration: BoxDecoration(
@@ -545,8 +545,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           : CircleAvatar(
                               radius: 28,
                               child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                imageUrl:SessionManager.instance.usersData["profile_picture"],
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
                                   decoration: BoxDecoration(

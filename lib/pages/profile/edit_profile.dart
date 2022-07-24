@@ -70,8 +70,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                                       ? CircleAvatar(
                                           radius: 40,
                                           child: CachedNetworkImage(
-                                            imageUrl:
-                                                "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                                            imageUrl:SessionManager.instance.usersData["profile_picture"],
                                             imageBuilder:
                                                 (context, imageProvider) =>
                                                     Container(

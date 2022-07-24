@@ -43,7 +43,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
             child: Form(
               key: con.model.otpFormKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                         color: AppColors.primary,
                         fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: 4.h),
                       TextFormField(
                         validator: validateOTP_Test,
                         controller: con.model.otpController,
@@ -62,27 +62,24 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
                           labelText: "OTP",
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: 2.h),
                       TextButton(
                           onPressed: () {}, child: const Text('Resend OTP')),
                     ],
                   ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 40,
-                            right: Adaptive.w(15),
-                            left: Adaptive.w(15)),
-                        child: LoadingButton(
-                          isLoading: con.model.isVerifyOTPLoading,
-                          label: "Continue",
-                          onPressed: con.verifyOTP,
-                        ),
+                  SizedBox(height: 10.h),
+                  Column(children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 40, right: Adaptive.w(15), left: Adaptive.w(15)),
+                      child: LoadingButton(
+                        isLoading: con.model.isVerifyOTPLoading,
+                        label: "Continue",
+                        onPressed: con.verifyOTP,
                       ),
-                      const SizedBox(height: 40),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 10.h),
+                  ]),
                 ],
               ),
             ),

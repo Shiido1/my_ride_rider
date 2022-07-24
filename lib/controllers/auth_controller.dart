@@ -55,9 +55,8 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "last_name": SessionManager.instance.usersData["last_name"],
           "pick_location": pickUpLocationAdd,
           "drop_location": dropLocationAdd,
-          "image": SessionManager.instance.usersData["profile_picture"] == null
-              ? 'https://myride.dreamlabs.com.ng/assets/images/default-profile-picture.jpeg'
-              : "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+          "image": SessionManager.instance.usersData["profile_picture"] ??
+              'https://myride.dreamlabs.com.ng/assets/images/default-profile-picture.jpeg',
           "request_id": SessionManager.instance.userInstantData["request_place"]
               ["request_id"],
           "distance": DriversUtil.rounded.toString(),

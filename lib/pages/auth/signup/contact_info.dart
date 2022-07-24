@@ -27,7 +27,6 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
   @override
   void initState() {
     super.initState();
-
     con.model.regPhoneNumberController.text =
         con.model.insertPhoneController.text;
   }

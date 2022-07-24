@@ -57,7 +57,7 @@ class _RateScreenState extends StateMVC<RateScreen> {
                         radius: 70,
                         child: CachedNetworkImage(
                           imageUrl:
-                              "https://myride.dreamlabs.com.ng/storage/uploads/user/profile-picture/${SessionManager.instance.usersData["profile_picture"]}",
+                              SessionManager.instance.usersData["profile_picture"],
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
