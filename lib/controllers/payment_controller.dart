@@ -38,18 +38,16 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
           "exp_year": model.yearController.text
         });
         if (response != null && response.statusCode == 200) {
-          {
-            if (isRegistration == true) {
-              Routers.replaceAllWithName(state!.context, "/reg_success");
-              SessionManager.instance.isAddCard = true;
-            } else {
-              Routers.replace(
-                  state!.context,
-                  MapScreen(
-                      fname: driverFname!,
-                      pickLocation: pickUpLocationAdd!,
-                      dropLocation: dropLocationAdd!));
-            }
+          SessionManager.instance.isAddCard = true;
+          if (isRegistration == true) {
+            Routers.replaceAllWithName(state!.context, "/reg_success");
+          } else {
+            Routers.replace(
+                state!.context,
+                MapScreen(
+                    fname: driverFname!,
+                    pickLocation: pickUpLocationAdd!,
+                    dropLocation: dropLocationAdd!));
           }
         } else {
           showErrorNotificationWithCallback(

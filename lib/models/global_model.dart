@@ -22,7 +22,9 @@ String? cardHolder;
 String? cvv;
 String? month;
 String? year;
+String? costOfRide;
 bool? isRegistration;
+bool? isChangeLocationOnTap = false;
 
 String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
 final databaseReference = FirebaseDatabase.instance.ref();

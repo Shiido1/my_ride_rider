@@ -52,7 +52,6 @@ class AuthModel {
   bool isInstantLoading = false;
   bool isScheduleLoading = false;
   bool isCancelLoading = false;
-  bool isChangeLoading = false;
   bool isRatingLoading = false;
   bool isUserProfileLoading = false;
 

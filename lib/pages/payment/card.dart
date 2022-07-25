@@ -9,6 +9,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../components/loading_button.dart';
 import '../../constants/session_manager.dart';
 import '../../controllers/payment_controller.dart';
+import '../../models/global_model.dart';
 
 class CardPayment extends StatefulWidget {
   const CardPayment({Key? key}) : super(key: key);
@@ -128,7 +129,7 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                             height: 3.h,
                           ),
                           TextView(
-                              text: '\$2',
+                              text: '\$$costOfRide',
                               fontWeight: FontWeight.bold,
                               fontSize: 23.sp),
                         ],

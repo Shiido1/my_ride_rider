@@ -3,6 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/pages/home/home_search_dest_page.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/utils/users_dialog.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -30,6 +32,8 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   Timer? _timer;
   int _start = 5;
+
+  bool? isChangeLocation = false;
 
   @override
   void initState() {
@@ -184,20 +188,33 @@ class _MapScreenState extends State<MapScreen> {
                 ]),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: EdgeInsets.only(right: 7.w),
-                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.black,
+            Visibility(
+              visible: isChangeLocation!,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    isChangeLocationOnTap = true;
+                    Routers.replaceAll(context, const HomeSearchDestination());
+                  });
+                  print('object: ${isChangeLocationOnTap.toString()}');
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 7.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.black,
+                      ),
+                    ),
+                    child: TextView(
+                        text: 'Change Location',
+                        fontSize: 16.5.sp,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
-                child: TextView(
-                    text: 'Change Location',
-                    fontSize: 16.5.sp,
-                    fontWeight: FontWeight.w700),
               ),
             ),
             Align(
@@ -424,6 +441,11 @@ class _MapScreenState extends State<MapScreen> {
         .onChildChanged
         .listen((event) {
       if (event.snapshot.value.toString() == 'Arrived') {
+        if (event.snapshot.value.toString() == 'Arrived') {
+          setState(() {
+            isChangeLocation = true;
+          });
+        }
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -478,7 +500,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    _timer!.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 }

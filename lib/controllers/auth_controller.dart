@@ -63,9 +63,9 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "drop_lat": dropLat,
           "drop_long": dropLong,
           "mobile": SessionManager.instance.usersData["mobile"],
+          "cost_of_ride": costOfRide
         }
       });
-      debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
         showDialog(
             context: state!.context,
@@ -447,27 +447,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
     setState(() {
       model.isCancelLoading = false;
-    });
-  }
-
-  void changeLocation() async {
-    setState(() {
-      model.isChangeLoading = true;
-    });
-    Response? response = await authRepo.changeLocation({
-      'request_id': SessionManager.instance.userInstantData["data"]
-          ["request_place"]["request_id"],
-      'drop_lat': dropLat,
-      'drop_lng': dropLong,
-      'drop_address': dropLocationAdd,
-    });
-
-    if (response != null && response.statusCode == 200) {
-    } else {
-      showErrorNotification(state!.context, response!.data["message"]);
-    }
-    setState(() {
-      model.isChangeLoading = true;
     });
   }
 

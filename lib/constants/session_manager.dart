@@ -24,7 +24,7 @@ class SessionManager {
   static const String keyUuid = 'uuid';
   static const String loggingKey = 'logging';
   static const String keyEmail = 'email';
-  static const String addCardKey = 'acd_card';
+  static const String addCardKey = 'add_card';
 
   String get authToken => sharedPreferences!.getString(keyAuthToken) ?? '';
   String get verifyEmail => sharedPreferences!.getString(keyEmail) ?? '';

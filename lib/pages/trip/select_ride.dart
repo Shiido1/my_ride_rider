@@ -375,6 +375,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               isSelectClassic = true;
                                               isSelectExecutive = false;
                                               isSelectCoperate = false;
+                                              costOfRide = Provider.of<
+                                                          GoogleApiProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .classicEsCost
+                                                  .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
@@ -442,6 +448,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               isSelectExecutive = true;
                                               isSelectClassic = false;
                                               isSelectCoperate = false;
+                                              costOfRide = Provider.of<
+                                                          GoogleApiProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .executiveEsCost
+                                                  .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
@@ -509,6 +521,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                               isSelectCoperate = true;
                                               isSelectClassic = false;
                                               isSelectExecutive = false;
+                                              costOfRide = Provider.of<
+                                                          GoogleApiProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .coperateEsCost
+                                                  .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => Column(
@@ -690,7 +708,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
         vehicleName = driverRes?['vehicle_make'];
         mobile = driverRes?['mobile'].toString();
         noOfRides = driverRes?['no_of_rides'].toString();
-        Routers.replace(
+        Routers.replaceAll(
             context,
             SelectedDriverScreen(
                 fName: driverFname ?? '',

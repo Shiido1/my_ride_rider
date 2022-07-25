@@ -53,15 +53,15 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextView(
-                            text:'Nearest ride is',
-                              fontSize: 16.sp,
-                              color: Colors.white,
+                            text: 'Nearest ride is',
+                            fontSize: 16.sp,
+                            color: Colors.white,
                           ),
                           TextView(
-                            text:'minutes away',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            text: 'minutes away',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ],
                       ),
@@ -82,7 +82,8 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                           : CircleAvatar(
                               radius: 28,
                               child: CachedNetworkImage(
-                                imageUrl:SessionManager.instance.usersData["profile_picture"],
+                                imageUrl: SessionManager
+                                    .instance.usersData["profile_picture"],
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
                                   decoration: BoxDecoration(
@@ -105,19 +106,17 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                   ),
                   TextView(
                     text: "Your Pickup Location",
-                      fontSize: 18.sp,
-                      color: Colors.white,
-
+                    fontSize: 18.sp,
+                    color: Colors.white,
                   ),
                   SizedBox(
                     height: 4.h,
                   ),
                   TextView(
-                    text:"$pickUpLocationAdd",
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-
+                    text: "$pickUpLocationAdd",
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
                   ),
                   const Spacer(),
                   InkWell(
@@ -157,57 +156,116 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                     SizedBox(
                       height: 4.h,
                     ),
-                    EditTextForm(
-                      onTapped: () async {
-                        var place = await PlacesAutocomplete.show(
-                          context: context,
-                          apiKey: googleApikey,
-                          mode: Mode.overlay,
-                          types: [],
-                          strictbounds: false,
-                          components: [Component(Component.country, 'ng')],
-                          //google_map_webservice package
-                          onError: (err) {},
-                        );
+                    isChangeLocationOnTap == true
+                        ? EditTextForm(
+                            onTapped: () async {
+                              var place = await PlacesAutocomplete.show(
+                                context: context,
+                                apiKey: googleApikey,
+                                mode: Mode.overlay,
+                                types: [],
+                                strictbounds: false,
+                                components: [
+                                  Component(Component.country, 'ng')
+                                ],
+                                onError: (err) {},
+                              );
 
-                        if (place != null) {
-                          setState(() {
-                            dropLocationAdd = place.description;
-                            destinationController =
-                                TextEditingController(text: dropLocationAdd);
-                          });
-                          //form google_maps_webservice package
-                          final plist = GoogleMapsPlaces(
-                            apiKey: googleApikey,
-                            apiHeaders:
-                                await const GoogleApiHeaders().getHeaders(),
-                            //from google_api_headers package
-                          );
-                          String placeId = place.placeId ?? "0";
-                          final detail =
-                              await plist.getDetailsByPlaceId(placeId);
-                          final geometry = detail.result.geometry!;
-                          dropLat = geometry.location.lat.toString();
-                          dropLong = geometry.location.lng.toString();
-                        }
-                      },
-                      readOnly: true,
-                      controller: destinationController,
-                      suffixWidget: InkWell(
-                          onTap: () {
-                            Routers.pushNamed(context, '/select_ride');
-                          },
-                          child: const Icon(Icons.search)),
-                    ),
+                              if (place != null) {
+                                setState(() {
+                                  dropLocationAdd = place.description;
+                                  destinationController = TextEditingController(
+                                      text: dropLocationAdd);
+                                });
+                                final plist = GoogleMapsPlaces(
+                                  apiKey: googleApikey,
+                                  apiHeaders: await const GoogleApiHeaders()
+                                      .getHeaders(),
+                                );
+                                String placeId = place.placeId ?? "0";
+                                final detail =
+                                    await plist.getDetailsByPlaceId(placeId);
+                                final geometry = detail.result.geometry!;
+                                dropLat = geometry.location.lat.toString();
+                                dropLong = geometry.location.lng.toString();
+                              }
+                            },
+                            readOnly: true,
+                            controller: destinationController,
+                          )
+                        : EditTextForm(
+                            onTapped: () async {
+                              var place = await PlacesAutocomplete.show(
+                                context: context,
+                                apiKey: googleApikey,
+                                mode: Mode.overlay,
+                                types: [],
+                                strictbounds: false,
+                                components: [
+                                  Component(Component.country, 'ng')
+                                ],
+                                onError: (err) {},
+                              );
+
+                              if (place != null) {
+                                setState(() {
+                                  dropLocationAdd = place.description;
+                                  destinationController = TextEditingController(
+                                      text: dropLocationAdd);
+                                });
+                                final plist = GoogleMapsPlaces(
+                                  apiKey: googleApikey,
+                                  apiHeaders: await const GoogleApiHeaders()
+                                      .getHeaders(),
+                                );
+                                String placeId = place.placeId ?? "0";
+                                final detail =
+                                    await plist.getDetailsByPlaceId(placeId);
+                                final geometry = detail.result.geometry!;
+                                dropLat = geometry.location.lat.toString();
+                                dropLong = geometry.location.lng.toString();
+                              }
+                            },
+                            readOnly: true,
+                            controller: destinationController,
+                            suffixWidget: InkWell(
+                                onTap: () {
+                                  Routers.pushNamed(context, '/select_ride');
+                                },
+                                child: const Icon(Icons.search)),
+                          ),
                     SizedBox(
-                      height: 4.h,
+                      height: 2.h,
                     ),
-                TextView(
-                  text:'No History',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
+                    Visibility(
+                      visible: isChangeLocationOnTap!,
+                      child: InkWell(
+                        onTap: () => con.changeLocation(),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            margin: EdgeInsets.only(right: 7.w),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 3.w, vertical: 3.w),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.grey1,
+                              ),
+                            ),
+                            child: TextView(
+                                text: 'New Location',
+                                fontSize: 16.5.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextView(
+                      text: 'History',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
                     SizedBox(
                       height: 1.3.h,
                     ),
@@ -215,30 +273,37 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                         height: 32.h,
                         child: Consumer<GoogleApiProvider>(
                             builder: (_, provider, __) {
-                              if (provider.responses == null) {
-                                return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.primary,
-                                    ));
-                              }
-                              if (provider.responses!.isEmpty) {
-                                return TextView(
-                                  text:'No History',
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primary,
-                                );
-                              }
-                              return ListView.builder(
-                                itemCount: provider.responses!["data"].length,
-                                itemBuilder: (context, index) {
-                                  return addedHistory(text:provider
-                                      .responses!["data"][index]["drop_address"],lat:provider
-                                      .responses!["data"][index]["drop_lat"].toString(),long:provider
-                                      .responses!["data"][index]["drop_lng"].toString());
-                                },
-                              );
-                            })),
+                          if (provider.responses == null) {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.primary,
+                            ));
+                          }
+                          if (provider.responses!["data"].isEmpty) {
+                            return Center(
+                              child: TextView(
+                                text: 'No History',
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
+                              ),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: provider.responses!["data"].length,
+                            itemBuilder: (context, index) {
+                              return addedHistory(
+                                  text: provider.responses!["data"][index]
+                                      ["drop_address"],
+                                  lat: provider.responses!["data"][index]
+                                          ["drop_lat"]
+                                      .toString(),
+                                  long: provider.responses!["data"][index]
+                                          ["drop_lng"]
+                                      .toString());
+                            },
+                          );
+                        })),
                     SizedBox(
                       height: 10.h,
                     )
@@ -275,7 +340,7 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
     );
   }
 
-      addedHistory({String? text,String? long,String? lat}) => InkWell(
+  addedHistory({String? text, String? long, String? lat}) => InkWell(
         onTap: () {
           setState(() {
             dropLocationAdd = text!;

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -178,8 +177,8 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                               : CircleAvatar(
                                   radius: 28,
                                   child: CachedNetworkImage(
-                                    imageUrl:
-                                        SessionManager.instance.usersData["profile_picture"],
+                                    imageUrl: SessionManager
+                                        .instance.usersData["profile_picture"],
                                     imageBuilder: (context, imageProvider) =>
                                         Container(
                                       decoration: BoxDecoration(
@@ -277,7 +276,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           Container(
                             height: 10.h,
                             color: AppColors.primary,
-                            padding: const EdgeInsets.all(10),
+                            padding: EdgeInsets.all(3.w),
                             child: const Icon(
                               Icons.location_on,
                               color: Colors.white,
@@ -520,97 +519,93 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
         Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 5.w),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SessionManager.instance.usersData["profile_picture"] ==
-                                  null ||
-                              SessionManager
-                                      .instance.usersData["profile_picture"] ==
-                                  ''
-                          ? CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: Icon(
-                                Icons.person,
-                                color: AppColors.grey1,
-                                size: 23.sp,
-                              ),
-                              radius: 26,
-                            )
-                          : CircleAvatar(
-                              radius: 28,
-                              child: CachedNetworkImage(
-                                imageUrl:SessionManager.instance.usersData["profile_picture"],
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const CircularProgressIndicator(),
+                  SessionManager.instance.usersData["profile_picture"] ==
+                              null ||
+                          SessionManager
+                                  .instance.usersData["profile_picture"] ==
+                              ''
+                      ? CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.grey1,
+                            size: 23.sp,
+                          ),
+                          radius: 26,
+                        )
+                      : CircleAvatar(
+                          radius: 28,
+                          child: CachedNetworkImage(
+                            imageUrl: SessionManager
+                                .instance.usersData["profile_picture"],
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
                               ),
                             ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 1.w, left: 3.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const CircularProgressIndicator(),
+                          ),
+                        ),
+                  SizedBox(
+                    width: 1.w,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 1.w, left: 3.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextView(
+                          text: '${SessionManager.instance.usersData["name"]}'
+                              .split(" ")
+                              .first,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            con.closeDrawer();
+                            Routers.pushNamed(context, "/edit_profile");
+                          },
+                          child: TextView(
+                            text: 'Edit profile',
+                            fontSize: 16.sp,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 1.h,
+                        ),
+                        Row(
                           children: [
-                            TextView(
-                              text:'${SessionManager.instance
-                                          .usersData["name"]}',
-                                fontSize: 18.sp,
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow[800],
+                              size: 16.sp,
+                            ),
+                            Text(
+                              '4.0',
+                              style: TextStyle(
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primary,
-                              
-                            ),
-                            InkWell(
-                              onTap: () {
-                                con.closeDrawer();
-                                Routers.pushNamed(context, "/edit_profile");
-                              },
-                              child: TextView(
-                                text:'Edit profile',
-                                  fontSize: 16.sp,
-                                  color: AppColors.primary,
-                                
                               ),
                             ),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[800],
-                                  size: 16.sp,
-                                ),
-                                Text(
-                                  '4.0',
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
-                        ),
-                      ),
-                    ],
+                        )
+                      ],
+                    ),
                   ),
+                  const Spacer(),
                   IconButton(
                       onPressed: con.closeDrawer, icon: const Icon(Icons.close))
                 ],

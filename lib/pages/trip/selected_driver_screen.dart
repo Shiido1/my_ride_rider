@@ -413,20 +413,17 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      if (SessionManager.instance.isAddCard ==
-                                          true) {
-                                        Routers.replace(
-                                            context,
-                                            MapScreen(
-                                                fname: driverFname!,
-                                                pickLocation:
-                                                    pickUpLocationAdd!,
-                                                dropLocation:
-                                                    dropLocationAdd!));
-                                      } else {
-                                        Routers.pushNamed(
-                                            context, '/card_payment');
-                                      }
+                                      SessionManager.instance.isAddCard
+                                          ? Routers.replace(
+                                              context,
+                                              MapScreen(
+                                                  fname: driverFname!,
+                                                  pickLocation:
+                                                      pickUpLocationAdd!,
+                                                  dropLocation:
+                                                      dropLocationAdd!))
+                                          : Routers.pushNamed(
+                                              context, '/card_payment');
                                     },
                                     child: Container(
                                       padding: EdgeInsets.symmetric(
