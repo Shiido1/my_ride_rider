@@ -17,6 +17,7 @@ import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
 import 'package:my_ride/pages/schedule/schedule.dart';
 import 'package:my_ride/widget/rate_screen.dart';
 
+import '../pages/trip/schedule_tirp_vehicle_type.dart';
 import '../pages/trip/select_ride.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -58,6 +59,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/change_destination_location':
       return MaterialPageRoute(
           builder: (_) => const ChangeDestinationLocation());
+    case '/schedule_trip_vehicle':
+      return MaterialPageRoute(
+          builder: (_) => const ScheduleTripVehicle());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

@@ -1,41 +1,40 @@
 {
   "project_info": {
-    "project_number": "457834745987",
-    "firebase_url": "https://myrideapp81-default-rtdb.firebaseio.com",
-    "project_id": "myrideapp81",
-    "storage_bucket": "myrideapp81.appspot.com"
+    "project_number": "507966151856",
+    "project_id": "my-ride-c980a",
+    "storage_bucket": "my-ride-c980a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:457834745987:android:2f255a40cb73ffa9d3cbb6",
+        "mobilesdk_app_id": "1:507966151856:android:2091b85df33b18412fef75",
         "android_client_info": {
-          "package_name": "com.myride.projects"
+          "package_name": "com.myride.rider"
         }
       },
       "oauth_client": [
         {
-          "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+          "client_id": "507966151856-t3m1eqmufcgr6ogepaf1toklrf3ln85g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_QWVrUAfq65NiO_PSv8dx1BO7YzhYQMc"
+          "current_key": "AIzaSyDhrqTW16qeW7dPqax-t7tjaX1HpXVaNA4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+              "client_id": "507966151856-t3m1eqmufcgr6ogepaf1toklrf3ln85g.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "457834745987-q7nrla5d5bo91r0toh09s5gmb2pjmo19.apps.googleusercontent.com",
+              "client_id": "507966151856-6vlpa80bu8gptq1ranh0t6vqr0lbgfsp.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myride.user"
+                "bundle_id": "com.myridedriverapp"
               }
             }
           ]
@@ -44,34 +43,42 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:457834745987:android:61e8d8c366779880d3cbb6",
+        "mobilesdk_app_id": "1:507966151856:android:0a39a5d9eabed98a2fef75",
         "android_client_info": {
-          "package_name": "com.myride.user"
+          "package_name": "com.myridedriverapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+          "client_id": "507966151856-vph8puquhrg6ae90fq9lgaj3ljsqma4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myridedriverapp",
+            "certificate_hash": "b2b4badf920cad852dea9e0ff8f3a0c105dbd66e"
+          }
+        },
+        {
+          "client_id": "507966151856-t3m1eqmufcgr6ogepaf1toklrf3ln85g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_QWVrUAfq65NiO_PSv8dx1BO7YzhYQMc"
+          "current_key": "AIzaSyDhrqTW16qeW7dPqax-t7tjaX1HpXVaNA4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "457834745987-f72l2tnnl67l5lu7p3si9srdcpp0ai7q.apps.googleusercontent.com",
+              "client_id": "507966151856-t3m1eqmufcgr6ogepaf1toklrf3ln85g.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "457834745987-q7nrla5d5bo91r0toh09s5gmb2pjmo19.apps.googleusercontent.com",
+              "client_id": "507966151856-6vlpa80bu8gptq1ranh0t6vqr0lbgfsp.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myride.user"
+                "bundle_id": "com.myridedriverapp"
               }
             }
           ]

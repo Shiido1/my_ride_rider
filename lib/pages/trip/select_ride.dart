@@ -256,7 +256,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                           children: [
                             Container(
                               child: const TextWidget(),
-                              height: 10.5.h,
+                              height: 6.5.h,
                               decoration: const BoxDecoration(
                                   color: AppColors.primary,
                                   borderRadius: BorderRadius.only(
@@ -278,7 +278,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             BorderRadius.circular(20)),
                                   ),
                                 ),
-                                height: 60,
+                                height: 4.h,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.vertical(
@@ -591,7 +591,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     );
                                   }),
                               SizedBox(
-                                height: 10.h,
+                                height: 7.8.h,
                               ),
                               InkWell(
                                 onTap: () async {
@@ -708,7 +708,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
         vehicleName = driverRes?['vehicle_make'];
         mobile = driverRes?['mobile'].toString();
         noOfRides = driverRes?['no_of_rides'].toString();
-        Routers.replaceAll(
+        Routers.replace(
             context,
             SelectedDriverScreen(
                 fName: driverFname ?? '',

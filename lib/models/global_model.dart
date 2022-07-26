@@ -25,6 +25,9 @@ String? year;
 String? costOfRide;
 bool? isRegistration;
 bool? isChangeLocationOnTap = false;
+String? scheduleValue = '';
+String? scheduleDate;
+String? timeText = 'Pick time';
 
 String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";
 final databaseReference = FirebaseDatabase.instance.ref();

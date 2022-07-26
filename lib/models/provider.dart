@@ -30,6 +30,8 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
   int? coperateEsCost;
   Map<String,dynamic>? get responses => _responses;
   Map<String,dynamic>? _responses;
+  Map<String,dynamic>? get responsesVeh => _responsesVeh;
+  Map<String,dynamic>? _responsesVeh;
 
   getTimeFromGoogleApi({String? origin, String? destination}) async {
     try {
@@ -155,6 +157,19 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
     try {
       Map<String, dynamic>? response = await authRepo.getLocationHistory();
       _responses = response;
+      notifyListeners();
+    } catch (e, str) {
+      debugPrint("Error: $e");
+      debugPrint("StackTrace: $str");
+    }
+    notifyListeners();
+    return _responses;
+  }
+
+  getVehicleTypes() async {
+    try {
+      Map<String, dynamic>? responseVeh = await authRepo.getVehicleTypes();
+      _responsesVeh = responseVeh;
       notifyListeners();
     } catch (e, str) {
       debugPrint("Error: $e");

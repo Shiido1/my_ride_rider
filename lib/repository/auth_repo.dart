@@ -116,6 +116,16 @@ class AuthRepo with Services {
     return null;
   }
 
+  Future<Map<String, dynamic>?> getVehicleTypes() async {
+    Map<String, dynamic>? response = await apiGetRequests("types/vehicleTypes");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Map<String, dynamic>?> profilePicture(
       Map<String, dynamic> credentials) async {
     Map<String, dynamic>? response =

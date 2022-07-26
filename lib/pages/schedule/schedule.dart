@@ -39,9 +39,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
       TextEditingController(text: 'Enter Destination location');
   TextEditingController? timeController =
       TextEditingController(text: "Pick time");
-  String? scheduleValue = '';
-  String? scheduleDate;
-  String? timeText = 'Pick time';
+
   DateTime selectedDate = DateTime.now();
   final firstDate = DateTime(2022, 1);
   final lastDate = DateTime(2100, 12);
@@ -53,11 +51,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
     super.dispose();
   }
 
-  createScheduleTrip() async {
-    con.scheduleTrip(
-        scheduleTripDate: '$scheduleDate $timeText',
-        schedulePeriod: scheduleValue!.toLowerCase());
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -411,7 +405,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                   Align(
                     alignment: Alignment.center,
                     child: GestureDetector(
-                      onTap: () => createScheduleTrip(),
+                      onTap: () => Routers.replaceAllWithName(context, '/schedule_trip_vehicle'),
                       child: Container(
                         width: 180,
                         height: 5.h,

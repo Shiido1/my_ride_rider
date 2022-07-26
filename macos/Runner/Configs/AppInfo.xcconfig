@@ -8,7 +8,7 @@
 PRODUCT_NAME = projects
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.myride.projects
+PRODUCT_BUNDLE_IDENTIFIER = com.myride.rider
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 com.myride. All rights reserved.

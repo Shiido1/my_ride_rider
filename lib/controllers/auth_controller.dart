@@ -394,7 +394,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  void scheduleTrip({String? scheduleTripDate, String? schedulePeriod}) async {
+  void scheduleTrip({String? scheduleTripDate, String? schedulePeriod,String? vehicleType}) async {
     setState(() {
       model.isScheduleLoading = true;
     });
@@ -403,7 +403,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       "pick_lng": pickUpLong,
       "drop_lat": dropLat,
       "drop_lng": dropLong,
-      "vehicle_type": "eb7d7a67-b710-450a-b1c8-d52a8d0db8eb",
+      "vehicle_type": vehicleType,
       "payment_opt": "1",
       "pick_address": pickUpLocationAdd,
       "drop_address": dropLocationAdd,
