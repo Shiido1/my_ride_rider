@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_ride/components/loading_button.dart';
@@ -22,7 +24,7 @@ class _OTPPageState extends StateMVC<OTPPage> with ValidationMixin {
     con = controller as AuthController;
   }
   late AuthController con;
-  String otpValue = "1234";
+  // String otpValue = "1234";
   String errorMssg = "enter 1234 to proceed";
   TextEditingController otpController = TextEditingController();
   Timer? _timer;

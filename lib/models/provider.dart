@@ -43,8 +43,6 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
           _timeResponse = res[j]['duration']['text'];
         }
       }
-
-      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -62,8 +60,6 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
           _timeResponseExecutive = res[j]['duration']['text'];
         }
       }
-
-      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -81,7 +77,6 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
           _timeResponseCoperate = res[j]['duration']['text'];
         }
       }
-      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -136,7 +131,7 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
         double.parse(dropLong!));
 
     _estimatedCostList = await authRepo.estimatedCost({
-      "distance": distance,
+      "distance": distance*1000/1609.344,
       "duration": minDuration,
       "drop_lat": dropLat,
       "drop_lng": dropLong

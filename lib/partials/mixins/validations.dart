@@ -123,9 +123,9 @@ mixin ValidationMixin {
   }
 
   String? validateOTP_Test(String? value) {
-    String otpValue = "1234";
+    // String otpValue = "1234";
     if (value!.trim().isEmpty) return 'OTP cannot be empty';
-    if (value.trim() != otpValue) return 'OTP Must be 1234';
+    // if (value.trim() != otpValue) return 'OTP Must be 1234';
     return null;
   }
 

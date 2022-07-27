@@ -39,12 +39,11 @@ class OnBoardingPage extends StatelessWidget {
                   fit: BoxFit.scaleDown),
             ),
             const SizedBox(height: 40),
-            Text(
-              "At my ride.com, we offer quality corporative and private transportation service across the entire metro Atlanta area at reasonable price. We know that in today's world, time is money. That's why we promise to get you wherever you are going on time, every time.",
-              style: TextStyle(
-                fontSize: 17.sp,
-                color: Colors.white,
-              ),
+            TextView(
+              text:
+                  "At myride.com, we offer quality corporative and private transportation service across the entire metro Atlanta area at reasonable price. We know that in today's world, time is money. That's why we promise to get you wherever you are going on time, every time.",
+              fontSize: 17.sp,
+              color: Colors.white,
               textAlign: TextAlign.justify,
             ),
             const SizedBox(height: 30),

@@ -12,6 +12,7 @@ import '../../controllers/auth_controller.dart';
 import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
+import '../../widget/text_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -61,7 +62,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                     color: AppColors.primary,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 8.h),
                 Form(
                   key: con.model.formKey,
                   child: Expanded(
@@ -112,19 +113,18 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        SizedBox(height: 12.h),
                         Column(
                           children: [
                             Row(
                               children: [
-                                const Text(
-                                  'First Name:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                TextView(
+                                  text: 'First Name:',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.sp,
                                 ),
-                                const SizedBox(
-                                  width: 20,
+                                SizedBox(
+                                  width: 8.w,
                                 ),
                                 Text('$firstNam')
                               ],
@@ -134,95 +134,25 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: 8.w,
                         ),
                         Column(
                           children: [
                             Row(
                               children: [
-                                const Text(
-                                  'Last Name:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text('$lastNam')
-                              ],
-                            ),
-                            const Divider(
-                              thickness: 2,
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Phone No:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text('${phoneNum}')
-                              ],
-                            ),
-                            const Divider(
-                              thickness: 2,
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  'Email Address:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text('${email}')
-                              ],
-                            ),
-                            const Divider(
-                              thickness: 2,
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: const [
-                                Text(
-                                  'Password:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                TextView(
+                                  text: 'Last Name:',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
                                 ),
                                 SizedBox(
-                                  width: 20,
+                                  width: 8.sp,
                                 ),
-                                Text('***********')
+                                TextView(
+                                  text: '$lastNam',
+                                  fontSize: 15.5.sp,
+                                ),
                               ],
                             ),
                             const Divider(
@@ -230,8 +160,87 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                TextView(
+                                  text: 'Phone No:',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextView(
+                                  text: phoneNum!,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.5.sp,
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                TextView(
+                                  text: 'Email Address:',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.sp,
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextView(
+                                  text: email!,
+                                  fontSize: 15.5.sp,
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.w,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                TextView(
+                                  text: 'Password:',
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                TextView(
+                                  text: '************',
+                                  fontSize: 15.5.sp,
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.w,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -245,7 +254,10 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                 isRegistration = true;
                               });
                             },
-                            child: const Text("Continue"),
+                            child: TextView(
+                              text: 'Continue',
+                              fontSize: 16.sp,
+                            ),
                             style: ButtonStyle(
                               minimumSize: MaterialStateProperty.all(
                                   const Size.fromHeight(50)),
@@ -257,7 +269,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        SizedBox(height: 12.h),
                       ],
                     ),
                   ),
@@ -280,6 +292,8 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
               con.getUserProfileData(image: profileImage, context: context);
             });
           });
-    } catch (e) {}
+    } catch (e) {
+      throw (e.toString());
+    }
   }
 }

@@ -196,7 +196,6 @@ class _MapScreenState extends State<MapScreen> {
                     isChangeLocationOnTap = true;
                     Routers.replaceAll(context, const HomeSearchDestination());
                   });
-                  print('object: ${isChangeLocationOnTap.toString()}');
                 },
                 child: Align(
                   alignment: Alignment.centerRight,

@@ -68,7 +68,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                                       ? CircleAvatar(
                                           radius: 40,
                                           child: CachedNetworkImage(
-                                            imageUrl:SessionManager.instance.usersData["profile_picture"],
+                                            imageUrl: SessionManager.instance
+                                                .usersData["profile_picture"],
                                             imageBuilder:
                                                 (context, imageProvider) =>
                                                     Container(
@@ -260,6 +261,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
               con.getUserProfileData(image: profileImage, context: context);
             });
           });
-    } catch (e) {}
+    } catch (e) {
+      throw (e.toString());
+    }
   }
 }

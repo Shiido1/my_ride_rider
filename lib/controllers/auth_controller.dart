@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -31,7 +32,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   final AuthRepo authRepo = AuthRepo();
   String deviceToken = "DeviceTokin";
   String countryCode = "+234";
-  String otpValue = "1234";
   final loadingKey = GlobalKey<FormState>();
 
   void sendPushNot() async {
@@ -248,14 +248,18 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       var uuid = SessionManager.instance.uuidData;
 
-      Response? response =
-          await authRepo.otpVerification({"otp": otpValue, "uuid": uuid});
+      Response? response = await authRepo
+          .otpVerification({"otp": model.otpController.text, "uuid": uuid});
 
       if (response != null && response.statusCode == 200) {
         Navigator.pushNamed(state!.context, '/contact_info');
+        setState(() {
+          model.isVerifyOTPLoading = true;
+        });
       } else {
         showErrorNotificationWithCallback(
             state!.context, response!.data["message"]);
+        log(response.data);
       }
 
       setState(() {
@@ -394,7 +398,10 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     });
   }
 
-  void scheduleTrip({String? scheduleTripDate, String? schedulePeriod,String? vehicleType}) async {
+  void scheduleTrip(
+      {String? scheduleTripDate,
+      String? schedulePeriod,
+      String? vehicleType}) async {
     setState(() {
       model.isScheduleLoading = true;
     });

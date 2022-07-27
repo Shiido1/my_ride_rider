@@ -104,7 +104,7 @@ mixin Services {
             ...header
           }));
       return response.data;
-    } on DioError catch (e) {
+    } on DioError {
       debugPrint("e.toString()");
       return {};
     }
