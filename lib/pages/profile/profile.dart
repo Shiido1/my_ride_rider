@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_ride/components/my_app_bar.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:my_ride/schemas/user.dart';

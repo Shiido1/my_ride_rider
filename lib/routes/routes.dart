@@ -16,7 +16,6 @@ import 'package:my_ride/pages/profile/profile.dart';
 import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
 import 'package:my_ride/pages/schedule/schedule.dart';
 import 'package:my_ride/widget/rate_screen.dart';
-
 import '../pages/trip/schedule_tirp_vehicle_type.dart';
 import '../pages/trip/select_ride.dart';
 

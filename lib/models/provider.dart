@@ -11,7 +11,7 @@ import '../repository/auth_repo.dart';
 import '../states/auth_state.dart';
 import '../utils/driver_utils.dart';
 
-class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
+class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
   GoogleApiProvider();
 
   final AuthRepo authRepo = AuthRepo();
@@ -25,13 +25,13 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
   String? _timeResponseCoperate;
   AuthController? authController;
   Response? _estimatedCostList;
-  int? classicEsCost;
-  int? executiveEsCost;
-  int? coperateEsCost;
-  Map<String,dynamic>? get responses => _responses;
-  Map<String,dynamic>? _responses;
-  Map<String,dynamic>? get responsesVeh => _responsesVeh;
-  Map<String,dynamic>? _responsesVeh;
+  double? classicEsCost;
+  double? executiveEsCost;
+  double? coperateEsCost;
+  Map<String, dynamic>? get responses => _responses;
+  Map<String, dynamic>? _responses;
+  Map<String, dynamic>? get responsesVeh => _responsesVeh;
+  Map<String, dynamic>? _responsesVeh;
 
   getTimeFromGoogleApi({String? origin, String? destination}) async {
     try {
@@ -43,6 +43,8 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
           _timeResponse = res[j]['duration']['text'];
         }
       }
+
+      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -60,6 +62,8 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
           _timeResponseExecutive = res[j]['duration']['text'];
         }
       }
+
+      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -77,6 +81,7 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
           _timeResponseCoperate = res[j]['duration']['text'];
         }
       }
+      print('orerp $response');
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -123,7 +128,7 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
     return DateTime.now().minute;
   }
 
-  void estimatedCost(String minDuration,{context}) async {
+  void estimatedCost(String minDuration, {context}) async {
     var distance = DriversUtil.getDistanceFromLatLonInKm(
         double.parse(pickUpLat!),
         double.parse(pickUpLong!),
@@ -139,7 +144,7 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin{
 
     if (_estimatedCostList != null && _estimatedCostList?.statusCode == 200) {
       for (int i = 0; i < _estimatedCostList!.data.length; i++) {
-        classicEsCost = _estimatedCostList?.data[i]['Classic'].toInt() ?? 0;
+        classicEsCost = _estimatedCostList?.data[i]['Classic'] ?? 0;
         notifyListeners();
         executiveEsCost = _estimatedCostList?.data[i]['Executive'] ?? 0;
         notifyListeners();

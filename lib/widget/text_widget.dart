@@ -42,14 +42,6 @@ class TextView extends StatelessWidget {
           fontWeight: fontWeight,
           color: color
         ),
-        // style: GoogleFonts.dmSans(
-        //     color: color ?? Theme.of(context).colorScheme.primary,
-        //     fontWeight: fontWeight,
-        //     fontSize: fontSize.sp,
-        //     fontStyle: fontStyle,
-        //     wordSpacing: wordSpacing,
-        //     letterSpacing: letterSpacing,
-        //     height: height),
         textAlign: textAlign,
         overflow: textOverflow,
         maxLines: maxLines,

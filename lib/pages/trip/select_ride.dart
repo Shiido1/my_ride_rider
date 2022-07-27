@@ -432,7 +432,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     text: model.classicEsCost ==
                                                             null
                                                         ? 'No cost'
-                                                        : '\$${model.classicEsCost}',
+                                                        : '\$${model.classicEsCost?.toStringAsFixed(2)}',
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -505,7 +505,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     text: model.coperateEsCost ==
                                                             null
                                                         ? 'No cost'
-                                                        : '\$${model.executiveEsCost}',
+                                                        : '\$${model.executiveEsCost?.toStringAsFixed(2)}',
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -577,7 +577,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                     text: model.coperateEsCost ==
                                                             null
                                                         ? 'No cost'
-                                                        : '\$${model.coperateEsCost}',
+                                                        : '\$${model.coperateEsCost?.toStringAsFixed(2)}',
                                                     fontSize: 16.sp,
                                                     textAlign: TextAlign.start,
                                                     fontWeight: FontWeight.bold,

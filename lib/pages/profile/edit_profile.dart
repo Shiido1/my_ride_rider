@@ -28,8 +28,6 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
 
   final _pickImage = ImagePickerHandler();
 
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

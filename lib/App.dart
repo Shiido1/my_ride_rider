@@ -39,7 +39,6 @@ class App extends StatelessWidget {
                         future: fetchConfirmationData(context),
                         builder: (buildContext, snapshot) {
                           if (snapshot.hasData) {
-                            /// Check if the user has a persisted authentication data
                             if (snapshot.data["access_token"] != null) {
                               if (checkAuthenticated(snapshot.data)) {
                                 return const HomePage();
