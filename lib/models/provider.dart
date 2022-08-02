@@ -143,7 +143,7 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
         notifyListeners();
         executiveEsCost = _estimatedCostList?.data[i]['Executive'] ?? 0;
         notifyListeners();
-        coperateEsCost = _estimatedCostList?.data[i]['Coperative'] ?? 0;
+        coperateEsCost = _estimatedCostList?.data[i]['Corporate'] ?? 0;
         notifyListeners();
       }
     } else {
