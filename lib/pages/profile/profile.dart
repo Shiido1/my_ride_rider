@@ -45,7 +45,6 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: MyAppBar.defaultAppBar(context),
         body: Padding(
           padding:
               EdgeInsets.symmetric(horizontal: Adaptive.w(5), vertical: 10),
@@ -113,7 +112,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             ),
                           ),
                         ),
-                        SizedBox(height: 12.h),
+                        SizedBox(height: 9.h),
                         Column(
                           children: [
                             Row(
@@ -121,12 +120,15 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                 TextView(
                                   text: 'First Name:',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 17.sp,
+                                  fontSize: 16.5.sp,
                                 ),
                                 SizedBox(
-                                  width: 8.w,
+                                  width: 4.w,
                                 ),
-                                Text('$firstNam')
+                                TextView(
+                                  text: '$firstNam',
+                                  fontSize: 16.sp,
+                                )
                               ],
                             ),
                             const Divider(
@@ -134,9 +136,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 8.w,
-                        ),
+                        SizedBox(height: 4.h),
                         Column(
                           children: [
                             Row(
@@ -144,14 +144,14 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                 TextView(
                                   text: 'Last Name:',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
+                                  fontSize: 16.5.sp,
                                 ),
                                 SizedBox(
-                                  width: 8.sp,
+                                  width: 4.w,
                                 ),
                                 TextView(
                                   text: '$lastNam',
-                                  fontSize: 15.5.sp,
+                                  fontSize: 16.sp,
                                 ),
                               ],
                             ),
@@ -160,9 +160,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
+                        SizedBox(height: 4.h),
                         Column(
                           children: [
                             Row(
@@ -170,14 +168,14 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                 TextView(
                                   text: 'Phone No:',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
+                                  fontSize: 16.5.sp,
                                 ),
                                 SizedBox(
-                                  width: 8.w,
+                                  width: 4.w,
                                 ),
                                 TextView(
                                   text: phoneNum!,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 15.5.sp,
                                 ),
                               ],
@@ -187,9 +185,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
+                        SizedBox(height: 4.h),
                         Column(
                           children: [
                             Row(
@@ -197,14 +193,14 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                                 TextView(
                                   text: 'Email Address:',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
+                                  fontSize: 16.5.sp,
                                 ),
                                 SizedBox(
-                                  width: 8.w,
+                                  width: 4.w,
                                 ),
                                 TextView(
                                   text: email!,
-                                  fontSize: 15.5.sp,
+                                  fontSize: 16.sp,
                                 ),
                               ],
                             ),
@@ -213,24 +209,22 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 8.w,
-                        ),
+                        SizedBox(height: 4.h),
                         Column(
                           children: [
                             Row(
                               children: [
                                 TextView(
                                   text: 'Password:',
-                                  fontSize: 16.sp,
+                                  fontSize: 16.5.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 SizedBox(
-                                  width: 8.w,
+                                  width: 4.w,
                                 ),
                                 TextView(
                                   text: '************',
-                                  fontSize: 15.5.sp,
+                                  fontSize: 16.sp,
                                 ),
                               ],
                             ),
@@ -239,9 +233,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: 8.w,
-                        ),
+                        SizedBox(height: 4.h),
                         Padding(
                           padding: EdgeInsets.only(
                               top: 40,

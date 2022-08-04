@@ -35,11 +35,11 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child:
-              Form(
-               key: con.model.cardFormKey,
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Container(
+          child: Form(
+            key: con.model.cardFormKey,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
                 color: AppColors.primary,
                 child: Row(
                   children: [
@@ -74,8 +74,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                                     : CircleAvatar(
                                         radius: 28,
                                         child: CachedNetworkImage(
-                                          imageUrl:
-                                              SessionManager.instance.usersData["profile_picture"],
+                                          imageUrl: SessionManager.instance
+                                              .usersData["profile_picture"],
                                           imageBuilder:
                                               (context, imageProvider) =>
                                                   Container(
@@ -107,8 +107,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                     )
                   ],
                 ),
-                          ),
-                          SizedBox(
+              ),
+              SizedBox(
                 height: 100.h - 210,
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.w),
@@ -129,7 +129,7 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                             height: 3.h,
                           ),
                           TextView(
-                              text: '\$$costOfRide',
+                              text: costOfRide == null ? '' : '\$$costOfRide',
                               fontWeight: FontWeight.bold,
                               fontSize: 23.sp),
                         ],
@@ -142,7 +142,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                         height: 50,
                         decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.black26),
-                            borderRadius: BorderRadius.all(Radius.circular(3.w))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(3.w))),
                         child: Padding(
                           padding: EdgeInsets.only(left: 6.w, top: 3.w),
                           child: TextView(text: 'Card 4567', fontSize: 16.sp),
@@ -193,8 +194,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                                       fit: BoxFit.fitHeight,
                                       image: AssetImage(
                                           'assets/images/Mastercard.png')),
-                                  border:
-                                      Border.all(width: 1, color: Colors.black26),
+                                  border: Border.all(
+                                      width: 1, color: Colors.black26),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(2.w))),
                               child: const SizedBox(),
@@ -212,8 +213,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                                 fit: BoxFit.fitHeight,
                               ),
                               decoration: BoxDecoration(
-                                  border:
-                                      Border.all(width: 1, color: Colors.black26),
+                                  border: Border.all(
+                                      width: 1, color: Colors.black26),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(2.w))),
                             ),
@@ -230,8 +231,8 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                                 fit: BoxFit.fitHeight,
                               ),
                               decoration: BoxDecoration(
-                                  border:
-                                      Border.all(width: 1, color: Colors.black26),
+                                  border: Border.all(
+                                      width: 1, color: Colors.black26),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(2.w))),
                             ),
@@ -315,32 +316,30 @@ class _CardPaymentState extends StateMVC<CardPayment> with ValidationMixin {
                         height: 9.h,
                       ),
                       Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 4.w, right: 8.w, left: 8.w),
-                                    child: LoadingButton(
-                                        isLoading: con.model.isCardLoading,
-                                        label: (con.model.cardFormKey.currentState
-                                                    ?.validate() ==
-                                                true)
-                                            ? "Add Card"
-                                            : "Continue",
-                                        onPressed: con.addCard
-                                        //
-                                        ),
-                                  ),
-                      
+                        padding:
+                            EdgeInsets.only(top: 4.w, right: 8.w, left: 8.w),
+                        child: LoadingButton(
+                            isLoading: con.model.isCardLoading,
+                            label: (con.model.cardFormKey.currentState
+                                        ?.validate() ==
+                                    true)
+                                ? "Add Card"
+                                : "Continue",
+                            onPressed: con.addCard
+                            //
+                            ),
+                      ),
                       SizedBox(
                         height: 10.h,
                       ),
                     ],
                   ),
                 ),
-                          )
-                        ]),
-              ),
+              )
+            ]),
+          ),
         ),
       ),
     );
   }
-
 }

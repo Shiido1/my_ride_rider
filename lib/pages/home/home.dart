@@ -623,7 +623,9 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
             drawerItem(
                 icon: Icons.payment,
                 text: "Payment",
-                onTap: () => Routers.pushNamed(context, "/card_payment")),
+                onTap: (){}
+                // onTap: () => Routers.pushNamed(context, "/card_payment"),
+                ),
             drawerItem(
                 icon: Icons.restore_sharp, text: "Ride History", onTap: () {}),
             drawerItem(
