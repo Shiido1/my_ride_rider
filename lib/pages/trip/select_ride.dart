@@ -215,6 +215,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextFormField(
+                                    readOnly: true,
                                     controller: pickupController,
                                     decoration:
                                         Constants.defaultDecoration.copyWith(
@@ -227,6 +228,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     ),
                                   ),
                                   TextFormField(
+                                    readOnly: true,
                                     controller: destinationController,
                                     decoration:
                                         Constants.defaultDecoration.copyWith(
@@ -353,7 +355,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                 element.isAvailable == 1 &&
                                                 element.isApproved == 1 &&
                                                 element.vehicleTypeName ==
-                                                    "Coperate")
+                                                    "Corporate")
                                             .toList());
 
                                     Provider.of<GoogleApiProvider>(context,

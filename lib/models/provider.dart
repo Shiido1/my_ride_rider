@@ -25,9 +25,12 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
   String? _timeResponseCoperate;
   AuthController? authController;
   Response? _estimatedCostList;
-  double? classicEsCost;
-  double? executiveEsCost;
-  double? coperateEsCost;
+  double? get classicEsCost => _classicEsCost;
+  double? get executiveEsCost => _executiveEsCost;
+  double? get coperateEsCost => _coperateEsCost;
+  double? _classicEsCost;
+  double? _executiveEsCost;
+  double? _coperateEsCost;
   Map<String, dynamic>? get responses => _responses;
   Map<String, dynamic>? _responses;
   Map<String, dynamic>? get responsesVeh => _responsesVeh;
@@ -94,7 +97,6 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
           _time = res[j]['duration']['text'];
         }
       }
-
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -131,21 +133,19 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
         double.parse(dropLong!));
 
     _estimatedCostList = await authRepo.estimatedCost({
-      "distance": distance*1000/1609.344,
+      "distance": distance * 1000 / 1609.344,
       "duration": minDuration,
       "drop_lat": dropLat,
       "drop_lng": dropLong
     });
 
     if (_estimatedCostList != null && _estimatedCostList?.statusCode == 200) {
-      for (int i = 0; i < _estimatedCostList!.data.length; i++) {
-        classicEsCost = _estimatedCostList?.data[i]['Classic'] ?? 0;
+        _classicEsCost = _estimatedCostList?.data[2]['Classic'] ?? 0;
         notifyListeners();
-        executiveEsCost = _estimatedCostList?.data[i]['Executive'] ?? 0;
+        _executiveEsCost = _estimatedCostList?.data[1]['Executive'] ?? 0;
         notifyListeners();
-        coperateEsCost = _estimatedCostList?.data[i]['Corporate'] ?? 0;
+        _coperateEsCost = _estimatedCostList?.data[0]['Corporate'] ?? 0;
         notifyListeners();
-      }
     } else {
       showErrorNotificationWithCallback(
           context, _estimatedCostList!.data["error"]);
