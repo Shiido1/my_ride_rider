@@ -64,10 +64,11 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Routers.pop(context),
+                      onPressed: () =>
+                          Routers.pushNamed(context, "/schedule_page"),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 4.w),
+                      padding: EdgeInsets.only(right: 4.w, top: 5.w),
                       child: SessionManager
                                       .instance.usersData["profile_picture"] ==
                                   null ||
@@ -312,18 +313,15 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                           ),
                         ),
                         SizedBox(
-                          height: 2.h,
+                          height: 3.5.h,
                         ),
-                        isSelectedRide! ||
-                                isSelectedRide! ||
-                                isSelectedRide! == true
-                            ? TextView(
-                                onTap: () => con.cancelTrip(context),
-                                text: 'Cancel Request',
-                                color: AppColors.red,
-                                fontSize: 16.5.sp,
-                                fontWeight: FontWeight.w700)
-                            : Container(),
+                        TextView(
+                            onTap: () =>
+                                Routers.replaceAllWithName(context, '/home'),
+                            text: 'Cancel Request',
+                            color: AppColors.red,
+                            fontSize: 16.5.sp,
+                            fontWeight: FontWeight.w700),
                         SizedBox(
                           height: 5.h,
                         ),

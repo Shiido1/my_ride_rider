@@ -94,7 +94,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
                         obscureText: true,
                         controller: con.model.regConfirmPassController,
                         decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "confirm pass",
+                          labelText: "Confirm password",
                         ),
                       ),
                       SizedBox(height: 6.h),

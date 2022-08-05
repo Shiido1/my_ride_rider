@@ -11,6 +11,8 @@ import '../../partials/mixins/validations.dart';
 import '../../widget/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
+import '../../widget/text_widget.dart';
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -107,7 +109,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                                   Text(
                                     'Edit Profile',
                                     style: TextStyle(
-                                      fontSize: 16.sp,
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w500,
                                       color: AppColors.primary,
                                     ),
                                   ),
@@ -118,121 +121,131 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      SizedBox(height: 6.h),
                       Column(
                         children: [
                           Row(
                             children: [
-                              const Text(
-                                'First Name:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                  '${SessionManager.instance.usersData["name"]}')
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 2,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                'Last Name:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                  '${SessionManager.instance.usersData["last_name"]}')
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 2,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                'Phone No:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                  '${SessionManager.instance.usersData["mobile"]}')
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 2,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                'Email Address:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                  '${SessionManager.instance.usersData["email"]}')
-                            ],
-                          ),
-                          const Divider(
-                            thickness: 2,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                'Password:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              TextView(
+                                text: 'First Name:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp,
                               ),
                               SizedBox(
-                                width: 20,
+                                width: 4.w,
                               ),
-                              Text('***********')
+                              TextView(
+                                text:
+                                    '${SessionManager.instance.usersData["name"].split(' ')[0]}',
+                                fontSize: 17.2.sp,
+                              )
+                            ],
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextView(
+                                text: 'Last Name:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              TextView(
+                                text:
+                                    '${SessionManager.instance.usersData["name"].split(' ')[1] ?? ''}',
+                                fontSize: 17.2.sp,
+                              )
+                            ],
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextView(
+                                text: 'Phone No:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              TextView(
+                                text:
+                                    '${SessionManager.instance.usersData["mobile"]}',
+                                fontSize: 17.2.sp,
+                              )
+                            ],
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 4.h,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextView(
+                                text: 'Email Address:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              TextView(
+                                text:
+                                    '${SessionManager.instance.usersData["email"]}',
+                                fontSize: 17.2.sp,
+                              )
+                            ],
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              TextView(
+                                text: 'Password:',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17.sp,
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              TextView(
+                                text: '***********',
+                                fontSize: 17.2.sp,
+                              )
                             ],
                           ),
                           const Divider(

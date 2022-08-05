@@ -8,6 +8,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
+import 'package:my_ride/utils/flushbar_mixin.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/widget/custom_dialog.dart';
 import 'package:my_ride/widget/text_form_field.dart';
@@ -23,7 +24,7 @@ class SchedulePage extends StatefulWidget {
   State createState() => _SchedulePageState();
 }
 
-class _SchedulePageState extends StateMVC<SchedulePage> {
+class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
   _SchedulePageState() : super(AuthController()) {
     con = controller as AuthController;
   }
@@ -32,18 +33,16 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
 
   List<String> schedulePlans = ["Instant", "Weekly", "Bi-weekly", "Monthly"];
 
-  String defaultPlan = "Weekly";
   TextEditingController? pickupController =
-      TextEditingController(text: 'Enter pickup location');
+      TextEditingController(text: 'Enter Pick up location');
   TextEditingController? dropController =
       TextEditingController(text: 'Enter Destination location');
-  TextEditingController? timeController =
-      TextEditingController(text: "Pick time");
 
   DateTime selectedDate = DateTime.now();
   final firstDate = DateTime(2022, 1);
   final lastDate = DateTime(2100, 12);
   TimeOfDay time = const TimeOfDay(hour: 00, minute: 00);
+  GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -51,7 +50,19 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
     super.dispose();
   }
 
+  schedule(BuildContext? context) async {
+    if (pickupController!.text != 'Enter Pick up location' &&
+        dropController!.text != 'Enter Destination location' &&
+        scheduleValue!.isNotEmpty &&
+        timeText != 'Pick time') {
+      Routers.replaceAllWithName(context!, '/schedule_trip_vehicle');
+    } else {
+      showErrorNotification(context!, 'Fill in the necessary fields');
+      setState(() {});
+    }
 
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,39 +84,40 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      null ||
-                                  SessionManager.instance
-                                          .usersData["profile_picture"] ==
-                                      ''
-                              ? CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: AppColors.grey1,
-                                    size: 23.sp,
-                                  ),
-                                  radius: 26,
-                                )
-                              : CircleAvatar(
-                                  radius: 28,
-                                  child: CachedNetworkImage(
-                                    imageUrl:SessionManager.instance.usersData["profile_picture"],
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
+                                            .usersData["profile_picture"] ==
+                                        null ||
+                                    SessionManager.instance
+                                            .usersData["profile_picture"] ==
+                                        ''
+                                ? CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: AppColors.grey1,
+                                      size: 23.sp,
                                     ),
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const CircularProgressIndicator(),
+                                    radius: 26,
+                                  )
+                                : CircleAvatar(
+                                    radius: 28,
+                                    child: CachedNetworkImage(
+                                      imageUrl: SessionManager.instance
+                                          .usersData["profile_picture"],
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const CircularProgressIndicator(),
+                                    ),
                                   ),
-                                ),
                           ],
                         ),
                         SizedBox(
@@ -288,6 +300,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                     height: 2.h,
                   ),
                   EditTextForm(
+                    floatingLabel: 'dwuhdi w',
                     onTapped: () async {
                       var place = await PlacesAutocomplete.show(
                         context: context,
@@ -405,7 +418,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                   Align(
                     alignment: Alignment.center,
                     child: GestureDetector(
-                      onTap: () => Routers.replaceAllWithName(context, '/schedule_trip_vehicle'),
+                      onTap: () => schedule(context),
                       child: Container(
                         width: 180,
                         height: 5.h,
@@ -422,8 +435,8 @@ class _SchedulePageState extends StateMVC<SchedulePage> {
                                   'Continue',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w700),
                                 ),
                         ),
                       ),

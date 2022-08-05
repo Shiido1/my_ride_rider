@@ -1,10 +1,11 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:my_ride/constants/colors.dart';
+import 'package:my_ride/widget/text_widget.dart';
 
 mixin FlushBarMixin {
-
-  void showSuccessNotification(BuildContext context ,String? message) {
+  void showSuccessNotification(BuildContext context, String? message) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
         message: message,
@@ -20,28 +21,33 @@ mixin FlushBarMixin {
     });
   }
 
-  void showSuccessNotificationWithTime(BuildContext context ,String? message, int timeInSeconds) {
+  void showSuccessNotificationWithTime(
+      BuildContext context, String? message, int timeInSeconds) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
-        message: message,
-        icon: Icon(
-          Icons.info_outline,
-          size: 28.0,
-          color: Colors.green[300],
-        ),
-        duration: Duration(seconds: timeInSeconds),
-        leftBarIndicatorColor: Colors.green[300],
-        flushbarPosition: FlushbarPosition.BOTTOM
-      ).show(context);
+              message: message,
+              icon: Icon(
+                Icons.info_outline,
+                size: 28.0,
+                color: Colors.green[300],
+              ),
+              duration: Duration(seconds: timeInSeconds),
+              leftBarIndicatorColor: Colors.green[300],
+              flushbarPosition: FlushbarPosition.BOTTOM)
+          .show(context);
     });
   }
 
-  void showErrorNotification(BuildContext context ,String? message) {
+  void showErrorNotification(BuildContext context, String? message) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
         message: message,
         messageText: Text("$message"),
-        userInputForm: const Form(child: Text("Unable to proceed",)),
+        userInputForm: Form(
+            child: TextView(
+          text: "$message",
+          color: AppColors.white,
+        )),
         icon: Icon(
           Icons.info_outline,
           size: 28.0,
@@ -54,7 +60,8 @@ mixin FlushBarMixin {
     });
   }
 
-  void showErrorNotificationWithCallback(BuildContext context ,String message, {Function? callback}) {
+  void showErrorNotificationWithCallback(BuildContext context, String message,
+      {Function? callback}) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
         message: message,
@@ -66,13 +73,14 @@ mixin FlushBarMixin {
         duration: const Duration(seconds: 2),
         leftBarIndicatorColor: Colors.red[300],
         flushbarPosition: FlushbarPosition.TOP,
-      ).show(context).then((value){
+      ).show(context).then((value) {
         callback!();
       });
     });
   }
 
-  void showSuccessNotificationWithCallback(BuildContext context ,String message, {Function? callback}) {
+  void showSuccessNotificationWithCallback(BuildContext context, String message,
+      {Function? callback}) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // ignore: avoid_single_cascade_in_expression_statements
       Flushbar(
@@ -85,13 +93,15 @@ mixin FlushBarMixin {
         duration: const Duration(seconds: 2),
         leftBarIndicatorColor: Colors.green[300],
         flushbarPosition: FlushbarPosition.TOP,
-      )..show(context).then((value){
-        callback!();
-      });
+      )..show(context).then((value) {
+          callback!();
+        });
     });
   }
 
-  void showSuccessNotificationWithTimerAndCallback(BuildContext context ,String message, {Function? callback, int timeInSeconds = 1}) {
+  void showSuccessNotificationWithTimerAndCallback(
+      BuildContext context, String message,
+      {Function? callback, int timeInSeconds = 1}) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // ignore: avoid_single_cascade_in_expression_statements
       Flushbar(
@@ -104,13 +114,14 @@ mixin FlushBarMixin {
         duration: Duration(seconds: timeInSeconds),
         leftBarIndicatorColor: Colors.green[300],
         flushbarPosition: FlushbarPosition.TOP,
-      )..show(context).then((value){
-        callback!();
-      });
+      )..show(context).then((value) {
+          callback!();
+        });
     });
   }
 
-  void showErrorNotificationWithTime(BuildContext context ,String message, int timeInSeconds) {
+  void showErrorNotificationWithTime(
+      BuildContext context, String message, int timeInSeconds) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
         message: message,
@@ -126,7 +137,7 @@ mixin FlushBarMixin {
     });
   }
 
-  void showInfoNotification(BuildContext context ,String? message) {
+  void showInfoNotification(BuildContext context, String? message) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       Flushbar(
         message: message,
@@ -141,5 +152,4 @@ mixin FlushBarMixin {
       ).show(context);
     });
   }
-  
 }

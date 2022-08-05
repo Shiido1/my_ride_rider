@@ -71,7 +71,6 @@ class App extends StatelessWidget {
   }
 
   bool checkAuthenticated(data) {
-
     if (data["token"] != null &&
         data["user"] != null &&
         data["token"] != "" &&
