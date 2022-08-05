@@ -381,7 +381,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                           GoogleApiProvider>(
                                                       context,
                                                       listen: false)
-                                                  .classicEsCost
+                                                  .classicEsCost?.toStringAsFixed(2)
                                                   .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
@@ -454,7 +454,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                           GoogleApiProvider>(
                                                       context,
                                                       listen: false)
-                                                  .executiveEsCost
+                                                  .executiveEsCost?.toStringAsFixed(2)
                                                   .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
@@ -527,7 +527,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                                           GoogleApiProvider>(
                                                       context,
                                                       listen: false)
-                                                  .coperateEsCost
+                                                  .coperateEsCost?.toStringAsFixed(2)
                                                   .toString();
                                             }),
                                             child: Consumer<GoogleApiProvider>(
