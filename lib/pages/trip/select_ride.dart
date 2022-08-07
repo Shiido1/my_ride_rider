@@ -108,7 +108,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                         onPressed: () => Navigator.pop(context),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 4.w),
+                        padding: EdgeInsets.only(right: 4.w,top: 5.w),
                         child: SessionManager.instance
                                         .usersData["profile_picture"] ==
                                     null ||
