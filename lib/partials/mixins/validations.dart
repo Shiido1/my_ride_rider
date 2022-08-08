@@ -51,9 +51,9 @@ mixin ValidationMixin {
 
   String? validateFullName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Fullname cannot be empty';
+      return 'Full name cannot be empty';
     } else if (value.trim().length < 6) {
-      return 'Fullname cannot be less than 6 characters';
+      return 'Full name cannot be less than 6 characters';
     }
 
     return null;
@@ -61,18 +61,18 @@ mixin ValidationMixin {
 
   String? validateFirstName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Firstname cannot be empty';
+      return 'First name cannot be empty';
     } else if (value.trim().length < 2) {
-      return 'Lastname cannot be less than 2 characters';
+      return 'First tname cannot be less than 2 characters';
     }
 
     return null;
   }
   String? validateLastName(String? value) {
     if (value!.trim().isEmpty) {
-      return 'Lastname cannot be empty';
+      return 'Last name cannot be empty';
     } else if (value.trim().length < 2) {
-      return 'Lastname cannot be less than 2 characters';
+      return 'Last name cannot be less than 2 characters';
     }
 
     return null;
