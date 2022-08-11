@@ -35,10 +35,12 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
   TextEditingController destinationController =
       TextEditingController(text: dropLocationAdd);
   String? vehicleTypeId;
+  bool isColor = false;
+  List<String>? listOfID = [];
 
   createScheduleTrip() async {
     con.scheduleTrip(
-        vehicleType: 'eb7d7a67-b710-450a-b1c8-d52a8d0db8eb',
+        vehicleType: vehicleTypeId,
         scheduleTripDate: '$scheduleDate $timeText',
         schedulePeriod: scheduleValue!.toLowerCase());
   }
@@ -49,9 +51,17 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
     super.initState();
   }
 
+  String _isID(String id) {
+    listOfID!.clear();
+    if (id == vehicleTypeId) {
+      listOfID!.add(id);
+      setState(() {});
+    }
+    return listOfID.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Provider.of<GoogleApiProvider>(context, listen: false).getVehicleTypes();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -280,6 +290,11 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                                   itemCount:
                                       provider.responsesVeh!["data"].length,
                                   itemBuilder: (context, index) {
+                                    if (vehicleTypeId ==
+                                        provider.responsesVeh!["data"][index]
+                                            ["id"]) {
+                                      isColor = true;
+                                    }
                                     return vehecleTabFlow(
                                       id: provider.responsesVeh!["data"][index]
                                           ["id"],
@@ -335,10 +350,11 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
     );
   }
 
-  vehecleTabFlow({String? id, String? name}) => InkWell(
+  vehecleTabFlow({String? id, String? name, Color? color}) => InkWell(
         onTap: () {
+          _isID(id!);
           setState(() {
-            vehicleTypeId = id!;
+            vehicleTypeId = id;
           });
         },
         child: Column(
@@ -353,9 +369,9 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                     image: AssetImage(
                   'assets/images/car.png',
                 )),
-                color: !isSelectedRide!
-                    ? AppColors.transparent
-                    : AppColors.greyWhite1,
+                color: listOfID!.contains(id)
+                    ? AppColors.greyWhite1
+                    : AppColors.transparent,
               ),
             ),
             TextView(

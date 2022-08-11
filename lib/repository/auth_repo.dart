@@ -117,7 +117,7 @@ class AuthRepo with Services {
   }
 
   Future<Map<String, dynamic>?> getVehicleTypes() async {
-    Map<String, dynamic>? response = await apiGetRequests("types/vehicleTypes");
+    Map<String, dynamic>? response = await apiGetRequests("types/vehicleTypes_By_ZoneType");
 
     if (response != null) {
       return response;
