@@ -108,7 +108,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                         onPressed: () => Navigator.pop(context),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 4.w,top: 5.w),
+                        padding: EdgeInsets.only(right: 4.w, top: 5.w),
                         child: SessionManager.instance
                                         .usersData["profile_picture"] ==
                                     null ||
@@ -369,225 +369,508 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                           const AlwaysScrollableScrollPhysics(),
                                       child: Row(
                                         children: [
-                                          InkWell(
-                                            onTap: () => setState(() {
-                                              instantValue = value1;
-                                              id = value1.id.toString();
-                                              request = 'request';
-                                              isSelectClassic = true;
-                                              isSelectExecutive = false;
-                                              isSelectCoperate = false;
-                                              costOfRide = Provider.of<
-                                                          GoogleApiProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .classicEsCost?.toStringAsFixed(2)
-                                                  .toString();
-                                            }),
-                                            child: Consumer<GoogleApiProvider>(
-                                              builder: (_, model, __) => Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 3.w),
-                                                    width: 30.w,
-                                                    height: 10.h,
-                                                    decoration: BoxDecoration(
-                                                      image:
-                                                          const DecorationImage(
-                                                              image: AssetImage(
-                                                        'assets/images/car.png',
-                                                      )),
-                                                      color: !isSelectClassic!
-                                                          ? AppColors
-                                                              .transparent
-                                                          : AppColors
-                                                              .greyWhite1,
+                                          // InkWell(
+                                          // onTap: () => setState(() {
+                                          //   instantValue = value1;
+                                          //   id = value1.id.toString();
+                                          //   request = 'request';
+                                          //   isSelectClassic = true;
+                                          //   isSelectExecutive = false;
+                                          //   isSelectCoperate = false;
+                                          //   costOfRide = Provider.of<
+                                          //               GoogleApiProvider>(
+                                          //           context,
+                                          //           listen: false)
+                                          //       .classicEsCost
+                                          //       ?.toStringAsFixed(2)
+                                          //       .toString();
+                                          // }),
+                                          // child:
+                                          Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) =>
+                                                GestureDetector(
+                                              onTap: () => setState(() {
+                                                instantValue = value1;
+                                                id = value1.id.toString();
+                                                request = 'request';
+                                                isSelectClassic = true;
+                                                isSelectExecutive = false;
+                                                isSelectCoperate = false;
+                                                costOfRide = Provider.of<
+                                                            GoogleApiProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .classicEsCost
+                                                    ?.toStringAsFixed(2)
+                                                    .toString();
+                                              }),
+                                              child: model.timeResponse != null
+                                                  ? Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3.w),
+                                                          width: 30.w,
+                                                          height: 10.h,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                const DecorationImage(
+                                                                    image:
+                                                                        AssetImage(
+                                                              'assets/images/car.png',
+                                                            )),
+                                                            color: !isSelectClassic!
+                                                                ? AppColors
+                                                                    .transparent
+                                                                : AppColors
+                                                                    .greyWhite11,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'CLASSIC',
+                                                          style: TextStyle(
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 0.5.h,
+                                                        ),
+                                                        TextView(
+                                                            text: model.timeResponse ==
+                                                                    null
+                                                                ? 'No vehicle\n available'
+                                                                : '${model.timeResponse}\naway',
+                                                            fontSize: 14.5.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                        SizedBox(
+                                                          height: 1.h,
+                                                        ),
+                                                        TextView(
+                                                          text: model.classicEsCost ==
+                                                                  null
+                                                              ? 'No cost'
+                                                              : '\$${model.classicEsCost?.toStringAsFixed(2)}',
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3.w),
+                                                          width: 30.w,
+                                                          height: 10.h,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                const DecorationImage(
+                                                                    image:
+                                                                        AssetImage(
+                                                              'assets/images/car.png',
+                                                            )),
+                                                            color: !isSelectClassic!
+                                                                ? AppColors
+                                                                    .transparent
+                                                                : AppColors
+                                                                    .greyWhite11,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'CLASSIC',
+                                                          style: TextStyle(
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 0.5.h,
+                                                        ),
+                                                        TextView(
+                                                            text: model.timeResponse ==
+                                                                    null
+                                                                ? 'No vehicle\n available'
+                                                                : '${model.timeResponse}\naway',
+                                                            fontSize: 14.5.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            textAlign: TextAlign
+                                                                .center),
+                                                        SizedBox(
+                                                          height: 1.h,
+                                                        ),
+                                                        TextView(
+                                                          text: model.classicEsCost ==
+                                                                  null
+                                                              ? 'No cost'
+                                                              : '\$${model.classicEsCost?.toStringAsFixed(2)}',
+                                                          fontSize: 16.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'CLASSIC',
-                                                    style: TextStyle(
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 0.5.h,
-                                                  ),
-                                                  TextView(
-                                                      text: model.timeResponse ==
-                                                              null
-                                                          ? 'No vehicle\n available'
-                                                          : '${model.timeResponse}\naway',
-                                                      fontSize: 14.5.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      textAlign:
-                                                          TextAlign.center),
-                                                  SizedBox(
-                                                    height: 1.h,
-                                                  ),
-                                                  TextView(
-                                                    text: model.classicEsCost ==
-                                                            null
-                                                        ? 'No cost'
-                                                        : '\$${model.classicEsCost?.toStringAsFixed(2)}',
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ],
-                                              ),
                                             ),
                                           ),
-                                          InkWell(
-                                            onTap: () => setState(() {
-                                              instantValue = value2;
-                                              id = value2.id.toString();
-                                              request = 'request';
-                                              isSelectExecutive = true;
-                                              isSelectClassic = false;
-                                              isSelectCoperate = false;
-                                              costOfRide = Provider.of<
-                                                          GoogleApiProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .executiveEsCost?.toStringAsFixed(2)
-                                                  .toString();
-                                            }),
-                                            child: Consumer<GoogleApiProvider>(
-                                              builder: (_, model, __) => Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 3.w),
-                                                    width: 30.w,
-                                                    height: 10.h,
-                                                    decoration: BoxDecoration(
-                                                      image:
-                                                          const DecorationImage(
-                                                              image: AssetImage(
-                                                        'assets/images/car.png',
-                                                      )),
-                                                      color: !isSelectExecutive!
-                                                          ? AppColors
-                                                              .transparent
-                                                          : AppColors
-                                                              .greyWhite1,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'EXECUTIVE',
-                                                    style: TextStyle(
-                                                        fontSize: 16.sp,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 0.5.h,
-                                                  ),
-                                                  TextView(
-                                                      text: model.timeResponseExecutive ==
-                                                              null
-                                                          ? 'No vehicle\n available'
-                                                          : "${model.timeResponseExecutive}\naway",
-                                                      fontSize: 14.5.sp,
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                  SizedBox(
-                                                    height: 1.h,
-                                                  ),
-                                                  TextView(
-                                                    text: model.coperateEsCost ==
-                                                            null
-                                                        ? 'No cost'
-                                                        : '\$${model.executiveEsCost?.toStringAsFixed(2)}',
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                          // ),
+                                          // InkWell(
+                                          // onTap: () => setState(() {
+                                          //   instantValue = value2;
+                                          //   id = value2.id.toString();
+                                          //   request = 'request';
+                                          //   isSelectExecutive = true;
+                                          //   isSelectClassic = false;
+                                          //   isSelectCoperate = false;
+                                          //   costOfRide = Provider.of<
+                                          //               GoogleApiProvider>(
+                                          //           context,
+                                          //           listen: false)
+                                          //       .executiveEsCost?.toStringAsFixed(2)
+                                          //       .toString();
+                                          // }),
+                                          // child:
+                                          Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) =>
+                                                model.timeResponseExecutive !=
+                                                        null
+                                                    ? GestureDetector(
+                                                        onTap: () =>
+                                                            setState(() {
+                                                          instantValue = value2;
+                                                          id = value2.id
+                                                              .toString();
+                                                          request = 'request';
+                                                          isSelectExecutive =
+                                                              true;
+                                                          isSelectClassic =
+                                                              false;
+                                                          isSelectCoperate =
+                                                              false;
+                                                          costOfRide = Provider
+                                                                  .of<GoogleApiProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                              .executiveEsCost
+                                                              ?.toStringAsFixed(
+                                                                  2)
+                                                              .toString();
+                                                        }),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      right:
+                                                                          3.w),
+                                                              width: 30.w,
+                                                              height: 10.h,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    const DecorationImage(
+                                                                        image:
+                                                                            AssetImage(
+                                                                  'assets/images/car.png',
+                                                                )),
+                                                                color: !isSelectExecutive!
+                                                                    ? AppColors
+                                                                        .transparent
+                                                                    : AppColors
+                                                                        .greyWhite11,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              'EXECUTIVE',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      16.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 0.5.h,
+                                                            ),
+                                                            TextView(
+                                                                text: model.timeResponseExecutive ==
+                                                                        null
+                                                                    ? 'No vehicle\n available'
+                                                                    : "${model.timeResponseExecutive}\naway",
+                                                                fontSize:
+                                                                    14.5.sp,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                            SizedBox(
+                                                              height: 1.h,
+                                                            ),
+                                                            TextView(
+                                                              text: model.coperateEsCost ==
+                                                                      null
+                                                                  ? 'No cost'
+                                                                  : '\$${model.executiveEsCost?.toStringAsFixed(2)}',
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 3.w),
+                                                            width: 30.w,
+                                                            height: 10.h,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              image:
+                                                                  const DecorationImage(
+                                                                      image:
+                                                                          AssetImage(
+                                                                'assets/images/car.png',
+                                                              )),
+                                                              color: !isSelectExecutive!
+                                                                  ? AppColors
+                                                                      .transparent
+                                                                  : AppColors
+                                                                      .greyWhite11,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'EXECUTIVE',
+                                                            style: TextStyle(
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 0.5.h,
+                                                          ),
+                                                          TextView(
+                                                              text: model.timeResponseExecutive ==
+                                                                      null
+                                                                  ? 'No vehicle\n available'
+                                                                  : "${model.timeResponseExecutive}\naway",
+                                                              fontSize: 14.5.sp,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                          SizedBox(
+                                                            height: 1.h,
+                                                          ),
+                                                          TextView(
+                                                            text: model.coperateEsCost ==
+                                                                    null
+                                                                ? 'No cost'
+                                                                : '\$${model.executiveEsCost?.toStringAsFixed(2)}',
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ],
+                                                      ),
                                           ),
-                                          InkWell(
-                                            onTap: () => setState(() {
-                                              instantValue = value3;
-                                              id = value3.id.toString();
-                                              request = 'request';
-                                              isSelectCoperate = true;
-                                              isSelectClassic = false;
-                                              isSelectExecutive = false;
-                                              costOfRide = Provider.of<
-                                                          GoogleApiProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .coperateEsCost?.toStringAsFixed(2)
-                                                  .toString();
-                                            }),
-                                            child: Consumer<GoogleApiProvider>(
-                                              builder: (_, model, __) => Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 3.w),
-                                                    width: 30.w,
-                                                    height: 10.h,
-                                                    decoration: BoxDecoration(
-                                                      image:
-                                                          const DecorationImage(
-                                                              image: AssetImage(
-                                                        'assets/images/car.png',
-                                                      )),
-                                                      color: !isSelectCoperate!
-                                                          ? AppColors
-                                                              .transparent
-                                                          : AppColors
-                                                              .greyWhite1,
+                                          // ),
+                                          // InkWell(
+                                          // onTap: () => setState(() {
+                                          //   instantValue = value3;
+                                          //   id = value3.id.toString();
+                                          //   request = 'request';
+                                          //   isSelectCoperate = true;
+                                          //   isSelectClassic = false;
+                                          //   isSelectExecutive = false;
+                                          //   costOfRide = Provider.of<
+                                          //               GoogleApiProvider>(
+                                          //           context,
+                                          //           listen: false)
+                                          //       .coperateEsCost?.toStringAsFixed(2)
+                                          //       .toString();
+                                          // }),
+                                          // child:
+                                          Consumer<GoogleApiProvider>(
+                                            builder: (_, model, __) => model
+                                                        .timeResponseCoperate !=
+                                                    null
+                                                ? GestureDetector(
+                                                    onTap: () => setState(() {
+                                                      instantValue = value3;
+                                                      id = value3.id.toString();
+                                                      request = 'request';
+                                                      isSelectCoperate = true;
+                                                      isSelectClassic = false;
+                                                      isSelectExecutive = false;
+                                                      costOfRide = Provider.of<
+                                                                  GoogleApiProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .coperateEsCost
+                                                          ?.toStringAsFixed(2)
+                                                          .toString();
+                                                    }),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 3.w),
+                                                          width: 30.w,
+                                                          height: 10.h,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                const DecorationImage(
+                                                                    image:
+                                                                        AssetImage(
+                                                              'assets/images/car.png',
+                                                            )),
+                                                            color: !isSelectCoperate!
+                                                                ? AppColors
+                                                                    .transparent
+                                                                : AppColors
+                                                                    .greyWhite11,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          'COPERATE',
+                                                          style: TextStyle(
+                                                              fontSize: 16.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 0.5.h,
+                                                        ),
+                                                        TextView(
+                                                          text: model.timeResponseCoperate ==
+                                                                  null
+                                                              ? 'No vehicle\n available'
+                                                              : '${model.timeResponseCoperate}\naway',
+                                                          fontSize: 14.5.sp,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 1.h,
+                                                        ),
+                                                        TextView(
+                                                          text: model.coperateEsCost ==
+                                                                  null
+                                                              ? 'No cost'
+                                                              : '\$${model.coperateEsCost?.toStringAsFixed(2)}',
+                                                          fontSize: 16.sp,
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'COPERATE',
-                                                    style: TextStyle(
-                                                        fontSize: 16.sp,
+                                                  )
+                                                : Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 3.w),
+                                                        width: 30.w,
+                                                        height: 10.h,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              const DecorationImage(
+                                                                  image:
+                                                                      AssetImage(
+                                                            'assets/images/car.png',
+                                                          )),
+                                                          color: !isSelectCoperate!
+                                                              ? AppColors
+                                                                  .transparent
+                                                              : AppColors
+                                                                  .greyWhite11,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'COPERATE',
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 0.5.h,
+                                                      ),
+                                                      TextView(
+                                                        text: model.timeResponseCoperate ==
+                                                                null
+                                                            ? 'No vehicle\n available'
+                                                            : '${model.timeResponseCoperate}\naway',
+                                                        fontSize: 14.5.sp,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                         fontWeight:
-                                                            FontWeight.w700),
+                                                            FontWeight.w500,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 1.h,
+                                                      ),
+                                                      TextView(
+                                                        text: model.coperateEsCost ==
+                                                                null
+                                                            ? 'No cost'
+                                                            : '\$${model.coperateEsCost?.toStringAsFixed(2)}',
+                                                        fontSize: 16.sp,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ],
                                                   ),
-                                                  SizedBox(
-                                                    height: 0.5.h,
-                                                  ),
-                                                  TextView(
-                                                    text: model.timeResponseCoperate ==
-                                                            null
-                                                        ? 'No vehicle\n available'
-                                                        : '${model.timeResponseCoperate}\naway',
-                                                    fontSize: 14.5.sp,
-                                                    textAlign: TextAlign.center,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 1.h,
-                                                  ),
-                                                  TextView(
-                                                    text: model.coperateEsCost ==
-                                                            null
-                                                        ? 'No cost'
-                                                        : '\$${model.coperateEsCost?.toStringAsFixed(2)}',
-                                                    fontSize: 16.sp,
-                                                    textAlign: TextAlign.start,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
+                                          ),
+                                          // )
                                         ],
                                       ),
                                     );

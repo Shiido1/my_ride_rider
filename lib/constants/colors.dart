@@ -7,6 +7,7 @@ class AppColors {
   static const Color secondary = Color(0XFF27BC80);
   static const Color greyWhite = Color(0XFFF7F7F7);
   static const Color greyWhite1 = Color.fromARGB(255, 248, 246, 246);
+  static const Color greyWhite11 = Color.fromARGB(255, 209, 224, 246);
   static const Color bgGrey1 = Color(0XFFCACACA);
   static const Color red = Colors.red;
   static const Color white = Color(0XFFffffff);

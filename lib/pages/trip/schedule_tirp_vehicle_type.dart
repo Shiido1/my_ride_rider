@@ -7,7 +7,6 @@ import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/widget/text_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/constants.dart';
 import '../../constants/session_manager.dart';
@@ -53,10 +52,11 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
 
   String _isID(String id) {
     listOfID!.clear();
+    setState(() {});
     if (id == vehicleTypeId) {
       listOfID!.add(id);
-      setState(() {});
     }
+    setState(() {});
     return listOfID.toString();
   }
 
@@ -370,7 +370,7 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                   'assets/images/car.png',
                 )),
                 color: listOfID!.contains(id)
-                    ? AppColors.greyWhite1
+                    ? AppColors.greyWhite11
                     : AppColors.transparent,
               ),
             ),
