@@ -12,6 +12,7 @@ import 'package:my_ride/pages/home/home_search_dest_page.dart';
 import 'package:my_ride/pages/payment/add_card_page.dart';
 import 'package:my_ride/pages/payment/card.dart';
 import 'package:my_ride/pages/profile/edit_profile.dart';
+import 'package:my_ride/pages/profile/edit_profile_screen.dart';
 import 'package:my_ride/pages/profile/profile.dart';
 import 'package:my_ride/pages/auth/signup/regSuccessPage.dart';
 import 'package:my_ride/pages/schedule/schedule.dart';
@@ -61,6 +62,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/schedule_trip_vehicle':
       return MaterialPageRoute(
           builder: (_) => const ScheduleTripVehicle());
+    case '/edit':
+      return MaterialPageRoute(
+          builder: (_) => const EditProfileScreen2());
 
     default:
       return MaterialPageRoute(builder: (_) => Container());

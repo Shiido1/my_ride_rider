@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/session_manager.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/my_app_bar.dart';
@@ -134,10 +135,12 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                               SizedBox(
                                 width: 4.w,
                               ),
-                              TextView(
-                                text:
-                                    '${SessionManager.instance.usersData["name"].split(' ')[0]}',
-                                fontSize: 17.2.sp,
+                              Expanded(
+                                child: TextView(
+                                  text:
+                                      '${SessionManager.instance.usersData["name"].split(' ')[0]}',
+                                  fontSize: 17.2.sp,
+                                ),
                               )
                             ],
                           ),
@@ -147,7 +150,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                         ],
                       ),
                       SizedBox(
-                        height: 4.h,
+                        height: 3.h,
                       ),
                       Column(
                         children: [
@@ -161,10 +164,12 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                               SizedBox(
                                 width: 4.w,
                               ),
-                              TextView(
-                                text:
-                                    '${SessionManager.instance.usersData["name"].split(' ')[1] ?? ''}',
-                                fontSize: 17.2.sp,
+                              Expanded(
+                                child: TextView(
+                                  text:
+                                      '${SessionManager.instance.usersData["name"].split(' ')[1] ?? ''}',
+                                  fontSize: 17.2.sp,
+                                ),
                               )
                             ],
                           ),
@@ -174,7 +179,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                         ],
                       ),
                       SizedBox(
-                        height: 4.h,
+                        height: 3.h,
                       ),
                       Column(
                         children: [
@@ -201,24 +206,26 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                         ],
                       ),
                       SizedBox(
-                        height: 4.h,
+                        height: 3.h,
                       ),
                       Column(
                         children: [
                           Row(
                             children: [
                               TextView(
-                                text: 'Email Address:',
+                                text: 'Email:',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 17.sp,
                               ),
                               SizedBox(
                                 width: 4.w,
                               ),
-                              TextView(
-                                text:
-                                    '${SessionManager.instance.usersData["email"]}',
-                                fontSize: 17.2.sp,
+                              Expanded(
+                                child: TextView(
+                                  text:
+                                      '${SessionManager.instance.usersData["email"]}',
+                                  fontSize: 17.2.sp,
+                                ),
                               )
                             ],
                           ),
@@ -227,8 +234,8 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                           )
                         ],
                       ),
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: 3.h,
                       ),
                       Column(
                         children: [
@@ -253,6 +260,22 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                           )
                         ],
                       ),
+                      SizedBox(
+                        height: 7.h,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: InkWell(
+                          onTap: () =>
+                              Routers.replaceAllWithName(context, '/edit'),
+                          child: TextView(
+                            text: "Edit Profile",
+                            color: AppColors.red,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

@@ -6,6 +6,7 @@ class AuthModel {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> updateFormKey = GlobalKey<FormState>();
 
   ///sign up
   final TextEditingController regFirstNameController = TextEditingController();
@@ -40,6 +41,7 @@ class AuthModel {
   final TextEditingController insertPhoneController = TextEditingController();
   final GlobalKey<FormState> insertPhoneFormKey = GlobalKey<FormState>();
   bool isLoginLoading = false;
+  bool isUpdatingLoading = false;
   bool isPushLoading = false;
   bool isUserLoginLoading = false;
   bool isGetUserLoading = false;

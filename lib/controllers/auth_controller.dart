@@ -126,6 +126,38 @@ class AuthController extends ControllerMVC with FlushBarMixin {
     }
   }
 
+  void updateProfile() async {
+    if (model.updateFormKey.currentState?.validate() == true) {
+      setState(() {
+        model.isUpdatingLoading = true;
+      });
+
+      try {
+        Response? response = await authRepo.updateProfile({
+          "email": model.emailController.text,
+          "name":
+              "${model.firstNameController.text} ${model.lastNameController.text}",
+          "mobile": model.phoneNumberController.text
+        });
+        debugPrint("RESPONSE: $response");
+        if (response != null && response.statusCode == 200) {
+          showSuccessNotification(
+              state!.context, 'You have successfully updated your profile');
+          Routers.replaceAllWithName(state!.context, '/home');
+          setState(() {
+            model.isUpdatingLoading = false;
+          });
+        }
+      } catch (e, str) {
+        debugPrint("Error: $e");
+        debugPrint("StackTrace: $str");
+      }
+      setState(() {
+        model.isUpdatingLoading = false;
+      });
+    }
+  }
+
   void getUserDataWhenLogin() async {
     setState(() {
       model.isUserLoginLoading = true;
@@ -316,6 +348,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void forgotPassword() async {
+    String? valueError;
     if (model.forgotPasswordFormKey.currentState?.validate() == true) {
       setState(() {
         model.isForgotLoading = true;
@@ -328,9 +361,16 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         var uUId = response.data["data"]["uuid"];
         SessionManager.instance.uuidData = uUId;
         Routers.pushNamed(state!.context, '/email_otp');
+      } else if (response!.data["errors"]["email"] != null) {
+        for (int i = 0; i < response.data["errors"]["email"].length; i++) {
+          if (response.data["errors"]["email"][i].toString().isNotEmpty) {
+            valueError = response.data["errors"]["email"][i];
+          }
+        }
+        showErrorNotificationWithCallback(state!.context, valueError ?? '');
       } else {
         showErrorNotificationWithCallback(
-            state!.context, response!.data["message"]);
+            state!.context, response.data["message"]);
       }
 
       setState(() {

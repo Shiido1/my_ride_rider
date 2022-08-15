@@ -26,6 +26,17 @@ class AuthRepo with Services {
     return null;
   }
 
+  Future<Response?> updateProfile(Map<String, String> credentials) async {
+    Response? response =
+        await apiPostRequests("user/profile", credentials);
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+
   Future<Response?> register(
       Map<String, String> credentials) async {
     Response? response =

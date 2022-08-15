@@ -87,9 +87,6 @@ class _ForgotPasswordState extends StateMVC<ForgotPassword>
                                 ? "Create Password"
                                 : "Continue",
                             onPressed: con.forgotPassword,
-
-                            /*   onPressed: (){
-                                Routers.pushNamed(context, '/otp_page');} */
                           ),
                         ),
                       ],

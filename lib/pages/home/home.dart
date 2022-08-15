@@ -441,9 +441,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
               color: Colors.white,
             ),
             child: InkWell(
-              onTap: () {
-                Routers.pushNamed(context, '/google_map_page');
-              },
+              onTap: () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -620,10 +618,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
             SizedBox(
               height: 2.5.h,
             ),
-            drawerItem(
-                icon: Icons.payment,
-                text: "Payment",
-                onTap: (){}
+            drawerItem(icon: Icons.payment, text: "Payment", onTap: () {}
                 // onTap: () => Routers.pushNamed(context, "/card_payment"),
                 ),
             drawerItem(
