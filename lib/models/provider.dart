@@ -141,12 +141,15 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
     });
 
     if (_estimatedCostList != null && _estimatedCostList?.statusCode == 200) {
-        _classicEsCost = _estimatedCostList?.data[2]['Classic'] ?? 0;
-        notifyListeners();
-        _executiveEsCost = _estimatedCostList?.data[1]['Executive'] ?? 0;
-        notifyListeners();
-        _coperateEsCost = _estimatedCostList?.data[0]['Corporate'] ?? 0;
-        notifyListeners();
+      _classicEsCost =
+          double.parse("${_estimatedCostList?.data[2]['Classic'] ?? 0}");
+      notifyListeners();
+      _executiveEsCost =
+          double.parse("${_estimatedCostList?.data[1]['Executive'] ?? 0}");
+      notifyListeners();
+      _coperateEsCost =
+          double.parse("${_estimatedCostList?.data[0]['Corporate'] ?? 0}");
+      notifyListeners();
     } else {
       showErrorNotificationWithCallback(
           context, _estimatedCostList!.data["error"]);
@@ -185,8 +188,7 @@ class Providers {
   static List<SingleChildWidget> getProviders = [
     ChangeNotifierProvider<GoogleApiProvider>(
         create: (_) => GoogleApiProvider()),
-    ChangeNotifierProvider<ScheduleProvider>(
-        create: (_) => ScheduleProvider()),
+    ChangeNotifierProvider<ScheduleProvider>(create: (_) => ScheduleProvider()),
     ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
   ];
 }
