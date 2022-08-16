@@ -134,7 +134,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
       try {
         Response? response = await authRepo.updateProfile({
-          "email": model.emailController.text,
+          "email": SessionManager.instance.usersData["email"],
           "name":
               "${model.firstNameController.text} ${model.lastNameController.text}",
         });
