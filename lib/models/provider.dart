@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/pages/trip/schedule_trip_folder/schedule_provider.dart';
 import 'package:my_ride/utils/Flushbar_mixin.dart';
 import 'package:my_ride/utils/api_call.dart';
 import 'package:provider/provider.dart';
@@ -184,6 +185,8 @@ class Providers {
   static List<SingleChildWidget> getProviders = [
     ChangeNotifierProvider<GoogleApiProvider>(
         create: (_) => GoogleApiProvider()),
+    ChangeNotifierProvider<ScheduleProvider>(
+        create: (_) => ScheduleProvider()),
     ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
   ];
 }

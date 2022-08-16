@@ -404,12 +404,15 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: Text(
-                      'View Schedule',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 16.5.sp,
-                          fontWeight: FontWeight.w500),
+                    child: GestureDetector(
+                      onTap: ()=> Routers.replaceAllWithName(context, '/view_schedule_ride'),
+                      child: Text(
+                        'View Schedule',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 16.5.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                   SizedBox(

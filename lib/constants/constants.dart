@@ -6,8 +6,8 @@ class Constants {
       'pk_test_51Kg5q2CX3GWfgrAWzHq9IqifhNXZRbJmAiTANgbPjWoGNqIsg1jUC02ZZrkMcy2SPxYiyEQHTx0w0At3ZE1NidMy00EYVpLJJv';
   static const String boxName = 'myride';
   static const String phonePrefix = '+234';
-  // static const String baseUrl = 'https://myride.dreamlabs.com.ng/api/v1/';
-  static const String baseUrl = 'https://app.myridedot.com/api/v1/';
+  static const String baseUrl = 'https://myride.dreamlabs.com.ng/api/v1/';
+  // static const String baseUrl = 'https://app.myridedot.com/api/v1/';
   static const String fcmBaseUrl = 'https://fcm.googleapis.com/fcm/';
   // static const String baseUrl = 'https://myride-app.herokuapp.com/api/v1/';
 

@@ -45,6 +45,9 @@ class AuthModel {
   bool isPushLoading = false;
   bool isUserLoginLoading = false;
   bool isGetUserLoading = false;
+  bool isGetUpcomingLoading = false;
+  bool isGetCompletedLoading = false;
+  bool isGetCancelledLoading = false;
   bool isSignUpLoading = false;
   bool isVerifyOTPLoading = false;
   bool isVerifyEmailOTPLoading = false;

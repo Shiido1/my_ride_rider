@@ -116,6 +116,33 @@ class AuthRepo with Services {
 
     return null;
   }
+  Future<Map<String, dynamic>?> getUpcomingTrips() async {
+    Map<String, dynamic>? response = await apiGetRequests("request/user-upcoming-trips");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+  Future<Map<String, dynamic>?> getCompletedTrips() async {
+    Map<String, dynamic>? response = await apiGetRequests("request/user-completed-trips");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
+  Future<Map<String, dynamic>?> getCancelledTrips() async {
+    Map<String, dynamic>? response = await apiGetRequests("request/user-cancelled-trips");
+
+    if (response != null) {
+      return response;
+    }
+
+    return null;
+  }
 
   Future<Map<String, dynamic>?> getLocationHistory() async {
     Map<String, dynamic>? response = await apiGetRequests("request/user-completed-trips");
