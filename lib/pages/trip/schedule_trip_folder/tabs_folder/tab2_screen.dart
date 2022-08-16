@@ -34,7 +34,7 @@ class _Tab2State extends State<Tab2> {
             padding: EdgeInsets.all(6.w),
             child: SingleChildScrollView(child: Consumer<ScheduleProvider>(
               builder: (_, provider, __) {
-                if (provider.completedResponse==null) {
+                if (provider.completedResponse == null) {
                   return const Center(
                     child: SpinKitCubeGrid(
                       color: AppColors.primary,
@@ -53,10 +53,12 @@ class _Tab2State extends State<Tab2> {
                   );
                 }
                 if (provider.completedResponse?['data'].isEmpty) {
-                  return TextView(
-                      text: 'No completed trips',
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600);
+                  return Center(
+                    child: TextView(
+                        text: 'No completed trips',
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600),
+                  );
                 }
                 return Column(children: [
                   ...provider.completedResponse?['data']

@@ -34,7 +34,7 @@ class _Tab1State extends State<Tab1> {
             padding: EdgeInsets.all(6.w),
             child: SingleChildScrollView(child: Consumer<ScheduleProvider>(
               builder: (_, provider, __) {
-                if (provider.upcomingResponse==null) {
+                if (provider.upcomingResponse == null) {
                   return const Center(
                     child: SpinKitCubeGrid(
                       color: AppColors.primary,
@@ -120,7 +120,8 @@ class _Tab1State extends State<Tab1> {
                                         child: CircleAvatar(
                                           radius: 25,
                                           child: CachedNetworkImage(
-                                            imageUrl: data['userDetail']['data']
+                                            imageUrl: data['driverDetail']
+                                                        ['data']
                                                     ['profile_picture'] ??
                                                 '',
                                             imageBuilder:
@@ -144,10 +145,9 @@ class _Tab1State extends State<Tab1> {
                                       SizedBox(
                                         width: 3.w,
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 1.2.w),
+                                      Expanded(
                                         child: TextView(
-                                          text: data['userDetail']['data']
+                                          text: data['driverDetail']['data']
                                                   ['name'] ??
                                               '',
                                           fontSize: 18.sp,

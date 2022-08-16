@@ -380,7 +380,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => model
                                                           .classicEsCost !=
-                                                      0
+                                                      null
                                                   ? GestureDetector(
                                                       onTap: () => setState(() {
                                                             instantValue =
@@ -530,7 +530,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => model
                                                           .executiveEsCost !=
-                                                      0
+                                                      null
                                                   ? GestureDetector(
                                                       onTap: () => setState(() {
                                                         instantValue = value2;
@@ -677,7 +677,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                             Consumer<GoogleApiProvider>(
                                               builder: (_, model, __) => model
                                                           .coperateEsCost !=
-                                                      0
+                                                      null
                                                   ? GestureDetector(
                                                       onTap: () => setState(() {
                                                         instantValue = value3;

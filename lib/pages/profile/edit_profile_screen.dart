@@ -4,6 +4,7 @@ import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../components/loading_button.dart';
+import '../../components/my_app_bar.dart';
 import '../../constants/colors.dart';
 import '../../partials/mixins/validations.dart';
 import '../../widget/text_form_field.dart';
@@ -27,6 +28,7 @@ class _EditProfileScreen2State extends StateMVC<EditProfileScreen2>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyAppBar.defaultAppBar(context),
       body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.w),
           child: Form(
@@ -34,9 +36,10 @@ class _EditProfileScreen2State extends StateMVC<EditProfileScreen2>
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 25.h,
+                    height: 10.h,
                   ),
                   TextView(
                     text: "Edit Profile",
@@ -45,17 +48,8 @@ class _EditProfileScreen2State extends StateMVC<EditProfileScreen2>
                     fontWeight: FontWeight.bold,
                   ),
                   SizedBox(
-                    height: 4.h,
+                    height: 8.h,
                   ),
-                  EditTextForm(
-                    validator: validateEmail,
-                    controller: con.model.emailController,
-                    isMuchDec: true,
-                    readOnly: false,
-                    obscureText: false,
-                    label: 'Email',
-                  ),
-                  SizedBox(height: 2.5.h),
                   EditTextForm(
                     validator: validateFirstName,
                     controller: con.model.firstNameController,
@@ -64,7 +58,7 @@ class _EditProfileScreen2State extends StateMVC<EditProfileScreen2>
                     obscureText: false,
                     label: 'First name',
                   ),
-                  SizedBox(height: 2.5.h),
+                  SizedBox(height: 3.h),
                   EditTextForm(
                     validator: validateLastName,
                     controller: con.model.lastNameController,
@@ -73,18 +67,9 @@ class _EditProfileScreen2State extends StateMVC<EditProfileScreen2>
                     obscureText: false,
                     label: 'Last name',
                   ),
-                  SizedBox(height: 2.5.h),
-                  EditTextForm(
-                    validator: validatePhone,
-                    controller: con.model.phoneNumberController,
-                    isMuchDec: true,
-                    readOnly: false,
-                    obscureText: false,
-                    label: 'Mobile',
-                  ),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 20.h),
                   LoadingButton(
-                    label: "Send",
+                    label: "Update",
                     onPressed: con.updateProfile,
                     disabled: false,
                     isLoading: con.model.isUpdatingLoading,

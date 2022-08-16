@@ -405,7 +405,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: ()=> Routers.replaceAllWithName(context, '/view_schedule_ride'),
+                      onTap: ()=> Routers.pushNamed(context, '/view_schedule_ride'),
                       child: Text(
                         'View Schedule',
                         style: TextStyle(

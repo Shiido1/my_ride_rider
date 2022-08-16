@@ -60,7 +60,7 @@ class ScheduleProvider extends ChangeNotifier with FlushBarMixin {
   Future<void> getCancelledTrip({context}) async {
     try {
       model.isGetCancelledLoading = true;
-      notifyListeners();
+      // notifyListeners();
       Map<String, dynamic>? response = await authRepo.getCancelledTrips();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {

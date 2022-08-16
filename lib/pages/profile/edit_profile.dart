@@ -267,7 +267,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                         alignment: Alignment.bottomRight,
                         child: InkWell(
                           onTap: () =>
-                              Routers.replaceAllWithName(context, '/edit'),
+                              Routers.pushNamed(context, '/edit'),
                           child: TextView(
                             text: "Edit Profile",
                             color: AppColors.red,

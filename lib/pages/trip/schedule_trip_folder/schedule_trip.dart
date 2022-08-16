@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_ride/pages/trip/schedule_trip_folder/tabs_folder/tab1_screen.dart';
 import 'package:my_ride/pages/trip/schedule_trip_folder/tabs_folder/tab2_screen.dart';
 import 'package:my_ride/pages/trip/schedule_trip_folder/tabs_folder/tab3_screen.dart';
+import 'package:my_ride/utils/router.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../../constants/colors.dart';
 import '../../../widget/text_widget.dart';
 
@@ -15,10 +15,6 @@ class ViewScheduleRide extends StatefulWidget {
 }
 
 class _ViewScheduleRideState extends State<ViewScheduleRide> {
-  // void closeSchedule() {
-  //   Navigator.of(context).pop();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -43,9 +39,8 @@ class _ViewScheduleRideState extends State<ViewScheduleRide> {
                 size: 21.5.sp,
               ),
               color: AppColors.black,
-              onPressed: () {
-                // closeSchedule();
-              },
+              onPressed: () =>
+                  Routers.pop(context),
             ),
             SizedBox(
               width: 10.w,
@@ -58,7 +53,6 @@ class _ViewScheduleRideState extends State<ViewScheduleRide> {
             labelColor: AppColors.primary,
             tabs: [
               Tab(
-                // text: 'Upcoming',
                 child: TextView(
                   text: 'Upcoming',
                   color: AppColors.black,
@@ -88,7 +82,7 @@ class _ViewScheduleRideState extends State<ViewScheduleRide> {
             ],
           ),
         ),
-        body:  const TabBarView(
+        body: const TabBarView(
           children: [Tab1(), Tab2(), Tab3()],
         ),
       ),

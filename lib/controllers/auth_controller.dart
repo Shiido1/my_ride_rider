@@ -137,7 +137,6 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "email": model.emailController.text,
           "name":
               "${model.firstNameController.text} ${model.lastNameController.text}",
-          "mobile": model.phoneNumberController.text
         });
         debugPrint("RESPONSE: $response");
         if (response != null && response.statusCode == 200) {
