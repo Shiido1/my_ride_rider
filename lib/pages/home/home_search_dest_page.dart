@@ -166,7 +166,7 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                                 types: [],
                                 strictbounds: false,
                                 components: [
-                                  Component(Component.country, 'ng')
+                                  Component(Component.country, 'us')
                                 ],
                                 onError: (err) {},
                               );
@@ -202,7 +202,7 @@ class _HomeSearchDestinationState extends StateMVC<HomeSearchDestination> {
                                 types: [],
                                 strictbounds: false,
                                 components: [
-                                  Component(Component.country, 'ng')
+                                  Component(Component.country, 'us')
                                 ],
                                 onError: (err) {},
                               );

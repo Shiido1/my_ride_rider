@@ -261,7 +261,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                         mode: Mode.overlay,
                         types: [],
                         strictbounds: false,
-                        components: [Component(Component.country, 'ng')],
+                        components: [Component(Component.country, 'us')],
                         //google_map_webservice package
                         onError: (err) {},
                       );
@@ -308,7 +308,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                         mode: Mode.overlay,
                         types: [],
                         strictbounds: false,
-                        components: [Component(Component.country, 'ng')],
+                        components: [Component(Component.country, 'us')],
                         //google_map_webservice package
                         onError: (err) {},
                       );
@@ -405,7 +405,8 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: ()=> Routers.pushNamed(context, '/view_schedule_ride'),
+                      onTap: () =>
+                          Routers.pushNamed(context, '/view_schedule_ride'),
                       child: Text(
                         'View Schedule',
                         style: TextStyle(

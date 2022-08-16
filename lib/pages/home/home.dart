@@ -237,7 +237,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                           mode: Mode.overlay,
                           types: [],
                           strictbounds: false,
-                          components: [Component(Component.country, 'ng')],
+                          components: [Component(Component.country, 'us')],
                           onError: (err) {},
                         );
 
@@ -618,8 +618,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
             SizedBox(
               height: 2.5.h,
             ),
-            drawerItem(icon: Icons.payment, text: "Payment", onTap: () {}
-                ),
+            drawerItem(icon: Icons.payment, text: "Payment", onTap: () {}),
             drawerItem(
                 icon: Icons.restore_sharp, text: "Ride History", onTap: () {}),
             drawerItem(
