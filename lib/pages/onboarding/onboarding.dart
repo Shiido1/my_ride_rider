@@ -41,7 +41,7 @@ class OnBoardingPage extends StatelessWidget {
             const SizedBox(height: 40),
             TextView(
               text:
-                  "At myride.com, we offer quality corporative and private transportation service across the entire metro Atlanta area at reasonable price. We know that in today's world, time is money. That's why we promise to get you wherever you are going on time, every time.",
+                  "At myridedot.com, we offer quality corporate and private transportation services across the entire metro Atlanta area at reasonable prices. We know that in today's world, time is money. That's why we promise to get you wherever you are going on time, every time.",
               fontSize: 17.sp,
               color: Colors.white,
               textAlign: TextAlign.justify,
@@ -55,7 +55,7 @@ class OnBoardingPage extends StatelessWidget {
                   TextSpan(
                     text: "iPhone users can call ",
                     style: TextStyle(
-                      fontSize: 16.5.sp,
+                      fontSize: 17.5.sp,
                       color: Colors.white,
                     ),
                   ),
