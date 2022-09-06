@@ -30,7 +30,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   final AuthRepo authRepo = AuthRepo();
   String deviceToken = "DeviceTokin";
-  String countryCode = "+1";
+  String countryCode = "+234";
   final loadingKey = GlobalKey<FormState>();
 
   void sendPushNot() async {
@@ -223,7 +223,10 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "login_by": 'ios',
           "country": countryCode,
           "password": model.regPasswordController.text,
-          "password_confirmation": model.regConfirmPassController.text
+          "password_confirmation": model.regConfirmPassController.text,
+          "state": model.regStateController.text,
+          "city": model.regCityController.text,
+          "zip_code": model.regZipCodeController.text,
         });
 
         if (response != null && response.statusCode == 200) {

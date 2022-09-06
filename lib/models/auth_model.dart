@@ -14,6 +14,9 @@ class AuthModel {
   final TextEditingController regPhoneNumberController =
       TextEditingController();
   final TextEditingController regEmailController = TextEditingController();
+  final TextEditingController regZipCodeController = TextEditingController();
+  final TextEditingController regCityController = TextEditingController();
+  final TextEditingController regStateController = TextEditingController();
   final TextEditingController regPasswordController = TextEditingController();
   final TextEditingController regConfirmPassController =
       TextEditingController();
