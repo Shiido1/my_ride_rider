@@ -7,8 +7,8 @@ import 'package:my_ride/controllers/auth_controller.dart';
 import 'package:my_ride/partials/mixins/validations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
 import '../../../widget/text_widget.dart';
+
 
 class ContactInfoPage extends StatefulWidget {
   const ContactInfoPage({Key? key}) : super(key: key);
@@ -82,6 +82,12 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
                           labelText: "Email Address",
                         ),
                       ),
+                       TextFormField(
+                        controller: con.model.regZipCodeController,
+                        decoration: Constants.defaultDecoration.copyWith(
+                          labelText: "Zip Code",
+                        ),
+                      ),
                       TextFormField(
                         controller: con.model.regCityController,
                         decoration: Constants.defaultDecoration.copyWith(
@@ -92,12 +98,6 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
                         controller: con.model.regStateController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "State",
-                        ),
-                      ),
-                      TextFormField(
-                        controller: con.model.regZipCodeController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Zip Code",
                         ),
                       ),
                       TextFormField(

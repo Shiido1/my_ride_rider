@@ -140,6 +140,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
         });
         debugPrint("RESPONSE: $response");
         if (response != null && response.statusCode == 200) {
+          getUserData();
           showSuccessNotification(
               state!.context, 'You have successfully updated your profile');
           Routers.replaceAllWithName(state!.context, '/home');
