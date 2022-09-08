@@ -7,6 +7,12 @@ mixin ValidationMixin {
     return null;
   }
 
+  String? validateField(String? value) {
+    if (value!.trim().isEmpty) return 'Field cannot be empty';
+
+    return null;
+  }
+
   String? validateShopNoOptional(String? value) {
     if (value!.trim().isEmpty) return null;
 
@@ -100,7 +106,7 @@ mixin ValidationMixin {
 
   String? validatePhone(String? value) {
     if (value!.trim().isEmpty) return 'Phone cannot be empty';
-    if (value.trim().length != 11) return 'Phone is Invalid';
+    if (value.trim().length != 10) return 'Phone is Invalid';
 
     return null;
   }
