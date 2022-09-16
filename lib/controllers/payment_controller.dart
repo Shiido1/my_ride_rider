@@ -39,16 +39,16 @@ class PaymentController extends ControllerMVC with FlushBarMixin {
         });
         if (response != null && response.statusCode == 200) {
           SessionManager.instance.isAddCard = true;
-          if (isRegistration == true) {
-            Routers.replaceAllWithName(state!.context, "/reg_success");
-          } else {
+          // if (isRegistration == true) {
+          //   Routers.replaceAllWithName(state!.context, "/reg_success");
+          // } else {
             Routers.replace(
                 state!.context,
                 MapScreen(
                     fname: driverFname!,
                     pickLocation: pickUpLocationAdd!,
                     dropLocation: dropLocationAdd!));
-          }
+          // }
         } else {
           showErrorNotificationWithCallback(
               state!.context, response!.data!["message"] ?? '');

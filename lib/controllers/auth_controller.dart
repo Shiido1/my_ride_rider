@@ -30,7 +30,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   final AuthRepo authRepo = AuthRepo();
   String deviceToken = "DeviceTokin";
-  String countryCode = "+1";
+  String countryCode = "+234";
   final loadingKey = GlobalKey<FormState>();
 
   void sendPushNot() async {

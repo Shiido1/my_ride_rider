@@ -368,7 +368,7 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                         height: 32.h,
                         child: Consumer<GoogleApiProvider>(
                             builder: (_, provider, __) {
-                          if (provider.responses == null) {
+                          if (provider.responses == null || provider.responses?['status']=='error') {
                             return const Center(
                                 child: CircularProgressIndicator(
                               color: AppColors.primary,

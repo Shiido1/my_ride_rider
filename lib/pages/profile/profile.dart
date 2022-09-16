@@ -241,10 +241,10 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                               left: Adaptive.w(15)),
                           child: ElevatedButton(
                             onPressed: () {
-                              Routers.pushNamed(context, '/add_card');
-                              setState(() {
-                                isRegistration = true;
-                              });
+                              Routers.pushNamed(context, '/reg_success');
+                              // setState(() {
+                              //   isRegistration = true;
+                              // });
                             },
                             child: TextView(
                               text: 'Continue',

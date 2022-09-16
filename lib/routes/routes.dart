@@ -47,8 +47,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const RegistrationSuccess());
     case '/home_search_dest':
       return MaterialPageRoute(builder: (_) => const HomeSearchDestination());
-    case '/add_card':
-      return MaterialPageRoute(builder: (_) => const AddCard());
+    // case '/add_card':
+    //   return MaterialPageRoute(builder: (_) => const AddCard());
     case '/edit_profile':
       return MaterialPageRoute(builder: (_) => const EditProfileScreen());
     case '/ratings':
