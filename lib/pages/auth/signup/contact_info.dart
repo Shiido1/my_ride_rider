@@ -82,13 +82,7 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
                           labelText: "Email Address",
                         ),
                       ),
-                       TextFormField(
-                        validator:  validateField,
-                        controller: con.model.regZipCodeController,
-                        decoration: Constants.defaultDecoration.copyWith(
-                          labelText: "Zip Code",
-                        ),
-                      ),
+                      
                       TextFormField(
                         validator: validateField,
                         controller: con.model.regCityController,
@@ -101,6 +95,13 @@ class _ContactInfoPageState extends StateMVC<ContactInfoPage>
                         controller: con.model.regStateController,
                         decoration: Constants.defaultDecoration.copyWith(
                           labelText: "State",
+                        ),
+                      ),
+                       TextFormField(
+                        validator:  validateField,
+                        controller: con.model.regZipCodeController,
+                        decoration: Constants.defaultDecoration.copyWith(
+                          labelText: "Zip Code",
                         ),
                       ),
                       TextFormField(

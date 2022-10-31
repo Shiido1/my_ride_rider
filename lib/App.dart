@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_ride/constants/colors.dart';
-import 'package:my_ride/pages/home/home.dart';
+import 'package:my_ride/pages/home/initial_home_page.dart';
 import 'package:my_ride/pages/onboarding/onboarding.dart';
 import 'package:my_ride/routes/routes.dart';
 import 'package:my_ride/schemas/user.dart';
@@ -31,7 +31,7 @@ class App extends StatelessWidget {
             ),
             home: SessionManager.instance.isLoggedIn
                 ? ResponsiveSizer(builder: (context, orientation, screenType) {
-                    return const HomePage();
+                    return const InitialHomePage();
                   })
                 : ResponsiveSizer(
                     builder: (context, orientation, screenType) {
@@ -41,7 +41,7 @@ class App extends StatelessWidget {
                           if (snapshot.hasData) {
                             if (snapshot.data["access_token"] != null) {
                               if (checkAuthenticated(snapshot.data)) {
-                                return const HomePage();
+                                return const InitialHomePage();
                               }
                             }
                             return const OnBoardingPage();

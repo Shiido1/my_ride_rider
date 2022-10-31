@@ -6,7 +6,6 @@ import 'package:my_ride/states/auth_state.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-
 import '../../components/reg_model.dart';
 import '../../controllers/auth_controller.dart';
 import '../../models/global_model.dart';
@@ -33,7 +32,6 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
   void initState() {
     super.initState();
     User user = context.read<AuthProvider>().user;
-
     con.model.firstNameController.text = user.firstName ?? "";
     con.model.lastNameController.text = user.lastName ?? "";
     con.model.emailController.text = user.emailAdd ?? "";

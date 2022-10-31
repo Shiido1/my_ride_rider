@@ -215,7 +215,7 @@ class _Tab2State extends State<Tab2> {
                                         padding: EdgeInsets.only(left: 1.w),
                                         child: Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Icon(
                                               Icons.location_pin,

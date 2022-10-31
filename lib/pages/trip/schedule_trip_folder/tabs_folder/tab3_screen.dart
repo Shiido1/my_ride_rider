@@ -124,7 +124,7 @@ class _Tab3State extends State<Tab3> {
                                           radius: 25,
                                           child: CachedNetworkImage(
                                             imageUrl: data['userDetail']['data']
-                                                    ['profilePicture'] ??
+                                                    ['profile_picture'] ??
                                                 '',
                                             imageBuilder:
                                                 (context, imageProvider) =>
@@ -189,7 +189,7 @@ class _Tab3State extends State<Tab3> {
                                                 ),
                                                 TextView(
                                                     text:
-                                                        data.pickAddress ?? '',
+                                                        data['pick_address'] ?? '',
                                                     fontSize: 15.5.sp,
                                                     fontWeight:
                                                         FontWeight.w500),
@@ -228,7 +228,7 @@ class _Tab3State extends State<Tab3> {
                                                     height: 0.5.h,
                                                   ),
                                                   TextView(
-                                                      text: data.dropAddress ??
+                                                      text: data['drop_address'] ??
                                                           '',
                                                       fontSize: 15.5.sp,
                                                       fontWeight:

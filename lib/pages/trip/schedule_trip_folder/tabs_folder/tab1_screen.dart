@@ -119,40 +119,47 @@ class _Tab1State extends State<Tab1> {
                                         padding: EdgeInsets.only(bottom: 1.w),
                                         child: CircleAvatar(
                                           radius: 25,
-                                          child: CachedNetworkImage(
-                                            imageUrl: data['driverDetail']
-                                                        ['data']
-                                                    ['profile_picture'] ??
-                                                '',
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) =>
-                                                const CircularProgressIndicator(),
-                                            errorWidget: (context, url,
-                                                    error) =>
-                                                const CircularProgressIndicator(),
-                                          ),
+                                          child: data['driverDetail'].isEmpty
+                                              ? const SizedBox.shrink()
+                                              : CachedNetworkImage(
+                                                  imageUrl: data['driverDetail']
+                                                              ['data']
+                                                          ['profile_picture'] ??
+                                                      '',
+                                                  imageBuilder: (context,
+                                                          imageProvider) =>
+                                                      Container(
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                  ),
+                                                  placeholder: (context, url) =>
+                                                      const CircularProgressIndicator(),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const CircularProgressIndicator(),
+                                                ),
                                         ),
                                       ),
                                       SizedBox(
                                         width: 3.w,
                                       ),
                                       Expanded(
-                                        child: TextView(
-                                          text: data['driverDetail']['data']
-                                                  ['name'] ??
-                                              '',
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        child: data['driverDetail'].isEmpty
+                                            ? TextView(
+                                                text: '',
+                                                fontSize: 20.sp,
+                                              )
+                                            : TextView(
+                                                text: data['driverDetail']
+                                                        ['data']['name'] ??
+                                                    '',
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                       ),
                                     ],
                                   ),
@@ -199,41 +206,44 @@ class _Tab1State extends State<Tab1> {
                                       SizedBox(
                                         height: 2.4.h,
                                       ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Icon(
-                                            Icons.location_pin,
-                                            size: 21.9.sp,
-                                          ),
-                                          SizedBox(
-                                            width: 1.2.w,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextView(
-                                                    text: 'To',
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                SizedBox(
-                                                  height: 0.5.h,
-                                                ),
-                                                TextView(
-                                                    text:
-                                                        data['drop_address'] ??
-                                                            '',
-                                                    fontSize: 15.5.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ],
+                                      Padding(
+                                        padding:  EdgeInsets.only(left:1.w),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.location_pin,
+                                              size: 21.9.sp,
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              width: 1.2.w,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextView(
+                                                      text: 'To',
+                                                      fontSize: 16.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  SizedBox(
+                                                    height: 0.5.h,
+                                                  ),
+                                                  TextView(
+                                                      text:
+                                                          data['drop_address'] ??
+                                                              '',
+                                                      fontSize: 15.5.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   )

@@ -30,7 +30,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
 
   final AuthRepo authRepo = AuthRepo();
   String deviceToken = "DeviceTokin";
-  String countryCode = "+234";
+  String countryCode = "+1";
   final loadingKey = GlobalKey<FormState>();
 
   void sendPushNot() async {
@@ -167,7 +167,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.getUserInfo();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
-        Routers.replaceAllWithName(state!.context, '/home');
+        Routers.replaceAllWithName(state!.context, '/initial_home');
         SessionManager.instance.usersData = response["data"];
       } else {
         showErrorNotification(state!.context, response!["message"]);
@@ -411,6 +411,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
       model.isInstantLoading = true;
     });
     var drivers = [map];
+    print('buuuuug... ${map.toString()}');
     Response? response = await authRepo.instantTrip({
       "pick_lat": pickUpLat,
       "pick_lng": pickUpLong,
@@ -441,7 +442,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   }
 
   void scheduleTrip(
-      {String? scheduleTripDate,
+      {List<String>? scheduleTripDate,
       String? schedulePeriod,
       String? vehicleType}) async {
     setState(() {

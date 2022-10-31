@@ -110,6 +110,6 @@ class _RegistrationSuccessState extends StateMVC<RegistrationSuccess> {
       isRegistration = false;
     });
     await con.getUserData();
-    Routers.replaceAllWithName(context, '/home');
+    Routers.replaceAllWithName(context, '/initial_home');
   }
 }

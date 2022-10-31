@@ -9,6 +9,7 @@ import 'package:my_ride/pages/auth/signup/phone_page.dart';
 import 'package:my_ride/pages/home/change_dest_page.dart';
 import 'package:my_ride/pages/home/home.dart';
 import 'package:my_ride/pages/home/home_search_dest_page.dart';
+import 'package:my_ride/pages/home/initial_home_page.dart';
 import 'package:my_ride/pages/payment/add_card_page.dart';
 import 'package:my_ride/pages/payment/card.dart';
 import 'package:my_ride/pages/profile/edit_profile.dart';
@@ -47,8 +48,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const RegistrationSuccess());
     case '/home_search_dest':
       return MaterialPageRoute(builder: (_) => const HomeSearchDestination());
-    // case '/add_card':
-    //   return MaterialPageRoute(builder: (_) => const AddCard());
+    case '/initial_home':
+      return MaterialPageRoute(builder: (_) => const InitialHomePage());
     case '/edit_profile':
       return MaterialPageRoute(builder: (_) => const EditProfileScreen());
     case '/ratings':

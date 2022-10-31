@@ -40,7 +40,7 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
   createScheduleTrip() async {
     con.scheduleTrip(
         vehicleType: vehicleTypeId,
-        scheduleTripDate: '$scheduleDate $timeText',
+        scheduleTripDate: listOfDates,
         schedulePeriod: scheduleValue!.toLowerCase());
   }
 

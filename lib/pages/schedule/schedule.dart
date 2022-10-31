@@ -41,8 +41,13 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
   DateTime selectedDate = DateTime.now();
   final firstDate = DateTime(2022, 1);
   final lastDate = DateTime(2100, 12);
+  List<String> list = [];
+  List<String> endPointList = [];
   TimeOfDay time = const TimeOfDay(hour: 00, minute: 00);
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+
+  int valueIndex = 0;
+  var periodValue;
 
   @override
   void dispose() {
@@ -55,6 +60,9 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
         dropController!.text != 'Enter Destination location' &&
         scheduleValue!.isNotEmpty &&
         timeText != 'Pick time') {
+      setState(() {
+        listOfDates = endPointList;
+      });
       Routers.replaceAllWithName(context!, '/schedule_trip_vehicle');
     } else {
       showErrorNotification(context!, 'Fill in the necessary fields');
@@ -300,7 +308,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                     height: 2.h,
                   ),
                   EditTextForm(
-                    floatingLabel: 'dwuhdi w',
+                    floatingLabel: '',
                     onTapped: () async {
                       var place = await PlacesAutocomplete.show(
                         context: context,
@@ -368,6 +376,8 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                               setState(() {
                                 timeText =
                                     '${newTime.hour.toString().padLeft(2, '0')}:${newTime.minute.toString().padLeft(2, '0')}:00';
+                                periodValue =
+                                    newTime.period.toString().substring(10);
                               });
                             },
                             child: Container(
@@ -394,11 +404,63 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 4.w),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            list.add(
+                                '$scheduleDate' '$timeText' '$periodValue');
+                            endPointList.add('$scheduleDate' '$timeText');
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: AppColors.green,
+                              size: 20.sp,
+                            ),
+                            SizedBox(
+                              width: 1.w,
+                            ),
+                            TextView(
+                              text: 'Add',
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  ...list
+                      .map(
+                        (e) => timeScheduleContainer(
+                            time: e.substring(10, 18),
+                            date: e.substring(0, 10),
+                            period: e.substring(18),
+                            onTap: () {
+                              setState(() {
+                                list.remove(e);
+                              });
+                            }),
+                      )
+                      .toList(),
                   SizedBox(
                     height: 5.h,
                   ),
@@ -457,4 +519,35 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
       ),
     );
   }
+
+  timeScheduleContainer(
+          {String? date, String? time, String? period, Function()? onTap}) =>
+      Padding(
+        padding: EdgeInsets.only(bottom: 4.w),
+        child: Container(
+          padding: EdgeInsets.all(3.w),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: AppColors.greyWhite11,
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextView(
+                text: 'Date: $date, Time: $time $period',
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              InkWell(
+                onTap: onTap,
+                child: Icon(
+                  Icons.delete_outlined,
+                  color: AppColors.primary,
+                  size: 18.sp,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
 }

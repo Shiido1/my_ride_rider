@@ -41,11 +41,14 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
     try {
       var response =
           await makeNetworkCall(origin: origin, destination: destination);
+      print('nill google response $response');
       for (int i = 0; i < response['rows'].length; i++) {
         var res = response["rows"][i]['elements'];
+        print('nill second response $response');
         for (int j = 0; j < res.length; j++) {
           _timeResponse = res[j]['duration']['text'];
         }
+        print('problems wey man no expect ${_timeResponse.toString()}');
       }
       notifyListeners();
     } catch (e) {
