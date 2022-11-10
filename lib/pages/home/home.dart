@@ -169,12 +169,12 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                                       ''
                               ? CircleAvatar(
                                   backgroundColor: Colors.white,
+                                  radius: 26,
                                   child: Icon(
                                     Icons.person,
                                     color: AppColors.grey1,
                                     size: 23.sp,
                                   ),
-                                  radius: 26,
                                 )
                               : CircleAvatar(
                                   radius: 28,
@@ -478,11 +478,11 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
               child: Row(children: [
                 const CircleAvatar(
                   backgroundColor: Colors.green,
+                  radius: 15,
                   child: Icon(
                     Icons.location_on_rounded,
                     color: Colors.white,
                   ),
-                  radius: 15,
                 ),
                 SizedBox(width: 3.5.w),
                 Expanded(
@@ -530,12 +530,12 @@ class _HomePageState extends StateMVC<HomePage> with ValidationMixin {
                               ''
                       ? CircleAvatar(
                           backgroundColor: Colors.white,
+                          radius: 26,
                           child: Icon(
                             Icons.person,
                             color: AppColors.grey1,
                             size: 23.sp,
                           ),
-                          radius: 26,
                         )
                       : CircleAvatar(
                           radius: 28,

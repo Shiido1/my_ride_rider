@@ -1,11 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cron/cron.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:my_ride/constants/firebase_services.dart';
+import 'package:my_ride/models/global_model.dart';
+import 'package:my_ride/models/upcoming_trip.dart';
 import 'package:my_ride/utils/router.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
 import '../../constants/colors.dart';
 import '../../constants/session_manager.dart';
+import '../../repository/auth_repo.dart';
 import '../../widget/text_widget.dart';
+import '../trip/schedule_trip_folder/schedule_provider.dart';
 
 class InitialHomePage extends StatefulWidget {
   const InitialHomePage({Key? key}) : super(key: key);
@@ -16,12 +23,67 @@ class InitialHomePage extends StatefulWidget {
 
 class _InitialHomePageState extends State<InitialHomePage> {
   var name;
+  DateTime now = DateTime.now();
+  ScheduleProvider? _scheduleProvider;
+  List<UpcomingTrip>? upcomingTrips;
 
   @override
   void initState() {
     name = SessionManager.instance.usersData["name"].split(' ');
     name = name[0].trim();
+    buildMethod();
+    FirebaseMessaging.instance.getToken().then((value) {
+      deviceToken = value;
+    });
     super.initState();
+
+    firebaseClass.firebasePushNotification(context);
+  }
+
+  buildMethod() async {
+    final AuthRepo authRepo = AuthRepo();
+    _scheduleProvider = Provider.of<ScheduleProvider>(context, listen: false);
+    await _scheduleProvider?.getUpcomingTrip(context);
+
+    if (context.read<ScheduleProvider>().upcomingTrips != null) {
+      upcomingTrips = context.read<ScheduleProvider>().upcomingTrips;
+
+      for (UpcomingTrip element in upcomingTrips!) {
+        DateTime scheduleTime = DateTime.fromMillisecondsSinceEpoch(
+            element.tripStartTimestamp! * 1000);
+        DateTime thirtyMinutesBefore =
+            scheduleTime.subtract(const Duration(minutes: 30));
+        // var presentDate = DateTime.parse('2022-11-04 19:30:00.000');
+        var presentDate = DateTime.now();
+
+        if (presentDate.toString().substring(0,19) == thirtyMinutesBefore.toString().substring(0,19)) {
+        cron.schedule(Schedule.parse('*/1 * * * *'), () async {
+            try {
+              Map<String, dynamic>? response = await authRepo.sendPushNot({
+                "to": deviceToken,
+                "notification": {
+                  "title": "You have just received a notification",
+                  "body":
+                      "For your scheduled trip from ${element.pickAddress} to ${element.dropAddress}",
+                  "mutable_content": true,
+                  "sound": "Tri-tone"
+                },
+                "data": {
+                  "pick_location": element.pickAddress,
+                  "drop_location": element.dropAddress,
+                  "start_trip": element.tripStartTime,
+                }
+              });
+              if (response != null && response.isNotEmpty) {
+              }
+            } catch (e, str) {
+              debugPrint("Error: $e");
+              debugPrint("StackTrace: $str");
+            }
+          });
+        }
+      }
+    }
   }
 
   @override
@@ -60,12 +122,12 @@ class _InitialHomePageState extends State<InitialHomePage> {
                               ''
                       ? CircleAvatar(
                           backgroundColor: Colors.white,
+                          radius: 26,
                           child: Icon(
                             Icons.person,
                             color: AppColors.grey1,
                             size: 23.sp,
                           ),
-                          radius: 26,
                         )
                       : CircleAvatar(
                           radius: 28,
@@ -97,9 +159,13 @@ class _InitialHomePageState extends State<InitialHomePage> {
               SizedBox(
                 height: 4.h,
               ),
-              TextView(
-                text: 'Schedule Ride ',
-                fontSize: 24.sp,
+              InkWell(
+                onTap: () => print(
+                    '$scheduleNotDate,$schedulePickUpLocationAdd $scheduleDropLocationAdd'),
+                child: TextView(
+                  text: 'Schedule Ride ',
+                  fontSize: 24.sp,
+                ),
               ),
               SizedBox(
                 height: 0.6.h,
@@ -189,7 +255,7 @@ class _InitialHomePageState extends State<InitialHomePage> {
               //     ),
               //   ),
               // ),
-              
+
               SizedBox(
                 height: 30.sp,
               ),

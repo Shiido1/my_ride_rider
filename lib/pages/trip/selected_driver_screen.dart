@@ -443,7 +443,9 @@ class _SelectedDriverScreenState extends StateMVC<SelectedDriverScreen> {
                                   ),
                                   TextView(
                                       onTap: () => con.cancelTrip(context),
-                                      text: 'Cancel Request',
+                                      text: con.model.isCancelLoading == true
+                                          ? 'Canceling..!'
+                                          : 'Cancel Request',
                                       color: AppColors.red,
                                       fontSize: 16.5.sp,
                                       fontWeight: FontWeight.w700),

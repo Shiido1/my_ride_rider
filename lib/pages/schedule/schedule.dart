@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -8,11 +10,13 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/constants/colors.dart';
 import 'package:my_ride/controllers/auth_controller.dart';
+import 'package:my_ride/models/provider.dart';
 import 'package:my_ride/utils/flushbar_mixin.dart';
 import 'package:my_ride/utils/router.dart';
 import 'package:my_ride/widget/custom_dialog.dart';
 import 'package:my_ride/widget/text_form_field.dart';
 import 'package:my_ride/widget/text_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../constants/session_manager.dart';
 import '../../models/global_model.dart';
@@ -48,6 +52,25 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
 
   int valueIndex = 0;
   var periodValue;
+
+  
+
+  showNotification({BuildContext? context}) {
+    if (scheduleValue == 'Weekly') {
+      showSuccessNotificationWithTime(
+          context!, 'Kindly select date within 1 week', 5);
+    }
+    if (scheduleValue == 'Bi-weekly') {
+      showSuccessNotificationWithTime(
+          context!, 'Kindly select date within 2 weeks', 5);
+    }
+    if (scheduleValue == 'Monthly') {
+      showSuccessNotificationWithTime(
+          context!, 'Kindly select date within 1 month', 5);
+    }
+  }
+
+ 
 
   @override
   void dispose() {
@@ -85,6 +108,9 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   flex: 1,
                   child: Container(
                     padding: EdgeInsets.all(8.0.w),
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,12 +125,12 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                                         ''
                                 ? CircleAvatar(
                                     backgroundColor: Colors.white,
+                                    radius: 26,
                                     child: Icon(
                                       Icons.person,
                                       color: AppColors.grey1,
                                       size: 23.sp,
                                     ),
-                                    radius: 26,
                                   )
                                 : CircleAvatar(
                                     radius: 28,
@@ -154,9 +180,6 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                         ),
                       ],
                     ),
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                    ),
                   ),
                 ),
               ],
@@ -202,6 +225,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                         scheduleValue = value;
                       });
                       Routers.pop(context);
+                      showNotification(context: context);
                       if (scheduleValue == "Instant") {
                         Routers.pushNamed(context, '/home');
                       }
@@ -414,33 +438,27 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 4.w),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            list.add(
-                                '$scheduleDate' '$timeText' '$periodValue');
-                            endPointList.add('$scheduleDate' '$timeText');
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(
-                              Icons.add,
-                              color: AppColors.green,
-                              size: 20.sp,
-                            ),
-                            SizedBox(
-                              width: 1.w,
-                            ),
-                            TextView(
-                              text: 'Add',
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                            )
-                          ],
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          list.add('$scheduleDate' '$timeText' '$periodValue');
+                          endPointList.add('$scheduleDate' '$timeText');
+                          pickupController!.clear();
+                          dropController!.clear();
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(top: 1.w, bottom: 1.3.w),
+                        width: 20.w,
+                        decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(5)),
+                        child: TextView(
+                          text: 'Add',
+                          fontSize: 16.sp,
+                          textAlign: TextAlign.center,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.white,
                         ),
                       ),
                     ),

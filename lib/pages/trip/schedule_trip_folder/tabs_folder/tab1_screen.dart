@@ -34,7 +34,7 @@ class _Tab1State extends State<Tab1> {
             padding: EdgeInsets.all(6.w),
             child: SingleChildScrollView(child: Consumer<ScheduleProvider>(
               builder: (_, provider, __) {
-                if (provider.upcomingResponse == null) {
+                if (provider.upcomingTrips == null) {
                   return const Center(
                     child: SpinKitCubeGrid(
                       color: AppColors.primary,
@@ -42,216 +42,204 @@ class _Tab1State extends State<Tab1> {
                     ),
                   );
                 }
-                if (provider.upcomingResponse?['data'].isEmpty) {
+                if (provider.upcomingTrips!.isEmpty) {
                   return TextView(
                       text: 'No upcoming trips',
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600);
                 }
                 return Column(children: [
-                  ...provider.upcomingResponse?['data']
-                      .map(
-                        (data) => Padding(
-                          padding: EdgeInsets.only(bottom: 3.5.w),
-                          child: Container(
-                              padding: EdgeInsets.all(4.5.w),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 231, 228, 228),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Column(
+                  ...provider.upcomingTrips!.map((data) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 3.5.w),
+                      child: Container(
+                          padding: EdgeInsets.all(4.5.w),
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 231, 228, 228),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      TextView(
+                                        text: 'Date',
+                                        fontSize: 16.sp,
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      SizedBox(
+                                        height: .5.h,
+                                      ),
+                                      TextView(
+                                          text: data.tripStartTime ?? '',
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Column(
+                                    children: [
+                                      TextView(
+                                        text: 'Time',
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                      SizedBox(
+                                        height: .5.h,
+                                      ),
+                                      TextView(
+                                          text:
+                                              data.cvTripStartTime ?? '',
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 3.h,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(bottom: 1.w),
+                                  //   child: CircleAvatar(
+                                  //     radius: 25,
+                                  //     child: data.driverDetail!.isEmpty
+                                  //         ? const SizedBox.shrink()
+                                  //         : CachedNetworkImage(
+                                  //             imageUrl: data.driverDetail
+                                  //                         ['data']
+                                  //                     ['profile_picture'] ??
+                                  //                 '',
+                                  //             imageBuilder:
+                                  //                 (context, imageProvider) =>
+                                  //                     Container(
+                                  //               decoration: BoxDecoration(
+                                  //                 shape: BoxShape.circle,
+                                  //                 image: DecorationImage(
+                                  //                     image: imageProvider,
+                                  //                     fit: BoxFit.cover),
+                                  //               ),
+                                  //             ),
+                                  //             placeholder: (context, url) =>
+                                  //                 const CircularProgressIndicator(),
+                                  //             errorWidget: (context, url,
+                                  //                     error) =>
+                                  //                 const CircularProgressIndicator(),
+                                  //           ),
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    width: 3.w,
+                                  ),
+                                  // Expanded(
+                                  //   child: data['driverDetail'].isEmpty
+                                  //       ? TextView(
+                                  //           text: '',
+                                  //           fontSize: 20.sp,
+                                  //         )
+                                  //       : TextView(
+                                  //           text: data['driverDetail']['data']
+                                  //                   ['name'] ??
+                                  //               '',
+                                  //           fontSize: 18.sp,
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  // ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          TextView(
-                                            text: 'Date',
-                                            fontSize: 16.sp,
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          SizedBox(
-                                            height: .5.h,
-                                          ),
-                                          TextView(
-                                              text:
-                                                  data['trip_start_time'] ?? '',
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      Column(
-                                        children: [
-                                          TextView(
-                                            text: 'Time',
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.sp,
-                                          ),
-                                          SizedBox(
-                                            height: .5.h,
-                                          ),
-                                          TextView(
-                                              text:
-                                                  data['cv_trip_start_time'] ??
-                                                      '',
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 3.h,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 1.w),
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          child: data['driverDetail'].isEmpty
-                                              ? const SizedBox.shrink()
-                                              : CachedNetworkImage(
-                                                  imageUrl: data['driverDetail']
-                                                              ['data']
-                                                          ['profile_picture'] ??
-                                                      '',
-                                                  imageBuilder: (context,
-                                                          imageProvider) =>
-                                                      Container(
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                  ),
-                                                  placeholder: (context, url) =>
-                                                      const CircularProgressIndicator(),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const CircularProgressIndicator(),
-                                                ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 3.w,
+                                      Image.asset(
+                                        'assets/images/boy.png',
+                                        scale: 0.6,
                                       ),
                                       Expanded(
-                                        child: data['driverDetail'].isEmpty
-                                            ? TextView(
-                                                text: '',
-                                                fontSize: 20.sp,
-                                              )
-                                            : TextView(
-                                                text: data['driverDetail']
-                                                        ['data']['name'] ??
-                                                    '',
-                                                fontSize: 18.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 2.h,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/boy.png',
-                                            scale: 0.6,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextView(
-                                                    text: 'From',
-                                                    fontSize: 16.sp,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                SizedBox(
-                                                  height: 0.5.h,
-                                                ),
-                                                TextView(
-                                                    text:
-                                                        data['pick_address'] ??
-                                                            '',
-                                                    fontSize: 15.5.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 2.4.h,
-                                      ),
-                                      Padding(
-                                        padding:  EdgeInsets.only(left:1.w),
-                                        child: Row(
+                                        child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Icon(
-                                              Icons.location_pin,
-                                              size: 21.9.sp,
-                                            ),
+                                            TextView(
+                                                text: 'From',
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.bold),
                                             SizedBox(
-                                              width: 1.2.w,
+                                              height: 0.5.h,
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextView(
-                                                      text: 'To',
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  SizedBox(
-                                                    height: 0.5.h,
-                                                  ),
-                                                  TextView(
-                                                      text:
-                                                          data['drop_address'] ??
-                                                              '',
-                                                      fontSize: 15.5.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ],
-                                              ),
-                                            ),
+                                            TextView(
+                                                text:
+                                                    data.pickAddress ?? '',
+                                                fontSize: 15.5.sp,
+                                                fontWeight: FontWeight.w500),
                                           ],
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
+                                  SizedBox(
+                                    height: 2.4.h,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 1.w),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.location_pin,
+                                          size: 21.9.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 1.2.w,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TextView(
+                                                  text: 'To',
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.bold),
+                                              SizedBox(
+                                                height: 0.5.h,
+                                              ),
+                                              TextView(
+                                                  text: data.dropAddress ??
+                                                      '',
+                                                  fontSize: 15.5.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
-                              )),
-                        ),
-                      )
-                      .toList()
+                              )
+                            ],
+                          )),
+                    );
+                  }).toList()
                 ]);
               },
             ))));

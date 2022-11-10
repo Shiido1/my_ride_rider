@@ -1,3 +1,4 @@
+import 'package:cron/cron.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
@@ -15,6 +16,8 @@ String? userFbToken;
 String? id, request, driverRequestID;
 String? driverFname, vehicleNumber, vehicleColor, vehicleName;
 String? token;
+String? deviceToken;
+String? schedulePickUpLocationAdd, scheduleDropLocationAdd, scheduleNotDate;
 String? mobile;
 String? noOfRides;
 String? cardno;
@@ -28,8 +31,9 @@ bool? isChangeLocationOnTap = false;
 String? scheduleValue = '';
 String? scheduleDate;
 String? scheduleDate1;
-List<String>? listOfDates=[];
+List<String>? listOfDates = [];
 String? timeText = 'Pick time';
+final cron = Cron();
 
 String googleApikey = "AIzaSyBOuc6C1-JuIn5cQtzTMuGiLyAs9YHKikE";
 // String googleApikey = "AIzaSyCV-cMBmwbrbTZSklLMnmq4aU3lTIHUJiE";

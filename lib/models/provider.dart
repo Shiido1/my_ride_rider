@@ -145,13 +145,13 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
 
     if (_estimatedCostList != null && _estimatedCostList?.statusCode == 200) {
       _classicEsCost =
-          double.parse("${_estimatedCostList?.data[2]['Classic'] ?? 0}");
+          double.parse("${_estimatedCostList?.data['data'][2]['Classic'] ?? 0}");
       notifyListeners();
       _executiveEsCost =
-          double.parse("${_estimatedCostList?.data[1]['Executive'] ?? 0}");
+          double.parse("${_estimatedCostList?.data['data'][1]['Executive'] ?? 0}");
       notifyListeners();
       _coperateEsCost =
-          double.parse("${_estimatedCostList?.data[0]['Corporate'] ?? 0}");
+          double.parse("${_estimatedCostList?.data['data'][0]['Corporate'] ?? 0}");
       notifyListeners();
     } else {
       showErrorNotificationWithCallback(

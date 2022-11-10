@@ -166,8 +166,7 @@ class _EditProfileScreenState extends StateMVC<EditProfileScreen>
                               ),
                               Expanded(
                                 child: TextView(
-                                  text:
-                                      '${SessionManager.instance.usersData["name"].split(' ')[1] ?? ''}',
+                                  text:'${SessionManager.instance.usersData["name"].split(' ')[1] ?? ''}',
                                   fontSize: 17.2.sp,
                                 ),
                               )

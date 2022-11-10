@@ -29,7 +29,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
   final AuthModel model;
 
   final AuthRepo authRepo = AuthRepo();
-  String deviceToken = "DeviceTokin";
+  // String deviceToken = "DeviceTokin";
   String countryCode = "+1";
   final loadingKey = GlobalKey<FormState>();
 
@@ -220,7 +220,7 @@ class AuthController extends ControllerMVC with FlushBarMixin {
           "last_name": model.regLastNameController.text,
           "email": model.regEmailController.text,
           "mobile": model.regPhoneNumberController.text,
-          "device_token": deviceToken,
+          "device_token": deviceToken!,
           "login_by": 'ios',
           "country": countryCode,
           "password": model.regPasswordController.text,

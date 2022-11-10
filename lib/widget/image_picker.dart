@@ -17,8 +17,7 @@ class ImagePickerHandler {
   File? file;
 
   Future<void> pickImage(
-      {@required BuildContext? context,
-      Function(File file)? file}) async {
+      {@required BuildContext? context, Function(File file)? file}) async {
     ProfileOptionAction? action;
     if (Platform.isAndroid) {
       action = await showModalBottomSheet(
@@ -33,7 +32,7 @@ class ImagePickerHandler {
                       ListTile(
                           title: const Center(
                             child: Text(
-                            'Pick from library',
+                              'Pick from library',
                               style: TextStyle(),
                             ),
                           ),
@@ -47,8 +46,8 @@ class ImagePickerHandler {
                           onTap: () => Navigator.pop(
                               context, ProfileOptionAction.profileCamera)),
                       InkWell(
-                        onTap: () => Navigator.pop(
-                            context, ProfileOptionAction.remove),
+                        onTap: () =>
+                            Navigator.pop(context, ProfileOptionAction.remove),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(12.0),
@@ -99,8 +98,7 @@ class ImagePickerHandler {
     return null;
   }
 
-  Future<File?> _getImage(
-      BuildContext context, ImageSource source) async {
+  Future<File?> _getImage(BuildContext context, ImageSource source) async {
     try {
       final pickedFile = await ImagePicker.platform.pickImage(source: source);
       if (pickedFile != null) {
@@ -112,23 +110,24 @@ class ImagePickerHandler {
     return null;
   }
 
-  Future<File?> _cropImage(
-      BuildContext context, PickedFile imageFile) async {
-    File? croppedFile = await ImageCropper().cropImage(
+  Future<File?> _cropImage(BuildContext context, PickedFile imageFile) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: imageFile.path,
         aspectRatioPresets: Platform.isAndroid
             ? [CropAspectRatioPreset.square]
             : [CropAspectRatioPreset.square],
-        androidUiSettings: const AndroidUiSettings(
-            toolbarTitle: 'My Driver',
-            toolbarColor: AppColors.primary,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: const IOSUiSettings(
-          title: 'My Driver',
-        ));
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'My Driver',
+              toolbarColor: AppColors.primary,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'My Driver',
+          )
+        ]);
 
-    return croppedFile;
+    return File(croppedFile!.path);
   }
 }

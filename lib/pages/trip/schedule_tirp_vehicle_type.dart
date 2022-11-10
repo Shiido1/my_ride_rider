@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -36,6 +38,26 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
   String? vehicleTypeId;
   bool isColor = false;
   List<String>? listOfID = [];
+  int? timeInMin;
+
+  Future<void> getTimeDurationInMin() async {
+    try {
+      timeInMin = await Provider.of<GoogleApiProvider>(context, listen: false)
+          .getTimeCostFromGoogleApi();
+      log('object int in time dur $timeInMin');
+    } catch (e) {
+      log('Debug: $e');
+    }
+  }
+
+  void getEsTime() async {
+    Provider.of<GoogleApiProvider>(context, listen: false).getTimeFromGoogleApi(
+        origin: pickUpLocationAdd, destination: dropLocationAdd);
+
+    await getTimeDurationInMin();
+    Provider.of<GoogleApiProvider>(context, listen: false)
+        .estimatedCost(timeInMin.toString(), context: context);
+  }
 
   createScheduleTrip() async {
     con.scheduleTrip(
@@ -47,6 +69,7 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
   @override
   void initState() {
     Provider.of<GoogleApiProvider>(context, listen: false).getVehicleTypes();
+    getEsTime();
     super.initState();
   }
 
@@ -62,6 +85,7 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
 
   @override
   Widget build(BuildContext context) {
+    getEsTime();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -87,12 +111,12 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                                   ''
                           ? CircleAvatar(
                               backgroundColor: Colors.white,
+                              radius: 26,
                               child: Icon(
                                 Icons.person,
                                 color: AppColors.grey1,
                                 size: 23.sp,
                               ),
-                              radius: 26,
                             )
                           : CircleAvatar(
                               radius: 28,
@@ -224,18 +248,23 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                         Stack(
                           children: [
                             Container(
-                              child: const TextWidget(),
                               height: 10.5.h,
                               decoration: const BoxDecoration(
                                   color: AppColors.primary,
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(30),
                                       topLeft: Radius.circular(30))),
+                              child: const TextWidget(),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 10.w),
                               child: Container(
                                 padding: EdgeInsets.only(top: 3.w),
+                                height: 9.h,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(25))),
                                 child: Align(
                                   alignment: Alignment.topCenter,
                                   child: Container(
@@ -247,11 +276,6 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                                             BorderRadius.circular(20)),
                                   ),
                                 ),
-                                height: 9.h,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(25))),
                               ),
                             ),
                           ],
@@ -305,6 +329,9 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
                                   },
                                 );
                               })),
+                        SizedBox(
+                          height: 1.h,
+                        ),
                         InkWell(
                           onTap: () => createScheduleTrip(),
                           child: Container(
@@ -350,14 +377,14 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
     );
   }
 
-  vehecleTabFlow({String? id, String? name, Color? color}) => InkWell(
-        onTap: () {
-          _isID(id!);
-          setState(() {
-            vehicleTypeId = id;
-          });
-        },
-        child: Column(
+  vehecleTabFlow({String? id, String? name, Color? color}) =>
+      InkWell(onTap: () {
+        _isID(id!);
+        setState(() {
+          vehicleTypeId = id;
+        });
+      }, child: Consumer<GoogleApiProvider>(builder: (_, value, __) {
+        return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
@@ -376,7 +403,59 @@ class _ScheduleTripVehicleState extends StateMVC<ScheduleTripVehicle> {
             ),
             TextView(
                 text: name ?? '', fontSize: 16.sp, fontWeight: FontWeight.w700),
+            SizedBox(
+              height: 1.h,
+            ),
+            name == 'Classic'
+                ? TextView(
+                    text:
+                        '${value.timeResponse ?? 'No vehicle available'}\naway',
+                    fontSize: 14.5.sp,
+                    fontWeight: FontWeight.w500,
+                    textAlign: TextAlign.center)
+                : name == 'Executive'
+                    ? TextView(
+                        text:
+                            '${value.timeResponseExecutive ?? 'No vehicle available'}\naway',
+                        fontSize: 14.5.sp,
+                        fontWeight: FontWeight.w500,
+                        textAlign: TextAlign.center)
+                    : name == 'Corporate'
+                        ? TextView(
+                            text:
+                                '${value.timeResponseCoperate ?? 'No vehicle available'}\naway',
+                            fontSize: 14.5.sp,
+                            fontWeight: FontWeight.w500,
+                            textAlign: TextAlign.center)
+                        : const SizedBox.shrink(),
+            SizedBox(
+              height: 1.h,
+            ),
+            name == 'Classic'
+                ? TextView(
+                    text: '\$${value.classicEsCost?.toStringAsFixed(2)}',
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
+                  )
+                : name == 'Executive'
+                    ? TextView(
+                        text:
+                            '\$${value.executiveEsCost?.toStringAsFixed(2) ?? 'No cost'}',
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                      )
+                    : name == 'Corporate'
+                        ? TextView(
+                            text:
+                                '\$${value.coperateEsCost?.toStringAsFixed(2) ?? 'No cost'}',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.center,
+                          )
+                        : const SizedBox.shrink(),
           ],
-        ),
-      );
+        );
+      }));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:my_ride/models/global_model.dart';
 import 'package:my_ride/widget/text_widget.dart';
@@ -73,16 +74,21 @@ class _CustomRideDialogState extends StateMVC<CustomRideDialog> {
               SizedBox(
                 height: 3.4.h,
               ),
-              InkWell(
-                onTap: () => con.cancelTrip(context),
-                child: Text(
-                  "Cancel Request",
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.red),
-                ),
-              ),
+              con.model.isCancelLoading == false
+                  ? InkWell(
+                      onTap: () => con.cancelTrip(context),
+                      child: Text(
+                        "Cancel Request",
+                        style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.red),
+                      ),
+                    )
+                  : SpinKitFadingCircle(
+                      size: 24.sp,
+                      color: AppColors.red,
+                    ),
               SizedBox(
                 height: 2.h,
               ),
@@ -107,7 +113,7 @@ class _ArrivalCustomRideDialogState extends StateMVC<ArrivalCustomRideDialog> {
   }
 
   late AuthController con;
-  
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -312,18 +318,22 @@ class _ArrivalCustomRideDialogState extends StateMVC<ArrivalCustomRideDialog> {
                     height: 1.5.h,
                   ),
                   Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () =>  con.cancelTrip(context),
-                      child: Text(
-                        "Cancel Request",
-                        style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.red),
-                      ),
-                    ),
-                  ),
+                      alignment: Alignment.center,
+                      child: con.model.isCancelLoading == false
+                          ? InkWell(
+                              onTap: () => con.cancelTrip(context),
+                              child: Text(
+                                "Cancel Request",
+                                style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.red),
+                              ),
+                            )
+                          : SpinKitCircle(
+                              size: 24.sp,
+                              color: AppColors.red,
+                            )),
                   SizedBox(
                     height: 2.h,
                   ),

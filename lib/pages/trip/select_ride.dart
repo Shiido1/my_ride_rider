@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, sort_child_properties_last
 
 import 'dart:async';
 import 'dart:developer';
@@ -119,12 +119,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     ''
                             ? CircleAvatar(
                                 backgroundColor: Colors.white,
+                                radius: 26,
                                 child: Icon(
                                   Icons.person,
                                   color: AppColors.grey1,
                                   size: 23.sp,
                                 ),
-                                radius: 26,
                               )
                             : CircleAvatar(
                                 radius: 28,
@@ -831,6 +831,11 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                     status: request,
                                   );
                                   token = await getToken(id);
+                                  // if (isSelectClassic! ||
+                                  //     isSelectExecutive! ||
+                                  //     isSelectCoperate! == true) {
+                                    // startTimer(context);
+                                  // }
                                 },
                                 child: Container(
                                   width: 200,
@@ -864,7 +869,9 @@ class _SelectRideState extends StateMVC<SelectRide> {
                                       isSelectCoperate! == true
                                   ? TextView(
                                       onTap: () => con.cancelTrip(context),
-                                      text: 'Cancel Request',
+                                      text: con.model.isCancelLoading == true
+                                          ? 'Canceling..!'
+                                          : 'Cancel Request',
                                       color: AppColors.red,
                                       fontSize: 16.5.sp,
                                       fontWeight: FontWeight.w700)
@@ -926,12 +933,12 @@ class _SelectRideState extends StateMVC<SelectRide> {
 
   listenToRequestEvent(context) async {
     Map<String, dynamic>? driverRes;
-    StreamSubscription<DatabaseEvent>? _counterSubscription;
+    StreamSubscription<DatabaseEvent>? counterSubscription;
     DatabaseEvent dataEvent =
         await databaseReference.child("drivers").child(id!).once();
     driverRes = Map<String, dynamic>.from(dataEvent.snapshot.value as Map);
 
-    _counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
+    counterSubscription = _stream.child(id!).onChildChanged.listen((event) {
       if (event.snapshot.value.toString() == 'Accepted') {
         driverFname = driverRes?['name'];
         vehicleNumber = driverRes?['vehicle_number'];
@@ -947,7 +954,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
                 plateNo: vehicleNumber ?? '',
                 noOfRides: noOfRides ?? '',
                 carName: vehicleName ?? ''));
-        _counterSubscription?.cancel();
+        counterSubscription?.cancel();
       } else if (event.snapshot.value.toString() == 'Ignore') {
         Routers.replaceAllWithName(context, '/home');
         showDialog(
@@ -955,7 +962,7 @@ class _SelectRideState extends StateMVC<SelectRide> {
             builder: (BuildContext context) {
               return const CustomDialogForRejection();
             });
-        _counterSubscription?.cancel();
+        counterSubscription?.cancel();
       }
     });
   }

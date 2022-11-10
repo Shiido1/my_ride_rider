@@ -70,12 +70,12 @@ class _MapScreenState extends State<MapScreen> {
                               ''
                       ? CircleAvatar(
                           backgroundColor: Colors.white,
+                          radius: 26,
                           child: Icon(
                             Icons.person,
                             color: AppColors.grey1,
                             size: 23.sp,
                           ),
-                          radius: 26,
                         )
                       : CircleAvatar(
                           radius: 28,

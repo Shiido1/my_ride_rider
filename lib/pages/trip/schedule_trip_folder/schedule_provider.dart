@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_ride/models/upcoming_trip.dart';
 import 'package:my_ride/repository/auth_repo.dart';
 
 import '../../../models/auth_model.dart';
@@ -11,9 +12,11 @@ class ScheduleProvider extends ChangeNotifier with FlushBarMixin {
   Map<String, dynamic>? get upcomingResponse => _upcomingResponse;
   Map<String, dynamic>? get completedResponse => _completedResponse;
   Map<String, dynamic>? get cancelledResponse => _cancelledResponse;
+  List<UpcomingTrip>? get upcomingTrips => _upcomingTrips;
   Map<String, dynamic>? _cancelledResponse;
   Map<String, dynamic>? _completedResponse;
   Map<String, dynamic>? _upcomingResponse;
+  List<UpcomingTrip>? _upcomingTrips;
 
   Future<void> getUpcomingTrip(context) async {
     model.isGetUpcomingLoading = true;
@@ -22,8 +25,12 @@ class ScheduleProvider extends ChangeNotifier with FlushBarMixin {
       Map<String, dynamic>? response = await authRepo.getUpcomingTrips();
       debugPrint("RESPONSE: $response");
       if (response != null && response.isNotEmpty) {
+        List<UpcomingTrip> trips = [];
         model.isGetUpcomingLoading = false;
-        _upcomingResponse = response;
+        for (var element in (response["data"] as List)) {
+          trips.add(UpcomingTrip.fromJson(Map<String, dynamic>.from(element)));
+        }
+        _upcomingTrips = trips;
         notifyListeners();
       } else {
         showErrorNotification(context, response!["message"]);
