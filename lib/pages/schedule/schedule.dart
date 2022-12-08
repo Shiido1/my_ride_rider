@@ -53,6 +53,10 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
   int valueIndex = 0;
   var periodValue;
 
+  addListToSend(){
+    showErrorNotification(context!, 'Fill in the necessary fields');
+  }
+
   
 
   showNotification({BuildContext? context}) {
@@ -436,7 +440,7 @@ class _SchedulePageState extends StateMVC<SchedulePage> with FlushBarMixin {
                   SizedBox(
                     height: 2.h,
                   ),
-                  Align(
+                  scheduleValue!.isEmpty&&scheduleDate==null&&timeText=='Pick time'?Container():Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: () {

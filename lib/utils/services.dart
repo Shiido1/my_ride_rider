@@ -100,7 +100,7 @@ mixin Services {
           data: credentials,
           options: Options(headers: {
             "Authorization":
-                "key=AAAAdkUkXLA:APA91bGSzvp64K4e9etloEhliQIn9stG3iBf0YkW1f_8TeIPP9KxRC55SGCXz252AjGUvULLzDjAdiDlJW-_vrZBxaupOJAp67SPwFfc3DgirxEmb63TFyk4uaQ_M0OCg1IwoG_oj36j",
+                "key=AAAAnuid3Jk:APA91bE6rNlBO66KyRGR11QUcYm4Acsv2M0QyjYEtKnqdWtME-b6XWT5zZNaLRZd5nNYGUH_XHaHN-ruhd5hAJJjjh_Slo2ixTdhbrsUXnJ953tZhz0tX6snLzoJ4dwYOKLxDxcl-U5S",
             ...header
           }));
       return response.data;
@@ -225,7 +225,6 @@ mixin Services {
   Future<Map<String, dynamic>?> apiUploadPutRequests(
       String endPoint, FormData credentials) async {
     try {
-      // print(credentials.files);
       Dio dio = await getDio();
       final response = await dio.post(endPoint,
           data: credentials,

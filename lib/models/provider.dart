@@ -29,9 +29,9 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
   double? get classicEsCost => _classicEsCost;
   double? get executiveEsCost => _executiveEsCost;
   double? get coperateEsCost => _coperateEsCost;
-  double? _classicEsCost;
-  double? _executiveEsCost;
-  double? _coperateEsCost;
+  double? _classicEsCost=0.0;
+  double? _executiveEsCost=0.0;
+  double? _coperateEsCost=0.0;
   Map<String, dynamic>? get responses => _responses;
   Map<String, dynamic>? _responses;
   Map<String, dynamic>? get responsesVeh => _responsesVeh;
@@ -41,14 +41,11 @@ class GoogleApiProvider extends ChangeNotifier with FlushBarMixin {
     try {
       var response =
           await makeNetworkCall(origin: origin, destination: destination);
-      print('nill google response $response');
       for (int i = 0; i < response['rows'].length; i++) {
         var res = response["rows"][i]['elements'];
-        print('nill second response $response');
         for (int j = 0; j < res.length; j++) {
           _timeResponse = res[j]['duration']['text'];
         }
-        print('problems wey man no expect ${_timeResponse.toString()}');
       }
       notifyListeners();
     } catch (e) {

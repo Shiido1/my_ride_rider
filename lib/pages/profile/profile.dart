@@ -8,7 +8,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import '../../components/reg_model.dart';
 import '../../controllers/auth_controller.dart';
-import '../../models/global_model.dart';
 import '../../utils/router.dart';
 import '../../widget/image_picker.dart';
 import '../../widget/text_widget.dart';
@@ -240,14 +239,7 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                           child: ElevatedButton(
                             onPressed: () {
                               Routers.pushNamed(context, '/reg_success');
-                              // setState(() {
-                              //   isRegistration = true;
-                              // });
                             },
-                            child: TextView(
-                              text: 'Continue',
-                              fontSize: 16.sp,
-                            ),
                             style: ButtonStyle(
                               minimumSize: MaterialStateProperty.all(
                                   const Size.fromHeight(50)),
@@ -256,6 +248,10 @@ class _ProfilePageState extends StateMVC<ProfilePage> with ValidationMixin {
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(0))),
+                            ),
+                            child: TextView(
+                              text: 'Continue',
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),

@@ -106,7 +106,7 @@ mixin ValidationMixin {
 
   String? validatePhone(String? value) {
     if (value!.trim().isEmpty) return 'Phone cannot be empty';
-    if (value.trim().length != 11) return 'Phone number is invalid';
+    if (value.trim().length != 10) return 'Phone number is invalid';
 
     return null;
   }

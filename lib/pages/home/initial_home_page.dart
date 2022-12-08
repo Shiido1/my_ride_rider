@@ -159,13 +159,9 @@ class _InitialHomePageState extends State<InitialHomePage> {
               SizedBox(
                 height: 4.h,
               ),
-              InkWell(
-                onTap: () => print(
-                    '$scheduleNotDate,$schedulePickUpLocationAdd $scheduleDropLocationAdd'),
-                child: TextView(
-                  text: 'Schedule Ride ',
-                  fontSize: 24.sp,
-                ),
+              TextView(
+                text: 'Schedule Ride ',
+                fontSize: 24.sp,
               ),
               SizedBox(
                 height: 0.6.h,
